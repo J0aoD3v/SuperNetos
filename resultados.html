@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resultados do Jogo</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Roboto", serif;
+        }
+
+        #rectangle2 {
+            width: 65vw;
+            height: 45vw;
+            background-color: #fcfc00;
+            border-radius: 4vw;
+            position: relative;
+            z-index: 1;
+        }
+
+        #rectangle1 {
+            position: absolute;
+            width: calc(65vw - 3vh);
+            height: 45vw;
+            background-color: #f4750d;
+            border-radius: 4vw;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            background: linear-gradient(to bottom,
+                    rgba(255, 255, 255, 0.5) 0%,
+                    rgba(255, 255, 255, 0) 20%),
+                #f4750d;
+            box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.25);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: black;
+            padding: 2vw;
+            box-sizing: border-box;
+        }
+
+        .result-title {
+            font-size: 2.5em;
+            margin-bottom: 2vh;
+        }
+
+        .result-text {
+            font-size: 1.8em;
+            text-align: center;
+            padding: 0 5vw;
+            margin-bottom: 3vh;
+        }
+
+        #game-progress {
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 1vw;
+            padding: 1vw;
+            margin-bottom: 2vh;
+            width: 80%;
+        }
+
+        .restart-button {
+            margin-top: 2vh;
+            padding: 1vw 3vw;
+            border-radius: 1vw;
+            border: none;
+            background-color: #00c853;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .restart-button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="rectangle1">
+            <div class="result-title">RESULTADO</div>
+            <div class="result-illustration" style="background-image: url('https://raw.githubusercontent.com/J0aoD3v/SuperNetos/refs/heads/main/resultado.jpg');"></div>
+            <div id="game-progress"></div>
+            <div class="result-text" id="result-message">
+                Carregando resultados...
+            </div>
+            <button class="restart-button" onclick="restartGame()">
+                JOGAR NOVAMENTE
+            </button>
+        </div>
+        <div id="rectangle2"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve game progress from localStorage
+            const gameProgress = JSON.parse(localStorage.getItem('gameProgress')) || [];
+            const gameProgressElement = document.getElementById('game-progress');
+            const resultMessageElement = document.getElementById('result-message');
+
+            // Display game progress
+            if (gameProgress.length > 0) {
+                let progressHTML = '<h3>Progresso do Jogo:</h3>';
+                gameProgress.forEach(item => {
+                    progressHTML += `
+                        <p>
+                            Pergunta ${item.pergunta}: 
+                            Resposta: ${item.resposta === 1 ? 'Sim' : 'Não'}, 
+                            Tentativas: ${item.quantidade}
+                        </p>
+                    `;
+                });
+                gameProgressElement.innerHTML = progressHTML;
+
+                // Determine result message based on the first question's answer
+                const firstQuestion = gameProgress[0];
+                if (firstQuestion.resposta === 0) {
+                    resultMessageElement.innerHTML = `
+                        NÃO! NÃO PODE EMPURRAR O VOVÔ.<br>
+                        DEVEMOS SEMPRE RESPEITAR E CUIDAR DOS IDOSOS.
+                    `;
+                } else {
+                    resultMessageElement.innerHTML = `
+                        VOCÊ ERROU! NÃO SE DEVE EMPURRAR O VOVÔ.<br>
+                        DEVEMOS SEMPRE RESPEITAR E CUIDAR DOS IDOSOS.
+                    `;
+                }
+            } else {
+                gameProgressElement.innerHTML = '<p>Sem progresso do jogo</p>';
+                resultMessageElement.innerHTML = 'Nenhum resultado encontrado.';
+            }
+        });
+
+        function restartGame() {
+            // Clear game progress
+            localStorage.removeItem('gameProgress');
+            localStorage.removeItem('attempts_q1');
+            
+            // Redirect to the main game page
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
