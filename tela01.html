@@ -293,8 +293,15 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // Function to initialize or update game progress in localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track attempts for this question
+            let attemptsYes = parseInt(localStorage.getItem("attempts_q1_yes") || "0");
+            let attemptsNo = parseInt(localStorage.getItem("attempts_q1_no") || "0");
+
+            const thumbUpButton = document.querySelector(".thumb-up");
+            const thumbDownButton = document.querySelector(".thumb-down");
+
+            // Function to update game progress
             function updateGameProgress(question, answer, attempts) {
                 // Get existing game data or initialize if not exists
                 let gameData = JSON.parse(localStorage.getItem("gameProgress")) || [];
@@ -324,26 +331,23 @@
                 localStorage.setItem("gameProgress", JSON.stringify(gameData));
             }
 
-            const thumbUpButton = document.querySelector(".thumb-up");
-            const thumbDownButton = document.querySelector(".thumb-down");
-
-            // Track attempts for this question
-            let attempts = parseInt(localStorage.getItem("attempts_q1") || "0") + 1;
-            localStorage.setItem("attempts_q1", attempts.toString());
-
+            // Handle thumb-up button click (Sim)
             if (thumbUpButton) {
                 thumbUpButton.addEventListener("click", function () {
-                    // Update progress for question 1 with 'Sim' (1)
-                    updateGameProgress(1, 1, attempts);
+                    attemptsYes += 1; // Increment attempts for 'Sim'
+                    localStorage.setItem("attempts_q1_yes", attemptsYes.toString());
+                    updateGameProgress(1, 1, attemptsYes);
                     alert("Escolha correta!");
                 });
             }
 
+            // Handle thumb-down button click (Não)
             if (thumbDownButton) {
                 thumbDownButton.addEventListener("click", function () {
-                    // Update progress for question 1 with 'Não' (0)
-                    updateGameProgress(1, 0, attempts);
-                    window.location.href = "resultados.html";
+                    attemptsNo += 1; // Increment attempts for 'Não'
+                    localStorage.setItem("attempts_q1_no", attemptsNo.toString());
+                    updateGameProgress(1, 0, attemptsNo);
+                    window.location.href = "resultados.html"; // Redireciona para a página de resultados
                 });
             }
         });

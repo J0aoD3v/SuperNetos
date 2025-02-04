@@ -118,8 +118,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Retrieve game progress from localStorage
+            // Retrieve game progress and attempts from localStorage
             const gameProgress = JSON.parse(localStorage.getItem('gameProgress')) || [];
+            const attemptsYes = parseInt(localStorage.getItem('attempts_q1_yes')) || 0;
             const gameProgressElement = document.getElementById('game-progress');
             const resultMessageElement = document.getElementById('result-message');
 
@@ -131,7 +132,7 @@
                         <p>
                             Pergunta ${item.pergunta}: 
                             Resposta: ${item.resposta === 1 ? 'Sim' : 'Não'}, 
-                            Tentativas: ${item.quantidade}
+                            Tentativas Corretas: ${attemptsYes}
                         </p>
                     `;
                 });
@@ -141,7 +142,7 @@
                 const firstQuestion = gameProgress[0];
                 if (firstQuestion.resposta === 1) {
                     resultMessageElement.innerHTML = `
-                        PARABÉNS, VOCÊ ACERTOU!.
+                        PARABÉNS, VOCÊ ACERTOU!
                     `;
                 } else {
                     resultMessageElement.innerHTML = `
@@ -157,7 +158,8 @@
         function restartGame() {
             // Clear game progress
             localStorage.removeItem('gameProgress');
-            localStorage.removeItem('attempts_q1');
+            localStorage.removeItem('attempts_q1_yes');
+            localStorage.removeItem('attempts_q1_no');
             
             // Redirect to the main game page
             window.location.href = 'index.html';
