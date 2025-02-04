@@ -335,7 +335,7 @@
                 thumbUpButton.addEventListener("click", function () {
                     // Update progress for question 1 with 'Sim' (1)
                     updateGameProgress(1, 1, attempts);
-                    window.location.href = "resultados.html";
+                    alert("Escolha correta!");
                 });
             }
 
@@ -343,7 +343,7 @@
                 thumbDownButton.addEventListener("click", function () {
                     // Update progress for question 1 with 'Não' (0)
                     updateGameProgress(1, 0, attempts);
-                    alert("Escolha correta!");
+                    window.location.href = "resultados.html";
                 });
             }
         });
