@@ -16,6 +16,34 @@
             -ms-user-select: none;
         }
 
+        @font-face {
+            font-family: "Material Symbols Rounded";
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v226/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOcbTCVpeRL2w5rwZu2rIelXxc.woff2) format("woff2");
+        }
+
+        .material-symbols-rounded {
+            font-family: "Material Symbols Rounded";
+            font-weight: normal;
+            font-style: normal;
+            font-size: auto;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            font-feature-settings: "liga";
+            -moz-font-feature-settings: "liga";
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #screen_rotation_icon {
+            font-size: 64px;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -25,20 +53,93 @@
             justify-content: center;
             align-items: center;
             font-family: "Roboto", serif;
+            color: white; /* Adiciona cor branca ao texto */
+        }
+
+        #box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            aspect-ratio: 16/9;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+
+            background-image: url("https://raw.githubusercontent.com/J0aoD3v/SuperNetos/refs/heads/main/img/background.jpg");
+            background-size: cover;
+            /* Ajusta a imagem para cobrir a div */
+            background-position: center;
+            /* Centraliza a imagem */
+            background-repeat: no-repeat;
+            /* Impede repetição */
+        }
+
+        @media (min-aspect-ratio: 16/9) {
+            #box {
+                /* horizontal */
+                width: auto;
+                height: 100vh;
+            }
+
+            #overlay {
+                display: none;
+            }
+        }
+
+        @media (max-aspect-ratio: 16/9) {
+            #box {
+                /* vertical */
+                width: 100vw;
+                height: auto;
+            }
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(49, 49, 49);
+            color: white;
+            text-align: center;
+            font-size: 1.5em;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        @media (max-aspect-ratio: 0.999/1) {
+            .overlay {
+                display: flex;
+            }
+
+            #box {
+                display: none;
+            }
         }
 
         #rectangle2 {
+            position: absolute;
             width: 65vw;
+            /* Ajustável conforme tela */
             height: 45vw;
+            /* Mantém proporção */
             background-color: #fcfc00;
             border-radius: 4vw;
-            position: relative;
+            /* Mantém cantos arredondados proporcionais */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 1;
         }
 
         #rectangle1 {
             position: absolute;
             width: calc(65vw - 3vh);
+            /* 3px menor proporcionalmente */
             height: 45vw;
             background-color: #f4750d;
             border-radius: 4vw;
@@ -46,65 +147,68 @@
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 2;
+
+            /* Adiciona o brilho no topo */
             background: linear-gradient(to bottom,
                     rgba(255, 255, 255, 0.5) 0%,
                     rgba(255, 255, 255, 0) 20%),
                 #f4750d;
+
+            /* Sombra externa */
             box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.25);
+        }
+
+        #content {
+            width: 100%;
+            height: 100%;
+            border-radius: 4vw;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            color: black;
-            padding: 2vw;
-            box-sizing: border-box;
+            color: whitesmoke;
         }
 
         .result-title {
-            font-size: 2.5em;
-            margin-bottom: 2vh;
+            font-size: 2em;
+            margin-bottom: 1em;
+        }
+
+        .result-illustration {
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 4vw;
+            margin-bottom: 1em;
         }
 
         .result-text {
-            font-size: 1.8em;
-            text-align: center;
-            padding: 0 5vw;
-            margin-bottom: 3vh;
-        }
-
-        #game-progress {
-            background-color: rgba(255,255,255,0.2);
-            border-radius: 1vw;
-            padding: 1vw;
-            margin-bottom: 2vh;
-            width: 80%;
+            font-size: 1.5em;
+            margin-bottom: 1em;
         }
 
         .restart-button {
-            margin-top: 2vh;
-            padding: 1vw 3vw;
-            border-radius: 1vw;
+            padding: 1em 2em;
+            font-size: 1em;
             border: none;
+            border-radius: 4vw;
             background-color: #00c853;
             color: white;
-            font-size: 1.5em;
             cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .restart-button:active {
-            transform: scale(0.95);
-        }
     </style>
 </head>
 <body>
+    <div class="overlay">
+        <span class="material-symbols-rounded" id="screen_rotation_icon">screen_rotation</span>
+        <p>Vire a tela na horizontal</p>
+    </div>
     <div id="box">
         <div id="rectangle1">
-            <div class="result-title">RESULTADO</div>
-            <div class="result-illustration" style="background-image: url('https://raw.githubusercontent.com/J0aoD3v/SuperNetos/refs/heads/main/img/background.jpg');"></div>
+        <div id="content">
             <div id="game-progress"></div>
             <div class="result-text" id="result-message">
                 Carregando resultados...
@@ -112,6 +216,7 @@
             <button class="restart-button" onclick="restartGame()">
                 JOGAR NOVAMENTE
             </button>
+        </div>
         </div>
         <div id="rectangle2"></div>
     </div>

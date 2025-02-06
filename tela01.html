@@ -170,6 +170,7 @@
             align-items: center;
             text-align: center;
             color: black;
+            font-weight: bold;
         }
 
         .titulo {
@@ -180,7 +181,7 @@
 
         #txt {
             font-size: 2em;
-            margin-top: 5vh;
+            
         }
 
         .volume_off {
@@ -190,7 +191,6 @@
         }
 
         .buttons {
-            margin-top: -8vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -337,6 +337,7 @@
                     localStorage.setItem("totalAttempts", totalAttempts.toString());
                     updateGameProgress(1, 1, totalAttempts);
                     alert("Escolha correta!");
+                    //window.location.href = "resultados.html";
                 });
             }
     
