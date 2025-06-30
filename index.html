@@ -60,7 +60,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         aspect-ratio: 16/9;
-        background-color: rgb(255, 255, 255);
+        background: url("img/start_background.jpeg") no-repeat center/cover;
         box-sizing: border-box;
         height: 100%;
         width: 100%;
@@ -117,12 +117,13 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
-        background-color: #f1f1f1;
+        background-color: rgba(241, 241, 241, 0.5);
       }
 
       .logo {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: bold;
+        color: rgba(96, 0, 141, 0.5);
       }
 
       .header-right ul {
@@ -163,46 +164,45 @@
 
       #content {
         margin: 20px;
-        max-height: 100%;
-        /* Limita a altura para não ultrapassar #box */
         overflow-y: auto;
         /* Adiciona rolagem vertical quando necessário */
-        padding-right: 10px;
-        /* Evita que a barra de rolagem cubra o texto */
-        max-height: 70vh;
-        /* Defina a altura desejada */
+        max-height: calc(
+          100% - 100px
+        ); /* Ajusta a altura para não sobrepor o header e ter uma margem */
+        /* O fundo foi removido conforme solicitado */
+        padding: 10px 20px; /* Espaçamento para o texto não colar nas bordas */
+        box-sizing: border-box;
+
+        /* Adicionado para legibilidade do texto sobre a imagem de fundo */
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
       }
 
       #home {
-        padding: 20px;
+        /* Estilos do #home foram movidos para #content, mas mantemos o flex para centralizar o botão */
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        height: 100%; /* Faz o #home ocupar todo o espaço do #content */
+        padding: 0;
+        margin: 0;
+      }
+
+      /* Estilo para o link do botão de iniciar */
+      .start-button-link {
+        display: inline-block;
+        transition: transform 0.1s ease; /* Adiciona uma transição suave */
+      }
+      .start-button-link:active {
+        transform: scale(0.95); /* Efeito de clique */
+      }
+      .start-button-link img {
+        border: none;
+        display: block; /* Remove espaço extra abaixo da imagem */
       }
 
       #screen_rotation_icon {
-        font-size: 64px;
-      }
-
-      .play-button {
-        background-color: #4caf50;
-        border: 2px solid green;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        margin: 4px 2px;
-        cursor: pointer;
-        border-radius: 8px;
-      }
-
-      .play-button:active {
-        transform: scale(0.95);
-      }
-
-      #play_circle_icon {
         font-size: 64px;
       }
     </style>
@@ -244,13 +244,13 @@
       </div>
       <div id="content">
         <div id="home">
-          <p>Bem-vindo ao nosso game!</p>
-          <p>clique em jogar</p>
-          <button class="play-button" onclick="abrirTela01()">
-            <span class="material-symbols-rounded" id="play_circle_icon"
-              >play_circle</span
-            >
-          </button>
+          <a
+            href="#"
+            onclick="abrirTela01(); return false;"
+            class="start-button-link"
+          >
+            <img src="img/botao_iniciar.png" alt="Iniciar Jogo" />
+          </a>
         </div>
         <div id="historia" style="display: none">
           <h2>Bem-vindo ao Super Netos!</h2>
@@ -374,7 +374,7 @@
           element.style.display = id === section ? "block" : "none";
           // Reaplicar o estilo de centralização no #home, caso esteja sendo exibido
           if (id === "home" && section === "home") {
-            element.style.display = "flex"; // Garante que o display seja 'flex'
+            element.style.display = "flex"; // Garante que o display seja 'flex' para centralizar
           }
         });
         const links = document.querySelectorAll(".header-right ul li a");
