@@ -64,6 +64,9 @@
         box-sizing: border-box;
         height: 100%;
         width: 100%;
+        /* MODIFIED: Using flexbox for robust layout */
+        display: flex;
+        flex-direction: column;
       }
 
       @media (min-aspect-ratio: 16/9) {
@@ -117,13 +120,13 @@
         justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
-        background-color: rgba(241, 241, 241, 0.5);
+        background-color: rgba(241, 241, 241, 0.3);
       }
 
       .logo {
         font-size: 28px;
         font-weight: bold;
-        color: rgba(96, 0, 141, 0.5);
+        color: rgba(255, 255, 255, 0.5);
       }
 
       .header-right ul {
@@ -139,11 +142,12 @@
 
       .header-right ul li a {
         float: left;
-        color: black;
+        font-weight: bold;
+        color: rgba(255, 255, 255, 0.8);
         text-align: center;
         padding: 12px;
         text-decoration: none;
-        font-size: 18px;
+        font-size: 22px;
         line-height: 25px;
         border-radius: 4px;
       }
@@ -163,43 +167,53 @@
       }
 
       #content {
-        margin: 20px;
+        flex-grow: 1;
         overflow-y: auto;
-        /* Adiciona rolagem vertical quando necessário */
-        max-height: calc(
-          100% - 100px
-        ); /* Ajusta a altura para não sobrepor o header e ter uma margem */
-        /* O fundo foi removido conforme solicitado */
-        padding: 10px 20px; /* Espaçamento para o texto não colar nas bordas */
         box-sizing: border-box;
-
-        /* Adicionado para legibilidade do texto sobre a imagem de fundo */
         color: white;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
       }
 
       #home {
-        /* Estilos do #home foram movidos para #content, mas mantemos o flex para centralizar o botão */
         display: flex;
-        justify-content: center;
+        /* MODIFIED: Align content to the top */
+        justify-content: flex-start;
         align-items: center;
         flex-direction: column;
-        height: 100%; /* Faz o #home ocupar todo o espaço do #content */
+        height: 100%;
+        /* MODIFIED: Override content padding and add space at top */
         padding: 0;
         margin: 0;
+        box-sizing: border-box;
+      }
+
+      /* ADDED: Sizing for the title sign */
+      #home img[alt="placa supernetos"] {
+        width: 35%;
       }
 
       /* Estilo para o link do botão de iniciar */
       .start-button-link {
         display: inline-block;
         transition: transform 0.1s ease; /* Adiciona uma transição suave */
+        width: 25%;
+        margin-top: 6vh; /* distância acima ─ entre a placa e o botão       */
+        margin-bottom: 4vh; /* distância abaixo ─ se quiser respiro extra      */
       }
+
+      /* efeito ao passar o mouse */
+      .start-button-link:hover {
+        transform: scale(1.07); /* cresce ~7 % */
+      }
+
       .start-button-link:active {
         transform: scale(0.95); /* Efeito de clique */
       }
       .start-button-link img {
         border: none;
         display: block; /* Remove espaço extra abaixo da imagem */
+        /* ADDED: Ensure image fills its container link */
+        width: 100%;
       }
 
       #screen_rotation_icon {
@@ -217,7 +231,7 @@
     </div>
     <div id="box">
       <div class="header">
-        <p class="logo">SuperNetos</p>
+        <p class="logo"></p>
         <div class="header-right">
           <ul>
             <li>
@@ -244,6 +258,7 @@
       </div>
       <div id="content">
         <div id="home">
+          <img src="img/placa_supernetos.png" alt="placa supernetos" />
           <a
             href="#"
             onclick="abrirTela01(); return false;"
