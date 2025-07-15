@@ -1,0 +1,60 @@
+# SuperNetos - Arquivo .gitignore
+
+# Dependências do Node.js (se futuramente for usado)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos de build/distribuição
+dist/
+build/
+
+# Arquivos de cache
+.cache/
+*.cache
+
+# Arquivos temporários
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Configurações de IDEs/Editores
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# Arquivos de ambiente
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Arquivos de sistema Windows
+desktop.ini
+$RECYCLE.BIN/
+
+# Arquivos de sistema macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Backup files
+*.backup
+*.bak
+*.orig
+
+# Minified files (se gerados)
+*.min.js
+*.min.css
+
+# Source maps (se gerados)
+*.map

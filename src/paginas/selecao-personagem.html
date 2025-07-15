@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selecionar Personagem</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+      * {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+      @font-face {
+        font-family: "Material Symbols Rounded";
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v226/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOcbTCVpeRL2w5rwZu2rIelXxc.woff2)
+          format("woff2");
+      }
+      .material-symbols-rounded {
+        font-family: "Material Symbols Rounded";
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        font-feature-settings: "liga";
+        -moz-font-feature-settings: "liga";
+        -moz-osx-font-smoothing: grayscale;
+      }
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: #000;
+        font-family: "Roboto", serif;
+      }
+      #box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        aspect-ratio: 16/9;
+        background: url("../recursos/imagens/interface/selection_background.jpg")
+          no-repeat center/cover;
+        box-sizing: border-box;
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      @media (min-aspect-ratio: 16/9) {
+        #box {
+          width: auto;
+          height: 100vh;
+        }
+        .orientation-overlay {
+          display: none;
+        }
+      }
+      @media (max-aspect-ratio: 16/9) {
+        #box {
+          width: 100vw;
+          height: auto;
+        }
+      }
+      .orientation-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(49, 49, 49);
+        color: white;
+        text-align: center;
+        font-size: 1.5em;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        z-index: 101;
+      }
+      @media (max-aspect-ratio: 0.999/1) {
+        .orientation-overlay {
+          display: flex;
+        }
+        #box {
+          display: none !important;
+        }
+      }
+      .characters {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 2;
+        padding: 5vw 8vw;
+        height: 100%;
+        box-sizing: border-box;
+        pointer-events: auto;
+      }
+      .character {
+        cursor: pointer;
+        transition: transform 0.2s;
+        max-width: 28vw;
+        max-height: 80vh;
+        filter: drop-shadow(0 0 12px #fff7);
+      }
+      .character:hover {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 24px #fffa);
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        z-index: 200;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.3);
+        justify-content: center;
+        align-items: center;
+      }
+      .overlay-flex {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        z-index: 201;
+        max-width: 90vw;
+        background: none;
+      }
+      .happy-character {
+        height: 80vh;
+        max-height: 40vw;
+        animation: pop 0.5s;
+        display: block;
+        z-index: 202;
+      }
+      @keyframes pop {
+        from {
+          transform: scale(0.7);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .side-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin-left: 32px;
+        gap: 18px;
+        max-width: 320px;
+      }
+      .speech-bubble {
+        background: #fff;
+        color: #333;
+        padding: 18px 28px;
+        border-radius: 24px;
+        font-size: 1.3em;
+        position: relative;
+        box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.13);
+        text-align: left;
+        max-width: 100%;
+        min-width: 180px;
+      }
+      .speech-bubble:before {
+        content: "";
+        position: absolute;
+        left: -18px;
+        top: 22px;
+        border-width: 14px 18px 14px 0;
+        border-style: solid;
+        border-color: transparent #fff transparent transparent;
+        display: block;
+        width: 0;
+      }
+      .next-btn {
+        padding: 10px 32px;
+        background: dodgerblue;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        font-size: 1.1em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.15s;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
+        align-self: flex-start;
+      }
+      .next-btn:hover {
+        background: #005ecb;
+      }
+      @media (max-width: 700px) {
+        .overlay-flex {
+          flex-direction: column;
+          max-width: 98vw;
+        }
+        .happy-character {
+          height: 38vw;
+        }
+        .side-content {
+          margin-left: 0;
+          align-items: center;
+          max-width: 90vw;
+        }
+        .speech-bubble {
+          text-align: center;
+        }
+        .speech-bubble:before {
+          display: none;
+        }
+      }
+      /* Volume control (opcional na seleção de personagem) */
+      .volume-control-sel {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        z-index: 10;
+        background: rgba(30, 30, 30, 0.7);
+        border-radius: 50%;
+        border: none;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .volume-control-sel:hover {
+        background: rgba(60, 60, 60, 0.85);
+      }
+      .volume-control-sel .material-symbols-rounded {
+        font-size: 32px;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <audio
+      id="bg-music"
+      src="../recursos/audio/background_music.mp3"
+      loop
+    ></audio>
+    <div class="orientation-overlay">
+      <span class="material-symbols-rounded" style="font-size: 64px"
+        >screen_rotation</span
+      >
+      <p>Vire a tela na horizontal</p>
+    </div>
+    <div id="box">
+      <!-- Botão de volume (opcional) -->
+      <button
+        class="volume-control-sel"
+        id="volumeBtnSel"
+        title="Ligar/desligar música"
+      >
+        <span class="material-symbols-rounded" id="vol-icon-sel"
+          >volume_off</span
+        >
+      </button>
+      <div class="characters">
+        <img
+          id="boy"
+          class="character"
+          src="../recursos/imagens/personagens/menino_normal.png"
+          alt="Menino"
+          title="Escolher Menino"
+        />
+        <img
+          id="girl"
+          class="character"
+          src="../recursos/imagens/personagens/menina_normal.png"
+          alt="Menina"
+          title="Escolher Menina"
+        />
+      </div>
+      <div class="overlay" id="overlay">
+        <div class="overlay-flex" id="overlayContent">
+          <img id="happyCharacter" class="happy-character" src="" alt="" />
+          <div class="side-content">
+            <div class="speech-bubble" id="speech"></div>
+            <button class="next-btn" id="nextBtn">Ir para o Jogo!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Música de fundo: restaurar estado ao entrar
+      function setVolumeIconSel(isMuted) {
+        document.getElementById("vol-icon-sel").textContent = isMuted
+          ? "volume_off"
+          : "volume_up";
+      }
+
+      function syncBGMusicWithStateSel() {
+        const audio = document.getElementById("bg-music");
+        const muted = localStorage.getItem("bgMusicMuted") === "1";
+        setVolumeIconSel(muted);
+        audio.volume = 0.3;
+        audio.muted = muted;
+        if (!muted && window.__musicStarted) {
+          audio.play().catch(() => {});
+        } else {
+          audio.pause();
+        }
+      }
+
+      function saveAudioState() {
+        const audio = document.getElementById("bg-music");
+        if (audio) {
+          localStorage.setItem("bgMusicTime", audio.currentTime);
+          localStorage.setItem("bgMusicMuted", audio.muted ? "1" : "0");
+          localStorage.setItem(
+            "bgMusicStarted",
+            window.__musicStarted ? "1" : "0"
+          );
+        }
+      }
+
+      function restoreAudioState() {
+        const audio = document.getElementById("bg-music");
+        if (audio) {
+          audio.volume = 0.3;
+          audio.muted = localStorage.getItem("bgMusicMuted") === "1";
+          setVolumeIconSel(audio.muted);
+          const started = localStorage.getItem("bgMusicStarted") === "1";
+          const time = parseFloat(localStorage.getItem("bgMusicTime") || "0");
+          audio.currentTime = isNaN(time) ? 0 : time;
+          if (!audio.muted && started) {
+            setTimeout(() => {
+              audio.play().catch(() => {});
+            }, 200);
+            window.__musicStarted = true;
+          }
+        }
+      }
+
+      function removeAllMusicListeners(handler) {
+        document.body.removeEventListener("click", handler);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        restoreAudioState();
+
+        document
+          .getElementById("volumeBtnSel")
+          .addEventListener("click", function () {
+            const currentlyMuted = localStorage.getItem("bgMusicMuted") === "1";
+            localStorage.setItem("bgMusicMuted", currentlyMuted ? "0" : "1");
+            syncBGMusicWithStateSel();
+            if (!currentlyMuted) {
+              window.__musicStarted = true;
+              syncBGMusicWithStateSel();
+            }
+          });
+
+        function tryPlayMusicAfterInteraction() {
+          if (localStorage.getItem("bgMusicMuted") === "0") {
+            window.__musicStarted = true;
+            syncBGMusicWithStateSel();
+          }
+          removeAllMusicListeners(tryPlayMusicAfterInteraction);
+        }
+        document.body.addEventListener("click", tryPlayMusicAfterInteraction);
+      });
+
+      window.addEventListener("beforeunload", saveAudioState);
+
+      // Seleção de personagem
+      const frases = {
+        menino: "Legal! Estou pronto para a aventura! 👦🚀",
+        menina: "Que demais! Vamos nessa juntos! 👧✨",
+      };
+      const boy = document.getElementById("boy");
+      const girl = document.getElementById("girl");
+      const overlay = document.getElementById("overlay");
+      const overlayContent = document.getElementById("overlayContent");
+      const happyCharacter = document.getElementById("happyCharacter");
+      const speech = document.getElementById("speech");
+      const nextBtn = document.getElementById("nextBtn");
+
+      function selecionarPersonagem(tipo) {
+        overlay.style.display = "flex";
+        if (tipo === "menino") {
+          happyCharacter.src =
+            "../recursos/imagens/personagens/menino_feliz.png";
+          happyCharacter.alt = "Menino feliz";
+          speech.textContent = frases.menino;
+        } else {
+          happyCharacter.src =
+            "../recursos/imagens/personagens/menina_feliz.png";
+          happyCharacter.alt = "Menina feliz";
+          speech.textContent = frases.menina;
+        }
+        nextBtn.style.display = "block";
+      }
+
+      boy.onclick = () => selecionarPersonagem("menino");
+      girl.onclick = () => selecionarPersonagem("menina");
+
+      nextBtn.onclick = function () {
+        saveAudioState();
+        window.location.href = "perguntas/pergunta01.html";
+      };
+
+      // Fechar overlay ao clicar fora do conteúdo
+      overlay.onclick = function (event) {
+        if (event.target === overlay) {
+          overlay.style.display = "none";
+          happyCharacter.src = "";
+          speech.textContent = "";
+        }
+      };
+
+      overlay.addEventListener(
+        "wheel",
+        function (e) {
+          e.preventDefault();
+        },
+        { passive: false }
+      );
+      overlay.addEventListener(
+        "touchmove",
+        function (e) {
+          e.preventDefault();
+        },
+        { passive: false }
+      );
+    </script>
+  </body>
+</html>

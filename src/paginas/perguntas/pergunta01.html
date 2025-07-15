@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../../recursos/audio/favicon.ico"
+      type="image/x-icon"
+    />
+    <title>SuperNetos - Pergunta 1</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+      * {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      @font-face {
+        font-family: "Material Symbols Rounded";
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v226/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOcbTCVpeRL2w5rwZu2rIelXxc.woff2)
+          format("woff2");
+      }
+
+      .material-symbols-rounded {
+        font-family: "Material Symbols Rounded";
+        font-weight: normal;
+        font-style: normal;
+        font-size: auto;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        font-feature-settings: "liga";
+        -moz-font-feature-settings: "liga";
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      #screen_rotation_icon {
+        font-size: 64px;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        height: 100%;
+        font-family: "Roboto", serif;
+      }
+
+      #box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        aspect-ratio: 16/9;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+
+        background-image: url("https://raw.githubusercontent.com/J0aoD3v/SuperNetos/refs/heads/main/img/background.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      @media (min-aspect-ratio: 16/9) {
+        #box {
+          width: auto;
+          height: 100vh;
+        }
+
+        #overlay {
+          display: none;
+        }
+      }
+
+      @media (max-aspect-ratio: 16/9) {
+        #box {
+          width: 100vw;
+          height: auto;
+        }
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(49, 49, 49);
+        color: white;
+        text-align: center;
+        font-size: 1.5em;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      @media (max-aspect-ratio: 0.999/1) {
+        .overlay {
+          display: flex;
+        }
+
+        #box {
+          display: none;
+        }
+      }
+
+      #rectangle2 {
+        position: absolute;
+        width: 65vw;
+        height: 45vw;
+        background-color: #fcfc00;
+        border-radius: 4vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+      }
+
+      #rectangle1 {
+        position: absolute;
+        width: calc(65vw - 3vh);
+        height: 45vw;
+        background-color: #f4750d;
+        border-radius: 4vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.5) 0%,
+            rgba(255, 255, 255, 0) 20%
+          ),
+          #f4750d;
+        box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.25);
+      }
+
+      #content {
+        width: 100%;
+        height: 100%;
+        border-radius: 4vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: black;
+        font-weight: bold;
+      }
+
+      .titulo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #txt {
+        font-size: 2em;
+      }
+
+      .volume_off {
+        font-size: 3em;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #txtbuttons {
+        font-size: 1.5em;
+      }
+
+      .buttons button {
+        margin: 1vw;
+        padding: 1vw 1vw;
+        border-radius: 1vw;
+        border: none;
+        color: white;
+        font-size: 32px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #separador {
+        width: 5vw;
+      }
+
+      .thumb-up {
+        background-color: #00c853;
+      }
+
+      .thumb-down {
+        background-color: #d50000;
+      }
+
+      .buttons button:active {
+        transform: scale(0.95);
+      }
+
+      .illustration {
+        position: relative;
+        margin-bottom: 4vh;
+        aspect-ratio: 386/207;
+        width: auto;
+        height: 70%;
+        border-radius: 5vw;
+        border-color: rgb(217, 255, 255);
+        border-width: 0.4vw;
+        border-style: solid;
+        background-color: lightgray;
+        background-image: url("https://raw.githubusercontent.com/J0aoD3v/SuperNetos/refs/heads/main/img/ilustracao1.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+    </style>
+  </head>
+
+  <body>
+    <audio id="bg-music" src="assets/background_music.mp3" loop></audio>
+    <div class="overlay">
+      <span class="material-symbols-rounded" id="screen_rotation_icon"
+        >screen_rotation</span
+      >
+      <p>Vire a tela na horizontal</p>
+    </div>
+    <div id="box">
+      <div id="rectangle1">
+        <div id="content">
+          <div class="titulo">
+            <button class="volume_off" id="volumeBtnTela1">
+              <span class="material-symbols-rounded" id="vol-icon-tela1"
+                >volume_off</span
+              >
+            </button>
+            <p id="txt">PODE EMPURRAR O VOVÔ?</p>
+          </div>
+          <div class="buttons">
+            <button class="thumb-up">
+              <span class="material-symbols-rounded"> thumb_up </span>
+            </button>
+            <p id="txtbuttons">PODE</p>
+            <div id="separador"></div>
+            <button class="thumb-down">
+              <span class="material-symbols-rounded"> thumb_down </span>
+            </button>
+            <p id="txtbuttons">NÃO PODE</p>
+          </div>
+          <div class="illustration"></div>
+        </div>
+      </div>
+      <div id="rectangle2"></div>
+    </div>
+    <script>
+      // Volume/música de fundo: segue o mesmo padrão das outras telas
+      function setVolumeIconTela1(isMuted) {
+        document.getElementById("vol-icon-tela1").textContent = isMuted
+          ? "volume_off"
+          : "volume_up";
+      }
+
+      function syncBGMusicWithStateTela1() {
+        const audio = document.getElementById("bg-music");
+        const muted = localStorage.getItem("bgMusicMuted") === "1";
+        setVolumeIconTela1(muted);
+        audio.volume = 0.3;
+        audio.muted = muted;
+        if (!muted && window.__musicStarted) {
+          audio.play().catch(() => {});
+        } else {
+          audio.pause();
+        }
+      }
+
+      function saveAudioState() {
+        const audio = document.getElementById("bg-music");
+        if (audio) {
+          localStorage.setItem("bgMusicTime", audio.currentTime);
+          localStorage.setItem("bgMusicMuted", audio.muted ? "1" : "0");
+          localStorage.setItem(
+            "bgMusicStarted",
+            window.__musicStarted ? "1" : "0"
+          );
+        }
+      }
+
+      function restoreAudioState() {
+        const audio = document.getElementById("bg-music");
+        if (audio) {
+          audio.volume = 0.3;
+          audio.muted = localStorage.getItem("bgMusicMuted") === "1";
+          setVolumeIconTela1(audio.muted);
+          const started = localStorage.getItem("bgMusicStarted") === "1";
+          const time = parseFloat(localStorage.getItem("bgMusicTime") || "0");
+          audio.currentTime = isNaN(time) ? 0 : time;
+          if (!audio.muted && started) {
+            setTimeout(() => {
+              audio.play().catch(() => {});
+            }, 200);
+            window.__musicStarted = true;
+          }
+        }
+      }
+
+      function removeAllMusicListeners(handler) {
+        document.body.removeEventListener("click", handler);
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        restoreAudioState();
+
+        document
+          .getElementById("volumeBtnTela1")
+          .addEventListener("click", function () {
+            const currentlyMuted = localStorage.getItem("bgMusicMuted") === "1";
+            localStorage.setItem("bgMusicMuted", currentlyMuted ? "0" : "1");
+            syncBGMusicWithStateTela1();
+            if (!currentlyMuted) {
+              window.__musicStarted = true;
+              syncBGMusicWithStateTela1();
+            }
+          });
+
+        function tryPlayMusicAfterInteraction() {
+          if (localStorage.getItem("bgMusicMuted") === "0") {
+            window.__musicStarted = true;
+            syncBGMusicWithStateTela1();
+          }
+          removeAllMusicListeners(tryPlayMusicAfterInteraction);
+        }
+        document.body.addEventListener("click", tryPlayMusicAfterInteraction);
+
+        // Track total attempts for this question
+        let totalAttempts = parseInt(
+          localStorage.getItem("totalAttempts") || "0"
+        );
+
+        const thumbUpButton = document.querySelector(".thumb-up");
+        const thumbDownButton = document.querySelector(".thumb-down");
+
+        // Function to update game progress
+        function updateGameProgress(question, answer, attempts) {
+          let gameData = JSON.parse(localStorage.getItem("gameProgress")) || [];
+          let existingQuestionIndex = gameData.findIndex(
+            (item) => item.pergunta === question
+          );
+          if (existingQuestionIndex === -1) {
+            gameData.push({
+              pergunta: question,
+              resposta: answer,
+              quantidade: attempts,
+            });
+          } else {
+            gameData[existingQuestionIndex] = {
+              pergunta: question,
+              resposta: answer,
+              quantidade: attempts,
+            };
+          }
+          localStorage.setItem("gameProgress", JSON.stringify(gameData));
+        }
+
+        // Handle thumb-up button click (Sim)
+        if (thumbUpButton) {
+          thumbUpButton.addEventListener("click", function () {
+            totalAttempts += 1;
+            localStorage.setItem("totalAttempts", totalAttempts.toString());
+            updateGameProgress(1, 1, totalAttempts);
+            alert("Escolha correta!");
+            window.location.href = "pergunta02.html";
+          });
+        }
+
+        // Handle thumb-down button click (Não)
+        if (thumbDownButton) {
+          thumbDownButton.addEventListener("click", function () {
+            totalAttempts += 1;
+            localStorage.setItem("totalAttempts", totalAttempts.toString());
+            updateGameProgress(1, 0, totalAttempts);
+            window.location.href = "pergunta02.html";
+          });
+        }
+      });
+
+      window.addEventListener("beforeunload", saveAudioState);
+    </script>
+  </body>
+</html>

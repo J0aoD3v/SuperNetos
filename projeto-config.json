@@ -1,0 +1,95 @@
+{
+  "name": "supernetos",
+  "version": "2.0.0",
+  "description": "Jogo educativo sobre valorização dos idosos - Desenvolvido pela UENP em parceria com FAMEMA",
+  "keywords": [
+    "jogo-educativo",
+    "idosos",
+    "educacao",
+    "intergeracional",
+    "uenp",
+    "famema"
+  ],
+  "authors": [
+    {
+      "name": "Miriam Fernanda Sanches Alarcon",
+      "role": "Orientadora e idealizadora do jogo SuperNetos e do website"
+    },
+    {
+      "name": "Carina Bortolato Major",
+      "role": "Coorientadora do website"
+    },
+    {
+      "name": "Edna Aparecida Lopes Bezerra Katakura",
+      "role": "Coorientadora e idealizadora do jogo SuperNetos"
+    },
+    {
+      "name": "Cristiano Massao Tashima",
+      "role": "Coorientador e idealizador do jogo SuperNetos"
+    },
+    {
+      "name": "Adriane Aparecida Betini dos Santos",
+      "role": "Mestranda do mestrado profissional em enfermagem em atenção primária à saúde"
+    },
+    {
+      "name": "Izabelly Simeão Marques",
+      "role": "Bolsista PIBIC"
+    },
+    {
+      "name": "João Cláudio Fernandes Michelato Colaço",
+      "role": "Desenvolvedor Voluntário do Website"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/J0aoD3v/SuperNetos"
+  },
+  "license": "MIT",
+  "homepage": "index.html",
+  "directories": {
+    "src": "src/",
+    "docs": "documentacao/"
+  },
+  "files": {
+    "main": "index.html",
+    "styles": ["src/estilos/global.css", "src/estilos/pagina-inicial.css"],
+    "scripts": [
+      "src/scripts/globals.js",
+      "src/scripts/audio-manager.js",
+      "src/scripts/volume-control.js"
+    ],
+    "pages": [
+      "src/paginas/selecao-personagem.html",
+      "src/paginas/resultados.html",
+      "src/paginas/perguntas/pergunta01.html",
+      "src/paginas/perguntas/pergunta02.html"
+    ]
+  },
+  "config": {
+    "gameVersion": "2.0.0",
+    "maxQuestions": 25,
+    "supportedLanguages": ["pt-BR"],
+    "targetDevices": ["desktop", "tablet", "mobile"],
+    "minScreenWidth": "320px",
+    "recommendedScreenRatio": "16:9"
+  },
+  "technical": {
+    "html5": true,
+    "css3": true,
+    "javascript": "ES6+",
+    "responsive": true,
+    "audioSupport": true,
+    "localStorage": true,
+    "frameworks": "Vanilla JavaScript",
+    "buildTool": "None (static files)"
+  },
+  "features": {
+    "characterSelection": true,
+    "audioBackground": true,
+    "volumeControl": true,
+    "progressTracking": true,
+    "multipleQuestions": true,
+    "responsiveDesign": true,
+    "orientationSupport": true
+  }
+}

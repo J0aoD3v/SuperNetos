@@ -1,0 +1,155 @@
+/**
+ * SuperNetos - Estilos da Página Inicial
+ * Estilos específicos para a tela inicial do jogo
+ */
+
+/* === CABEÇALHO === */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.header-right ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+}
+
+.header-right ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.header-right ul li a:hover,
+.header-right ul li a.active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* === PÁGINA INICIAL === */
+#box.game-container {
+  background: url("../recursos/imagens/interface/start_background.jpeg")
+    no-repeat center/cover;
+}
+
+#content {
+  flex-grow: 1;
+  overflow-y: auto;
+  box-sizing: border-box;
+  color: var(--text-light);
+  text-shadow: var(--shadow-text);
+  position: relative;
+}
+
+/* === LAYOUT DA PÁGINA INICIAL === */
+#inicio {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem;
+  margin: 0;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* === CONTAINER DA LOGO === */
+.home-image-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  margin-bottom: 2vh;
+}
+
+.home-placa-supernetos {
+  display: block;
+  max-width: 35vw;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+/* === BOTÃO INICIAR === */
+.start-button-link {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  width: 25%;
+  min-width: 200px;
+  max-width: 300px;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.start-button-link:hover {
+  transform: scale(1.07);
+}
+
+.start-button-link:active {
+  transform: scale(0.95);
+}
+
+.start-button-link img {
+  border: none;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 600px) {
+  .home-placa-supernetos {
+    max-width: 90vw;
+  }
+
+  .start-button-link {
+    width: 60%;
+  }
+}
+
+/* === SEÇÕES DE CONTEÚDO (CARDS) === */
+.card {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  padding: 2rem;
+  margin: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.card h2 {
+  color: #f4750d;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.card p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.card ol,
+.card ul {
+  line-height: 1.8;
+}
+
+.card li {
+  margin-bottom: 0.8rem;
+}
