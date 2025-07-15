@@ -1,6 +1,13 @@
 # SuperNetos 🎮👴👵
 
-Um jogo educativo digital desen## 📚 Documentação
+Um jogo educativo digital desenvolvido para promover a valorização das pessoas idosas, estimulando o respeito inter-geracional, a empatia e o reconhecimento dos direitos da pessoa idosa.
+
+## 🎮 **JOGAR AGORA**
+
+### 🌟 **[🕹️ CLIQUE AQUI PARA JOGAR O SUPERNETOS! 🕹️](https://j0aod3v.github.io/SuperNetos/)**
+
+> 🚀 **Jogue diretamente no seu navegador!** Não precisa baixar nada - funciona em computador, tablet e celular!
+## 📚 Documentação
 
 Este projeto possui documentação técnica completa seguindo padrões profissionais de engenharia de software:
 
