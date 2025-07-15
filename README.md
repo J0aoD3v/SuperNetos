@@ -7,6 +7,7 @@ Um jogo educativo digital desenvolvido para promover a valorização das pessoas
 ### 🌟 **[🕹️ CLIQUE AQUI PARA JOGAR O SUPERNETOS! 🕹️](https://j0aod3v.github.io/SuperNetos/)**
 
 > 🚀 **Jogue diretamente no seu navegador!** Não precisa baixar nada - funciona em computador, tablet e celular!
+
 ## 📚 Documentação
 
 Este projeto possui documentação técnica completa seguindo padrões profissionais de engenharia de software:
@@ -65,7 +66,7 @@ Este projeto foi desenvolvido com a assistência de **Claude Sonnet 4** (Anthrop
 - 🇧🇷 **Tradução e padronização** para português brasileiro
 - 📊 **Implementação de métricas** de qualidade e boas práticas
 
-*A colaboração humano-IA resultou em um projeto que demonstra excelência técnica e educacional.*
+_A colaboração humano-IA resultou em um projeto que demonstra excelência técnica e educacional._
 
 ### Arquitetura Modular e Organizada
 
@@ -105,7 +106,7 @@ Navegacao.irParaSelecaoPersonagem(); // Navega para seleção de personagem
 ProgressoJogo.salvarPergunta(1, 0, 3); // Salva resposta da pergunta 1
 InterfaceUsuario.mostrarMensagem("Parabéns!", "sucesso"); // Mostra mensagem
 Dispositivo.ehCelular(); // Verifica se é dispositivo móvel
-````
+```
 
 #### 🔊 Componente de Volume (`ControleVolume`)
 
