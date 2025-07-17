@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editor de Perguntas - SuperNetos</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .toolbar {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 30px;
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .toolbar button {
+        background: linear-gradient(45deg, #f4750d, #fcfc00);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .toolbar button:hover {
+        transform: translateY(-2px);
+      }
+
+      .pergunta-card {
+        background: #fff;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .pergunta-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .pergunta-numero {
+        background: #f4750d;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-weight: bold;
+      }
+
+      .pergunta-acoes {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn-editar {
+        background: #2196f3;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .btn-excluir {
+        background: #f44336;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .pergunta-preview {
+        display: grid;
+        grid-template-columns: 1fr 200px;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .pergunta-info h3 {
+        margin: 0 0 10px 0;
+        color: #333;
+      }
+
+      .pergunta-detalhes {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .detalhe {
+        background: #f8f9fa;
+        padding: 8px;
+        border-radius: 3px;
+        font-size: 0.9em;
+      }
+
+      .preview-visual {
+        aspect-ratio: 16/9;
+        border-radius: 10px;
+        border: 2px solid #ddd;
+        position: relative;
+        overflow: hidden;
+        background: url("../recursos/imagens/interface/background.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .preview-rectangle2 {
+        position: absolute;
+        width: 65%;
+        height: 45%;
+        border-radius: 8px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+      }
+
+      .preview-rectangle1 {
+        position: absolute;
+        width: 60%;
+        height: 45%;
+        border-radius: 8px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: black;
+        font-weight: bold;
+        font-size: 0.7em;
+        text-align: center;
+        padding: 5px;
+        box-sizing: border-box;
+      }
+
+      .form-edicao {
+        display: none;
+        background: #f0f2f5;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 15px;
+      }
+
+      .form-grupo {
+        margin-bottom: 15px;
+      }
+
+      .form-grupo label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      .form-grupo input,
+      .form-grupo select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        box-sizing: border-box;
+      }
+
+      .color-input-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .color-picker {
+        width: 50px !important;
+        height: 40px;
+        border: 2px solid #ddd !important;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 0 !important;
+      }
+
+      .hex-input {
+        flex: 1;
+        font-family: "Courier New", monospace;
+        text-transform: uppercase;
+      }
+
+      .hex-input:focus {
+        border-color: #4caf50;
+        outline: none;
+      }
+
+      .form-acoes {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+      }
+
+      .btn-salvar {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .btn-cancelar {
+        background: #9e9e9e;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+
+      .resultado {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 5px;
+        display: none;
+      }
+
+      .resultado.sucesso {
+        background: #e8f5e8;
+        border: 2px solid #4caf50;
+        color: #2e7d32;
+      }
+
+      .resultado.erro {
+        background: #ffeaea;
+        border: 2px solid #f44336;
+        color: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎯 Editor de Perguntas - SuperNetos</h1>
+
+      <div
+        style="
+          background: #e3f2fd;
+          padding: 15px;
+          border-radius: 8px;
+          margin-bottom: 20px;
+          border-left: 4px solid #2196f3;
+        "
+      >
+        <h3 style="margin: 0 0 10px 0; color: #1976d2">📋 Como usar:</h3>
+        <ul style="margin: 0; padding-left: 20px; color: #555">
+          <li>
+            <strong>Abrir JSON do PC:</strong> Selecione um arquivo JSON do seu
+            computador para editar
+          </li>
+          <li>
+            <strong>Carregar JSON Padrão:</strong> Carrega o arquivo padrão do
+            jogo
+          </li>
+          <li>
+            <strong>Editar:</strong> Clique em "Editar" em qualquer pergunta
+            para modificá-la
+          </li>
+          <li>
+            <strong>Salvar JSON no PC:</strong> Baixa o arquivo editado para
+            escolher onde salvar
+          </li>
+        </ul>
+      </div>
+
+      <div class="toolbar">
+        <input
+          type="file"
+          id="fileInput"
+          accept=".json"
+          style="display: none"
+          onchange="carregarArquivoJSON(event)"
+        />
+        <button onclick="abrirSeletorArquivo()">📂 Abrir JSON do PC</button>
+        <button onclick="carregarPerguntas()">📂 Carregar JSON Padrão</button>
+        <button onclick="adicionarPergunta()">➕ Nova Pergunta</button>
+        <button onclick="exportarJSON()">💾 Salvar JSON no PC</button>
+        <button onclick="visualizarJogo()">👀 Visualizar Jogo</button>
+      </div>
+
+      <div id="lista-perguntas"></div>
+
+      <div id="resultado" class="resultado"></div>
+    </div>
+
+    <script>
+      let perguntas = [];
+      let perguntaEditando = -1;
+
+      const coresDisponiveis = {
+        "#f4750d": "Laranja",
+        "#fcfc00": "Amarelo",
+        "#4caf50": "Verde",
+        "#2196f3": "Azul",
+        "#e91e63": "Rosa",
+        "#9c27b0": "Roxo",
+        "#ff5722": "Vermelho",
+        "#ffc107": "Amarelo Escuro",
+        "#03dac6": "Turquesa",
+        "#8bc34a": "Verde Claro",
+      };
+
+      // Atualizar cor hexadecimal quando o color picker muda
+      function atualizarCorHex(tipo, index) {
+        const picker = document.getElementById(`${tipo}-picker-${index}`);
+        const textInput = document.getElementById(`${tipo}-${index}`);
+        textInput.value = picker.value.toUpperCase();
+      }
+
+      // Atualizar color picker quando o texto hexadecimal muda
+      function atualizarCorPicker(tipo, index) {
+        const textInput = document.getElementById(`${tipo}-${index}`);
+        const picker = document.getElementById(`${tipo}-picker-${index}`);
+
+        // Converter para uppercase
+        textInput.value = textInput.value.toUpperCase();
+
+        // Validar formato hexadecimal
+        const hexRegex = /^#[0-9A-Fa-f]{6}$/;
+        if (hexRegex.test(textInput.value)) {
+          picker.value = textInput.value;
+          textInput.style.borderColor = "#ddd"; // Reset border color
+          textInput.style.backgroundColor = "#fff"; // Reset background color
+        } else {
+          textInput.style.borderColor = "#f44336"; // Red border for invalid hex
+          textInput.style.backgroundColor = "#ffebee"; // Light red background
+        }
+      }
+
+      // Abrir seletor de arquivo
+      function abrirSeletorArquivo() {
+        document.getElementById("fileInput").click();
+      }
+
+      // Carregar arquivo JSON do PC
+      function carregarArquivoJSON(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Verificar se é um arquivo .json
+        if (!file.name.toLowerCase().endsWith(".json")) {
+          mostrarResultado(
+            "❌ Por favor, selecione um arquivo JSON (.json)",
+            "erro"
+          );
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const data = JSON.parse(e.target.result);
+
+            // Verificar se o JSON tem a estrutura esperada
+            if (data.perguntas && Array.isArray(data.perguntas)) {
+              // Validar estrutura das perguntas
+              const perguntasValidas = data.perguntas.every(
+                (p) =>
+                  p.id &&
+                  p.pergunta &&
+                  p.resposta_correta &&
+                  p.rectangle1_background_color &&
+                  p.rectangle2_background_color &&
+                  p.ilustracao &&
+                  p.opcoes
+              );
+
+              if (perguntasValidas) {
+                perguntas = data.perguntas;
+                renderizarPerguntas();
+                mostrarResultado(
+                  `✅ Arquivo "${file.name}" carregado com sucesso! ${perguntas.length} perguntas encontradas.`,
+                  "sucesso"
+                );
+              } else {
+                throw new Error(
+                  "Algumas perguntas têm estrutura incompleta. Verifique se todas têm: id, pergunta, resposta_correta, cores e ilustração."
+                );
+              }
+            } else {
+              throw new Error(
+                "Formato JSON inválido. O arquivo deve conter um objeto com a propriedade 'perguntas' (array)."
+              );
+            }
+          } catch (error) {
+            mostrarResultado(
+              `❌ Erro ao processar "${file.name}": ${error.message}`,
+              "erro"
+            );
+          }
+        };
+
+        reader.onerror = function () {
+          mostrarResultado(
+            `❌ Erro ao ler o arquivo "${file.name}". Verifique se o arquivo não está corrompido.`,
+            "erro"
+          );
+        };
+
+        reader.readAsText(file);
+
+        // Limpar o input para permitir carregar o mesmo arquivo novamente
+        event.target.value = "";
+      }
+
+      // Carregar perguntas do JSON padrão
+      async function carregarPerguntas() {
+        try {
+          const response = await fetch("../dados/perguntas-config.json");
+          const data = await response.json();
+          perguntas = data.perguntas;
+          renderizarPerguntas();
+          mostrarResultado("✅ Perguntas carregadas com sucesso!", "sucesso");
+        } catch (error) {
+          mostrarResultado(
+            "❌ Erro ao carregar perguntas: " + error.message,
+            "erro"
+          );
+        }
+      }
+
+      // Renderizar lista de perguntas
+      function renderizarPerguntas() {
+        const container = document.getElementById("lista-perguntas");
+        container.innerHTML = "";
+
+        if (perguntas.length === 0) {
+          container.innerHTML =
+            '<p style="text-align: center; color: #666;">Nenhuma pergunta carregada. Use "Carregar JSON" ou "Nova Pergunta".</p>';
+          return;
+        }
+
+        perguntas.forEach((pergunta, index) => {
+          const card = criarCardPergunta(pergunta, index);
+          container.appendChild(card);
+        });
+      }
+
+      // Criar card de pergunta
+      function criarCardPergunta(pergunta, index) {
+        const card = document.createElement("div");
+        card.className = "pergunta-card";
+        card.innerHTML = `
+                <div class="pergunta-header">
+                    <div class="pergunta-numero">Pergunta ${pergunta.id}</div>
+                    <div class="pergunta-acoes">
+                        <button class="btn-editar" onclick="editarPergunta(${index})">✏️ Editar</button>
+                        <button class="btn-excluir" onclick="excluirPergunta(${index})">🗑️ Excluir</button>
+                    </div>
+                </div>
+                
+                <div class="pergunta-preview">
+                    <div class="pergunta-info">
+                        <h3>${pergunta.pergunta}</h3>
+                        <div class="pergunta-detalhes">
+                            <div class="detalhe">
+                                <strong>Resposta:</strong> ${
+                                  pergunta.resposta_correta === "sim"
+                                    ? "PODE"
+                                    : "NÃO PODE"
+                                }
+                            </div>
+                            <div class="detalhe">
+                                <strong>Ilustração:</strong> ${
+                                  pergunta.ilustracao
+                                }
+                            </div>
+                            <div class="detalhe" style="background: ${
+                              pergunta.rectangle1_background_color
+                            }; color: white;">
+                                <strong>Cor 1:</strong> ${
+                                  coresDisponiveis[
+                                    pergunta.rectangle1_background_color
+                                  ] || pergunta.rectangle1_background_color
+                                }
+                            </div>
+                            <div class="detalhe" style="background: ${
+                              pergunta.rectangle2_background_color
+                            }; color: ${
+          pergunta.rectangle2_background_color === "#fcfc00" ? "black" : "white"
+        };">
+                                <strong>Cor 2:</strong> ${
+                                  coresDisponiveis[
+                                    pergunta.rectangle2_background_color
+                                  ] || pergunta.rectangle2_background_color
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-visual">
+                        <div class="preview-rectangle2" style="background-color: ${
+                          pergunta.rectangle2_background_color
+                        };"></div>
+                        <div class="preview-rectangle1" style="background-color: ${
+                          pergunta.rectangle1_background_color
+                        };">
+                            ${pergunta.pergunta}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-edicao" id="form-${index}">
+                    <div class="form-grupo">
+                        <label>ID da Pergunta:</label>
+                        <input type="number" id="id-${index}" value="${
+          pergunta.id
+        }">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label>Texto da Pergunta:</label>
+                        <input type="text" id="pergunta-${index}" value="${
+          pergunta.pergunta
+        }">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label>Resposta Correta:</label>
+                        <select id="resposta-${index}">
+                            <option value="sim" ${
+                              pergunta.resposta_correta === "sim"
+                                ? "selected"
+                                : ""
+                            }>PODE</option>
+                            <option value="nao" ${
+                              pergunta.resposta_correta === "nao"
+                                ? "selected"
+                                : ""
+                            }>NÃO PODE</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label>Cor do Rectangle 1 (Hexadecimal):</label>
+                        <div class="color-input-group">
+                            <input type="color" id="cor1-picker-${index}" value="${
+          pergunta.rectangle1_background_color
+        }" onchange="atualizarCorHex('cor1', ${index})" class="color-picker">
+                            <input type="text" id="cor1-${index}" value="${
+          pergunta.rectangle1_background_color
+        }" placeholder="#f4750d" pattern="^#[0-9A-Fa-f]{6}$" onchange="atualizarCorPicker('cor1', ${index})" class="hex-input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label>Cor do Rectangle 2 (Hexadecimal):</label>
+                        <div class="color-input-group">
+                            <input type="color" id="cor2-picker-${index}" value="${
+          pergunta.rectangle2_background_color
+        }" onchange="atualizarCorHex('cor2', ${index})" class="color-picker">
+                            <input type="text" id="cor2-${index}" value="${
+          pergunta.rectangle2_background_color
+        }" placeholder="#fcfc00" pattern="^#[0-9A-Fa-f]{6}$" onchange="atualizarCorPicker('cor2', ${index})" class="hex-input">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label>Arquivo da Ilustração:</label>
+                        <input type="text" id="ilustracao-${index}" value="${
+          pergunta.ilustracao
+        }" placeholder="ex: 01.png">
+                    </div>
+                    
+                    <div class="form-acoes">
+                        <button class="btn-cancelar" onclick="cancelarEdicao(${index})">Cancelar</button>
+                        <button class="btn-salvar" onclick="salvarPergunta(${index})">Salvar</button>
+                    </div>
+                </div>
+            `;
+        return card;
+      }
+
+      // Editar pergunta
+      function editarPergunta(index) {
+        if (perguntaEditando !== -1 && perguntaEditando !== index) {
+          cancelarEdicao(perguntaEditando);
+        }
+
+        perguntaEditando = index;
+        document.getElementById(`form-${index}`).style.display = "block";
+      }
+
+      // Cancelar edição
+      function cancelarEdicao(index) {
+        document.getElementById(`form-${index}`).style.display = "none";
+        perguntaEditando = -1;
+      }
+
+      // Salvar pergunta
+      function salvarPergunta(index) {
+        const cor1 = document.getElementById(`cor1-${index}`).value;
+        const cor2 = document.getElementById(`cor2-${index}`).value;
+
+        // Validar formato hexadecimal
+        const hexRegex = /^#[0-9A-Fa-f]{6}$/;
+        if (!hexRegex.test(cor1)) {
+          mostrarResultado(
+            "❌ Cor do Rectangle 1 deve estar no formato hexadecimal (#000000)",
+            "erro"
+          );
+          return;
+        }
+        if (!hexRegex.test(cor2)) {
+          mostrarResultado(
+            "❌ Cor do Rectangle 2 deve estar no formato hexadecimal (#000000)",
+            "erro"
+          );
+          return;
+        }
+
+        perguntas[index] = {
+          id: parseInt(document.getElementById(`id-${index}`).value),
+          pergunta: document
+            .getElementById(`pergunta-${index}`)
+            .value.toUpperCase(),
+          resposta_correta: document.getElementById(`resposta-${index}`).value,
+          rectangle1_background_color: cor1,
+          rectangle2_background_color: cor2,
+          ilustracao: document.getElementById(`ilustracao-${index}`).value,
+          opcoes: {
+            sim: "PODE",
+            nao: "NÃO PODE",
+          },
+        };
+
+        renderizarPerguntas();
+        mostrarResultado("✅ Pergunta atualizada com sucesso!", "sucesso");
+      }
+
+      // Excluir pergunta
+      function excluirPergunta(index) {
+        if (confirm("Tem certeza que deseja excluir esta pergunta?")) {
+          perguntas.splice(index, 1);
+          renderizarPerguntas();
+          mostrarResultado("✅ Pergunta excluída com sucesso!", "sucesso");
+        }
+      }
+
+      // Adicionar nova pergunta
+      function adicionarPergunta() {
+        const novoId =
+          perguntas.length > 0
+            ? Math.max(...perguntas.map((p) => p.id)) + 1
+            : 1;
+        const novaPergunta = {
+          id: novoId,
+          pergunta: "NOVA PERGUNTA?",
+          resposta_correta: "sim",
+          rectangle1_background_color: "#f4750d",
+          rectangle2_background_color: "#fcfc00",
+          ilustracao: "01.png",
+          opcoes: {
+            sim: "PODE",
+            nao: "NÃO PODE",
+          },
+        };
+
+        perguntas.push(novaPergunta);
+        renderizarPerguntas();
+        editarPergunta(perguntas.length - 1);
+        mostrarResultado(
+          "✅ Nova pergunta adicionada! Edite os dados acima.",
+          "sucesso"
+        );
+      }
+
+      // Exportar JSON
+      function exportarJSON() {
+        if (perguntas.length === 0) {
+          mostrarResultado("❌ Não há perguntas para exportar!", "erro");
+          return;
+        }
+
+        const jsonFinal = {
+          perguntas: perguntas,
+        };
+
+        const jsonFormatado = JSON.stringify(jsonFinal, null, 2);
+        const blob = new Blob([jsonFormatado], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+
+        // Gerar nome do arquivo com timestamp
+        const agora = new Date();
+        const timestamp = agora.toISOString().slice(0, 19).replace(/:/g, "-");
+        a.download = `perguntas-config-${timestamp}.json`;
+
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        mostrarResultado(
+          `💾 JSON exportado com sucesso! Arquivo: ${a.download}`,
+          "sucesso"
+        );
+      }
+
+      // Visualizar jogo
+      function visualizarJogo() {
+        window.open("../paginas/perguntas-dinamicas.html", "_blank");
+      }
+
+      // Mostrar resultado
+      function mostrarResultado(mensagem, tipo) {
+        const resultado = document.getElementById("resultado");
+        resultado.textContent = mensagem;
+        resultado.className = `resultado ${tipo}`;
+        resultado.style.display = "block";
+
+        setTimeout(() => {
+          resultado.style.display = "none";
+        }, 5000);
+      }
+
+      // Carregar automaticamente ao iniciar
+      document.addEventListener("DOMContentLoaded", function () {
+        carregarPerguntas();
+      });
+    </script>
+  </body>
+</html>

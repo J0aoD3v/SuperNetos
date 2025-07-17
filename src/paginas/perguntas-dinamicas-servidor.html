@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../recursos/audio/favicon.ico"
+      type="image/x-icon"
+    />
+    <title>SuperNetos - Perguntas Dinâmicas (Servidor)</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+      * {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      @font-face {
+        font-family: "Material Symbols Rounded";
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v226/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOcbTCVpeRL2w5rwZu2rIelXxc.woff2)
+          format("woff2");
+      }
+
+      .material-symbols-rounded {
+        font-family: "Material Symbols Rounded";
+        font-weight: normal;
+        font-style: normal;
+        font-size: auto;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        font-feature-settings: "liga";
+        -moz-font-feature-settings: "liga";
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      #screen_rotation_icon {
+        font-size: 64px;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        height: 100%;
+        font-family: "Roboto", serif;
+      }
+
+      #box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        aspect-ratio: 16/9;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        background-image: url("../recursos/imagens/interface/background.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      @media (min-aspect-ratio: 16/9) {
+        #box {
+          width: auto;
+          height: 100vh;
+        }
+
+        #overlay {
+          display: none;
+        }
+      }
+
+      @media (max-aspect-ratio: 16/9) {
+        #box {
+          width: 100vw;
+          height: auto;
+        }
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(49, 49, 49);
+        color: white;
+        text-align: center;
+        font-size: 1.5em;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      @media (max-aspect-ratio: 0.999/1) {
+        .overlay {
+          display: flex;
+        }
+
+        #box {
+          display: none;
+        }
+      }
+
+      #rectangle2 {
+        position: absolute;
+        width: 65vw;
+        height: 45vw;
+        border-radius: 4vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: background-color 0.3s ease;
+      }
+
+      #rectangle1 {
+        position: absolute;
+        width: calc(65vw - 3vh);
+        height: 45vw;
+        border-radius: 4vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.5) 0%,
+          rgba(255, 255, 255, 0) 20%
+        );
+        box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.25);
+        transition: background-color 0.3s ease;
+      }
+
+      #content {
+        width: 100%;
+        height: 100%;
+        border-radius: 4vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: black;
+        font-weight: bold;
+      }
+
+      .titulo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #txt {
+        font-size: 2em;
+        transition: all 0.3s ease;
+      }
+
+      .volume_off {
+        font-size: 3em;
+        border: none;
+        background: none;
+        cursor: pointer;
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      #txtbuttons {
+        font-size: 1.5em;
+      }
+
+      .buttons button {
+        margin: 1vw;
+        padding: 1vw 1vw;
+        border-radius: 1vw;
+        border: none;
+        color: white;
+        font-size: 32px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.1s ease;
+      }
+
+      #separador {
+        width: 5vw;
+      }
+
+      .thumb-up {
+        background-color: #00c853;
+      }
+
+      .thumb-down {
+        background-color: #d50000;
+      }
+
+      .buttons button:active {
+        transform: scale(0.95);
+      }
+
+      .illustration {
+        position: relative;
+        margin-bottom: 4vh;
+        aspect-ratio: 386/207;
+        width: auto;
+        height: 70%;
+        border-radius: 5vw;
+        border-color: rgb(217, 255, 255);
+        border-width: 0.4vw;
+        border-style: solid;
+        background-color: lightgray;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: background-image 0.3s ease;
+      }
+
+      /* Contador de pergunta */
+      .question-counter {
+        position: absolute;
+        top: 2vw;
+        right: 2vw;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 1vw 2vw;
+        border-radius: 2vw;
+        font-size: 1.2em;
+        font-weight: bold;
+        z-index: 10;
+      }
+
+      /* Animação de transição */
+      .fade-transition {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .fade-transition.show {
+        opacity: 1;
+      }
+
+      /* Resultado final */
+      .resultado-final {
+        display: none;
+        text-align: center;
+        color: white;
+      }
+
+      .resultado-final.show {
+        display: block;
+      }
+
+      /* Status de carregamento */
+      .loading-status {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        z-index: 100;
+      }
+    </style>
+  </head>
+
+  <body>
+    <audio
+      id="bg-music"
+      src="../recursos/audio/background_music.mp3"
+      loop
+    ></audio>
+
+    <div class="loading-status" id="loading-status">
+      🔄 Carregando perguntas...
+    </div>
+
+    <div class="overlay">
+      <span class="material-symbols-rounded" id="screen_rotation_icon"
+        >screen_rotation</span
+      >
+      <p>Vire a tela na horizontal</p>
+    </div>
+
+    <div id="box">
+      <div class="question-counter">
+        <span id="current-question">1</span> /
+        <span id="total-questions">5</span>
+      </div>
+
+      <div id="rectangle1">
+        <div id="content">
+          <div class="titulo">
+            <button class="volume_off" id="volumeBtn">
+              <span class="material-symbols-rounded" id="vol-icon"
+                >volume_off</span
+              >
+            </button>
+            <p id="txt">Carregando...</p>
+          </div>
+
+          <div class="buttons">
+            <button class="thumb-up" id="btn-sim">
+              <span class="material-symbols-rounded">thumb_up</span>
+            </button>
+            <p id="txt-sim">PODE</p>
+            <div id="separador"></div>
+            <button class="thumb-down" id="btn-nao">
+              <span class="material-symbols-rounded">thumb_down</span>
+            </button>
+            <p id="txt-nao">NÃO PODE</p>
+          </div>
+
+          <div class="illustration" id="illustration"></div>
+        </div>
+      </div>
+
+      <div id="rectangle2"></div>
+
+      <!-- Resultado Final -->
+      <div class="resultado-final" id="resultado-final">
+        <h1>🎉 Parabéns! 🎉</h1>
+        <p id="pontuacao-final"></p>
+        <button
+          onclick="reiniciarJogo()"
+          style="
+            padding: 1vw 2vw;
+            font-size: 1.5em;
+            border-radius: 1vw;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            cursor: pointer;
+          "
+        >
+          Jogar Novamente
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let perguntasConfig = [];
+      let perguntaAtual = 0;
+      let pontuacao = 0;
+      let totalAttempts = 0;
+
+      // Atualizar status de carregamento
+      function updateLoadingStatus(message, isError = false) {
+        const status = document.getElementById("loading-status");
+        status.textContent = message;
+        status.style.backgroundColor = isError
+          ? "rgba(244, 67, 54, 0.8)"
+          : "rgba(0, 0, 0, 0.8)";
+      }
+
+      // Carregar configurações das perguntas
+      async function carregarPerguntas() {
+        try {
+          updateLoadingStatus("🔄 Carregando configurações...");
+
+          const response = await fetch("../dados/perguntas-config.json");
+
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          perguntasConfig = data.perguntas;
+
+          updateLoadingStatus(
+            `✅ ${perguntasConfig.length} perguntas carregadas!`
+          );
+          setTimeout(() => {
+            document.getElementById("loading-status").style.display = "none";
+          }, 2000);
+
+          document.getElementById("total-questions").textContent =
+            perguntasConfig.length;
+          mostrarPergunta(0);
+        } catch (error) {
+          console.error("Erro ao carregar perguntas:", error);
+          updateLoadingStatus(`❌ Erro: ${error.message}`, true);
+          document.getElementById("txt").textContent =
+            "Erro ao carregar perguntas";
+
+          // Fallback para dados locais
+          setTimeout(() => {
+            updateLoadingStatus("🔄 Tentando dados locais...");
+            carregarDadosLocais();
+          }, 3000);
+        }
+      }
+
+      // Fallback para dados locais
+      function carregarDadosLocais() {
+        const dadosLocais = {
+          perguntas: [
+            {
+              id: 1,
+              pergunta: "PODE EMPURRAR O VOVÔ?",
+              rectangle1_background_color: "#f4750d",
+              rectangle2_background_color: "#fcfc00",
+              resposta_correta: "nao",
+              ilustracao: "01.png",
+              opcoes: { sim: "PODE", nao: "NÃO PODE" },
+            },
+            {
+              id: 2,
+              pergunta: "PODE BATER NO COLEGA?",
+              rectangle1_background_color: "#e91e63",
+              rectangle2_background_color: "#9c27b0",
+              resposta_correta: "nao",
+              ilustracao: "02.png",
+              opcoes: { sim: "PODE", nao: "NÃO PODE" },
+            },
+          ],
+        };
+
+        perguntasConfig = dadosLocais.perguntas;
+        updateLoadingStatus("✅ Dados locais carregados!");
+        setTimeout(() => {
+          document.getElementById("loading-status").style.display = "none";
+        }, 2000);
+
+        document.getElementById("total-questions").textContent =
+          perguntasConfig.length;
+        mostrarPergunta(0);
+      }
+
+      // Mostrar pergunta específica
+      function mostrarPergunta(index) {
+        if (index >= perguntasConfig.length) {
+          mostrarResultadoFinal();
+          return;
+        }
+
+        const pergunta = perguntasConfig[index];
+        perguntaAtual = index;
+
+        // Atualizar contador
+        document.getElementById("current-question").textContent = index + 1;
+
+        // Atualizar conteúdo
+        document.getElementById("txt").textContent = pergunta.pergunta;
+        document.getElementById("txt-sim").textContent = pergunta.opcoes.sim;
+        document.getElementById("txt-nao").textContent = pergunta.opcoes.nao;
+
+        // Atualizar cores
+        const rectangle1 = document.getElementById("rectangle1");
+        const rectangle2 = document.getElementById("rectangle2");
+
+        rectangle1.style.backgroundColor = pergunta.rectangle1_background_color;
+        rectangle2.style.backgroundColor = pergunta.rectangle2_background_color;
+
+        // Atualizar ilustração
+        const illustration = document.getElementById("illustration");
+        illustration.style.backgroundImage = `url('../recursos/imagens/ilustracoes/${pergunta.ilustracao}')`;
+
+        // Adicionar animação
+        const content = document.getElementById("content");
+        content.classList.add("fade-transition");
+        setTimeout(() => {
+          content.classList.add("show");
+        }, 100);
+      }
+
+      // Processar resposta
+      function processarResposta(resposta) {
+        const pergunta = perguntasConfig[perguntaAtual];
+        totalAttempts++;
+
+        const acertou = resposta === pergunta.resposta_correta;
+        if (acertou) {
+          pontuacao++;
+          alert("Escolha correta! 🎉");
+        } else {
+          alert("Ops! Tente pensar melhor na próxima! 🤔");
+        }
+
+        // Salvar progresso
+        updateGameProgress(
+          pergunta.id,
+          resposta === "sim" ? 1 : 0,
+          totalAttempts
+        );
+
+        // Ir para próxima pergunta
+        setTimeout(() => {
+          perguntaAtual++;
+          mostrarPergunta(perguntaAtual);
+        }, 1000);
+      }
+
+      // Mostrar resultado final
+      function mostrarResultadoFinal() {
+        // Salvar resultado final
+        localStorage.setItem(
+          "finalScore",
+          JSON.stringify({
+            acertos: pontuacao,
+            total: perguntasConfig.length,
+            percentual: Math.round((pontuacao / perguntasConfig.length) * 100),
+            tentativas: totalAttempts,
+          })
+        );
+
+        // Redirecionar para a tela de resultados
+        setTimeout(() => {
+          window.location.href = "resultados.html";
+        }, 1000);
+      }
+
+      // Reiniciar jogo
+      function reiniciarJogo() {
+        perguntaAtual = 0;
+        pontuacao = 0;
+        totalAttempts = 0;
+        document.getElementById("content").style.display = "flex";
+        document.getElementById("resultado-final").classList.remove("show");
+        mostrarPergunta(0);
+      }
+
+      // Funções de áudio (mantidas do original)
+      function setVolumeIcon(isMuted) {
+        document.getElementById("vol-icon").textContent = isMuted
+          ? "volume_off"
+          : "volume_up";
+      }
+
+      function syncBGMusicWithState() {
+        const audio = document.getElementById("bg-music");
+        const muted = localStorage.getItem("bgMusicMuted") === "1";
+        setVolumeIcon(muted);
+        audio.volume = 0.3;
+        audio.muted = muted;
+        if (!muted && window.__musicStarted) {
+          audio.play().catch(() => {});
+        } else {
+          audio.pause();
+        }
+      }
+
+      function updateGameProgress(question, answer, attempts) {
+        let gameData = JSON.parse(localStorage.getItem("gameProgress")) || [];
+        let existingQuestionIndex = gameData.findIndex(
+          (item) => item.pergunta === question
+        );
+
+        if (existingQuestionIndex === -1) {
+          gameData.push({
+            pergunta: question,
+            resposta: answer,
+            quantidade: attempts,
+          });
+        } else {
+          gameData[existingQuestionIndex] = {
+            pergunta: question,
+            resposta: answer,
+            quantidade: attempts,
+          };
+        }
+        localStorage.setItem("gameProgress", JSON.stringify(gameData));
+      }
+
+      // Event Listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        // Carregar perguntas
+        carregarPerguntas();
+
+        // Configurar áudio
+        const audio = document.getElementById("bg-music");
+        audio.volume = 0.3;
+        audio.muted = localStorage.getItem("bgMusicMuted") === "1";
+        setVolumeIcon(audio.muted);
+
+        // Botão de volume
+        document
+          .getElementById("volumeBtn")
+          .addEventListener("click", function () {
+            const currentlyMuted = localStorage.getItem("bgMusicMuted") === "1";
+            localStorage.setItem("bgMusicMuted", currentlyMuted ? "0" : "1");
+            syncBGMusicWithState();
+            if (!currentlyMuted) {
+              window.__musicStarted = true;
+              syncBGMusicWithState();
+            }
+          });
+
+        // Botões de resposta
+        document
+          .getElementById("btn-sim")
+          .addEventListener("click", () => processarResposta("sim"));
+        document
+          .getElementById("btn-nao")
+          .addEventListener("click", () => processarResposta("nao"));
+
+        // Iniciar música após interação
+        function tryPlayMusicAfterInteraction() {
+          if (localStorage.getItem("bgMusicMuted") === "0") {
+            window.__musicStarted = true;
+            syncBGMusicWithState();
+          }
+          document.body.removeEventListener(
+            "click",
+            tryPlayMusicAfterInteraction
+          );
+        }
+        document.body.addEventListener("click", tryPlayMusicAfterInteraction);
+      });
+    </script>
+  </body>
+</html>

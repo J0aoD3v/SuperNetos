@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conversor CSV para JSON - SuperNetos</title>
+    <style>
+      body {
+        font-family: "Roboto", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+      }
+
+      h1 {
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      .section {
+        margin-bottom: 30px;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #555;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 150px;
+        padding: 15px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        font-family: "Courier New", monospace;
+        font-size: 14px;
+        resize: vertical;
+      }
+
+      button {
+        background: linear-gradient(45deg, #f4750d, #fcfc00);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      button:hover {
+        transform: translateY(-2px);
+      }
+
+      button:active {
+        transform: translateY(0);
+      }
+
+      .example {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        border-left: 4px solid #f4750d;
+        margin-bottom: 20px;
+      }
+
+      .result {
+        background: #e8f5e8;
+        border: 2px solid #4caf50;
+        padding: 15px;
+        border-radius: 5px;
+        margin-top: 20px;
+      }
+
+      .error {
+        background: #ffeaea;
+        border: 2px solid #f44336;
+        color: #d32f2f;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+
+      @media (max-width: 768px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🔄 Conversor CSV → JSON</h1>
+      <p style="text-align: center; color: #666; margin-bottom: 30px">
+        Converta seus dados de perguntas do CSV para o formato JSON usado pelo
+        jogo
+      </p>
+
+      <div class="grid">
+        <div class="section">
+          <label for="csvInput">📊 Cole seu CSV aqui:</label>
+          <div class="example">
+            <strong>Formato esperado:</strong><br />
+            <code>
+              ,1,2<br />
+              pergunta,exemplo?,exemplo?<br />
+              rectangle1_background-color,azul,azul<br />
+              rectangle2_background-color,verde,verde<br />
+              resposta,sim,nao<br />
+              ilustacao,1,2
+            </code>
+          </div>
+          <textarea
+            id="csvInput"
+            placeholder="Cole aqui o conteúdo do seu arquivo CSV..."
+          ></textarea>
+          <br /><br />
+          <button onclick="converterCSV()">🚀 Converter para JSON</button>
+        </div>
+
+        <div class="section">
+          <label for="jsonOutput">📝 JSON Resultante:</label>
+          <textarea
+            id="jsonOutput"
+            readonly
+            placeholder="O JSON aparecerá aqui após a conversão..."
+          ></textarea>
+          <br /><br />
+          <button
+            onclick="copiarJSON()"
+            style="background: linear-gradient(45deg, #4caf50, #8bc34a)"
+          >
+            📋 Copiar JSON
+          </button>
+          <button
+            onclick="baixarJSON()"
+            style="
+              background: linear-gradient(45deg, #2196f3, #03a9f4);
+              margin-left: 10px;
+            "
+          >
+            💾 Baixar Arquivo
+          </button>
+        </div>
+      </div>
+
+      <div id="resultado"></div>
+    </div>
+
+    <script>
+      function converterCSV() {
+        const csvInput = document.getElementById("csvInput").value.trim();
+        const resultado = document.getElementById("resultado");
+
+        if (!csvInput) {
+          mostrarResultado(
+            "❌ Por favor, cole o conteúdo CSV primeiro!",
+            "error"
+          );
+          return;
+        }
+
+        try {
+          const linhas = csvInput
+            .split("\n")
+            .map((linha) => linha.trim())
+            .filter((linha) => linha);
+
+          if (linhas.length < 6) {
+            throw new Error(
+              "CSV deve ter pelo menos 6 linhas (cabeçalho + 5 dados)"
+            );
+          }
+
+          // Separar as linhas
+          const [
+            cabecalho,
+            perguntasLinha,
+            rect1Linha,
+            rect2Linha,
+            respostasLinha,
+            ilustracoesLinha,
+          ] = linhas;
+
+          // Separar as colunas
+          const colunas = cabecalho.split(",");
+          const perguntas = perguntasLinha.split(",");
+          const rect1Cores = rect1Linha.split(",");
+          const rect2Cores = rect2Linha.split(",");
+          const respostas = respostasLinha.split(",");
+          const ilustracoes = ilustracoesLinha.split(",");
+
+          // Mapear cores
+          const coresMap = {
+            azul: "#2196f3",
+            verde: "#4caf50",
+            vermelho: "#f44336",
+            amarelo: "#fcfc00",
+            laranja: "#f4750d",
+            roxo: "#9c27b0",
+            rosa: "#e91e63",
+            cinza: "#9e9e9e",
+          };
+
+          function obterCor(cor) {
+            return coresMap[cor.toLowerCase()] || cor;
+          }
+
+          // Gerar JSON
+          const perguntasArray = [];
+
+          for (let i = 1; i < colunas.length; i++) {
+            if (perguntas[i] && perguntas[i] !== "pergunta") {
+              perguntasArray.push({
+                id: parseInt(colunas[i]) || i,
+                pergunta: perguntas[i].toUpperCase(),
+                rectangle1_background_color: obterCor(rect1Cores[i]),
+                rectangle2_background_color: obterCor(rect2Cores[i]),
+                resposta_correta: respostas[i].toLowerCase(),
+                ilustracao: ilustracoes[i].includes(".")
+                  ? ilustracoes[i]
+                  : ilustracoes[i] + ".png",
+                opcoes: {
+                  sim: "PODE",
+                  nao: "NÃO PODE",
+                },
+              });
+            }
+          }
+
+          const jsonFinal = {
+            perguntas: perguntasArray,
+          };
+
+          const jsonFormatado = JSON.stringify(jsonFinal, null, 2);
+          document.getElementById("jsonOutput").value = jsonFormatado;
+
+          mostrarResultado(
+            `✅ Conversão realizada com sucesso! ${perguntasArray.length} perguntas processadas.`,
+            "result"
+          );
+        } catch (error) {
+          mostrarResultado(`❌ Erro na conversão: ${error.message}`, "error");
+        }
+      }
+
+      function copiarJSON() {
+        const jsonOutput = document.getElementById("jsonOutput");
+        if (!jsonOutput.value) {
+          mostrarResultado(
+            "❌ Nenhum JSON para copiar. Faça a conversão primeiro!",
+            "error"
+          );
+          return;
+        }
+
+        jsonOutput.select();
+        document.execCommand("copy");
+        mostrarResultado(
+          "📋 JSON copiado para a área de transferência!",
+          "result"
+        );
+      }
+
+      function baixarJSON() {
+        const jsonOutput = document.getElementById("jsonOutput").value;
+        if (!jsonOutput) {
+          mostrarResultado(
+            "❌ Nenhum JSON para baixar. Faça a conversão primeiro!",
+            "error"
+          );
+          return;
+        }
+
+        const blob = new Blob([jsonOutput], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "perguntas-config.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        mostrarResultado("💾 Arquivo JSON baixado com sucesso!", "result");
+      }
+
+      function mostrarResultado(mensagem, tipo) {
+        const resultado = document.getElementById("resultado");
+        resultado.innerHTML = `<div class="${tipo}">${mensagem}</div>`;
+      }
+
+      // Exemplo de CSV para testar
+      document.addEventListener("DOMContentLoaded", function () {
+        const exemploCSV = `,1,2,3
+pergunta,PODE EMPURRAR O VOVÔ?,PODE BATER NO COLEGA?,PODE AJUDAR A MAMÃE?
+rectangle1_background-color,laranja,rosa,azul
+rectangle2_background-color,amarelo,roxo,verde
+resposta,nao,nao,sim
+ilustacao,1,2,3`;
+
+        document.getElementById("csvInput").placeholder =
+          "Cole aqui o conteúdo do seu arquivo CSV...\n\nExemplo:\n" +
+          exemploCSV;
+      });
+    </script>
+  </body>
+</html>

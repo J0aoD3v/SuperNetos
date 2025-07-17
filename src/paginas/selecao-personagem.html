@@ -194,6 +194,31 @@
         display: block;
         width: 0;
       }
+
+      .name-input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        font-size: 1.1em;
+        font-family: "Roboto", sans-serif;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+        transition: border-color 0.3s;
+      }
+
+      .name-input:focus {
+        outline: none;
+        border-color: dodgerblue;
+        box-shadow: 0 0 8px rgba(30, 144, 255, 0.3);
+      }
+
+      .name-label {
+        font-size: 1.1em;
+        color: #ffffff;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
       .next-btn {
         padding: 10px 32px;
         background: dodgerblue;
@@ -300,6 +325,14 @@
           <img id="happyCharacter" class="happy-character" src="" alt="" />
           <div class="side-content">
             <div class="speech-bubble" id="speech"></div>
+            <div class="name-label">Qual é o seu nome?</div>
+            <input
+              type="text"
+              class="name-input"
+              id="nameInput"
+              placeholder="Digite seu nome aqui..."
+              maxlength="20"
+            />
             <button class="next-btn" id="nextBtn">Ir para o Jogo!</button>
           </div>
         </div>
@@ -399,8 +432,13 @@
       const happyCharacter = document.getElementById("happyCharacter");
       const speech = document.getElementById("speech");
       const nextBtn = document.getElementById("nextBtn");
+      const nameInput = document.getElementById("nameInput");
 
       function selecionarPersonagem(tipo) {
+        // Salvar escolha do personagem (compatibilidade com ambas as chaves)
+        localStorage.setItem("personagemEscolhido", tipo);
+        localStorage.setItem("selectedCharacter", tipo);
+
         overlay.style.display = "flex";
         if (tipo === "menino") {
           happyCharacter.src =
@@ -414,15 +452,45 @@
           speech.textContent = frases.menina;
         }
         nextBtn.style.display = "block";
+
+        // Focar no campo de nome
+        setTimeout(() => {
+          nameInput.focus();
+        }, 500);
       }
 
       boy.onclick = () => selecionarPersonagem("menino");
       girl.onclick = () => selecionarPersonagem("menina");
 
       nextBtn.onclick = function () {
+        const nome = nameInput.value.trim();
+
+        if (nome === "") {
+          alert("Por favor, digite seu nome para continuar! 😊");
+          nameInput.focus();
+          return;
+        }
+
+        if (nome.length < 2) {
+          alert("O nome deve ter pelo menos 2 caracteres! 😊");
+          nameInput.focus();
+          return;
+        }
+
+        // Salvar o nome do jogador
+        localStorage.setItem("playerName", nome);
+        localStorage.setItem("nomeJogador", nome); // compatibilidade
+
         saveAudioState();
-        window.location.href = "perguntas/pergunta01.html";
+        window.location.href = "perguntas-dinamicas.html";
       };
+
+      // Permitir pressionar Enter no campo de nome
+      nameInput.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          nextBtn.click();
+        }
+      });
 
       // Fechar overlay ao clicar fora do conteúdo
       overlay.onclick = function (event) {
@@ -430,6 +498,7 @@
           overlay.style.display = "none";
           happyCharacter.src = "";
           speech.textContent = "";
+          nameInput.value = "";
         }
       };
 

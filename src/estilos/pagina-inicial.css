@@ -47,7 +47,6 @@
   overflow-y: auto;
   box-sizing: border-box;
   color: var(--text-light);
-  text-shadow: var(--shadow-text);
   position: relative;
 }
 
@@ -122,8 +121,9 @@
 
 /* === SEÇÕES DE CONTEÚDO (CARDS) === */
 .card {
-  background: rgba(255, 255, 255, 0.9);
-  color: #333;
+  background: rgba(221, 181, 255, 0.4);
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   padding: 2rem;
   margin: 2rem;
   border-radius: 15px;
@@ -135,7 +135,8 @@
 }
 
 .card h2 {
-  color: #f4750d;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   margin-bottom: 1.5rem;
   text-align: center;
 }

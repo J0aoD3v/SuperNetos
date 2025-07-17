@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../recursos/audio/favicon.ico"
+      type="image/x-icon"
+    />
+    <title>SuperNetos - Perguntas Dinâmicas</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+      * {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+      }
+
+      @font-face {
+        font-family: "Material Symbols Rounded";
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v226/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOcbTCVpeRL2w5rwZu2rIelXxc.woff2)
+          format("woff2");
+      }
+
+      .material-symbols-rounded {
+        font-family: "Material Symbols Rounded";
+        font-weight: normal;
+        font-style: normal;
+        font-size: auto;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        font-feature-settings: "liga";
+        -moz-font-feature-settings: "liga";
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      #screen_rotation_icon {
+        font-size: 64px;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        height: 100%;
+        font-family: "Arial Black", Arial, sans-serif;
+      }
+
+      #box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        aspect-ratio: 16/9;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        background-image: url("../recursos/imagens/interface/background.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      @media (min-aspect-ratio: 16/9) {
+        #box {
+          width: auto;
+          height: 100vh;
+        }
+
+        #overlay {
+          display: none;
+        }
+      }
+
+      @media (max-aspect-ratio: 16/9) {
+        #box {
+          width: 100vw;
+          height: auto;
+        }
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(49, 49, 49);
+        color: white;
+        text-align: center;
+        font-size: 1.5em;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      @media (max-aspect-ratio: 0.999/1) {
+        .overlay {
+          display: flex;
+        }
+
+        #box {
+          display: none;
+        }
+      }
+
+      #rectangle2 {
+        position: absolute;
+        width: 65vw;
+        height: 45vw;
+        border-radius: 4vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1;
+        transition: background-color 0.3s ease;
+      }
+
+      #rectangle1 {
+        position: absolute;
+        width: calc(65vw - 3vh);
+        height: 45vw;
+        border-radius: 4vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0.5) 0%,
+          rgba(255, 255, 255, 0) 20%
+        );
+        box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.25);
+        transition: background-color 0.3s ease;
+      }
+
+      #content {
+        width: 100%;
+        height: 100%;
+        border-radius: 4vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: rgba(255, 255, 255);
+        font-weight: bold;
+      }
+
+      .titulo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8em;
+        text-shadow: 0 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
+      }
+
+      #txt {
+        font-size: 3.2em;
+        transition: all 0.3s ease;
+        margin: 0.5em 0;
+        font-weight: bold;
+      }
+
+      .volume_off {
+        font-size: 3.5em;
+        border: none;
+        background: none;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+        color: white;
+      }
+
+      .volume_off:hover {
+        transform: scale(1.1);
+      }
+
+      .volume_off:active {
+        transform: scale(0.95);
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-shadow: 0 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
+      }
+
+      #txtbuttons {
+        font-size: 1.5em;
+      }
+
+      .buttons p {
+        font-size: 1.8em;
+        font-weight: bold;
+        margin: 0 1vw;
+      }
+
+      .buttons button {
+        margin: 1vw;
+        padding: 1vw 1vw;
+        border-radius: 1vw;
+        border: none;
+        color: white;
+        font-size: 32px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.1s ease;
+      }
+
+      .buttons button:hover {
+        transform: scale(1.1);
+      }
+
+      .buttons button:active {
+        transform: scale(0.95);
+      }
+
+      #separador {
+        width: 5vw;
+      }
+
+      .thumb-up {
+        background-color: #00c853;
+      }
+
+      .thumb-down {
+        background-color: #d50000;
+      }
+
+      .illustration {
+        position: relative;
+        margin-bottom: 1vh;
+        aspect-ratio: 386/207;
+        width: auto;
+        height: 60%;
+        border-radius: 5vw;
+        border-color: rgb(217, 255, 255);
+        border-width: 0.4vw;
+        border-style: solid;
+        background-color: lightgray;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: background-image 0.3s ease;
+      }
+
+      .ai-label {
+        font-size: 0.8em;
+        color: #292929;
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 0.5vh 1vw;
+        border-radius: 1vw;
+        margin-bottom: 2vh;
+        font-style: italic;
+        text-align: center;
+      }
+
+      /* Personagem no lado direito */
+      .character-sidebar {
+        position: absolute;
+        right: 2vw;
+        top: 75%;
+        transform: translateY(-50%);
+        width: 15vw;
+        height: 35vw;
+        min-width: 150px;
+        min-height: 180px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        z-index: 5;
+        border-radius: 2vw;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        transition: transform 0.3s ease;
+      }
+
+      .character-sidebar:hover {
+        transform: translateY(-50%) scale(1.05);
+      }
+
+      /* Contador de pergunta */
+      .question-counter {
+        position: absolute;
+        top: 2vw;
+        right: 2vw;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 1vw 2vw;
+        border-radius: 2vw;
+        font-size: 1.2em;
+        font-weight: bold;
+        z-index: 10;
+      }
+
+      /* Controle de volume discreto */
+      .volume-control {
+        position: absolute;
+        top: 2vw;
+        left: 2vw;
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 4vw;
+        height: 4vw;
+        min-width: 50px;
+        min-height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        z-index: 10;
+        font-size: 1.5em;
+      }
+
+      .volume-control:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      /* Animação de transição */
+      .fade-transition {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .fade-transition.show {
+        opacity: 1;
+      }
+
+      /* Sistema de balão de fala */
+      .speech-bubble-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        cursor: pointer;
+      }
+
+      .speech-bubble-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2vw;
+        max-width: 80vw;
+        flex-direction: row;
+      }
+
+      .character-image {
+        width: 35vw;
+        height: 35vw;
+        min-width: 250px;
+        min-height: 250px;
+        max-width: 400px;
+        max-height: 400px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 15px;
+        animation: characterBounce 2s infinite ease-in-out;
+      }
+
+      @media (max-width: 768px) {
+        .speech-bubble-container {
+          flex-direction: column;
+          gap: 3vw;
+        }
+
+        .speech-bubble {
+          max-width: 70vw;
+        }
+
+        .speech-bubble::before {
+          left: 50%;
+          top: -20px;
+          transform: translateX(-50%);
+          border-left: 20px solid transparent;
+          border-right: 20px solid transparent;
+          border-bottom: 20px solid white;
+          border-top: none;
+        }
+      }
+
+      @keyframes characterBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .speech-bubble {
+        position: relative;
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        animation: bubbleAppear 0.5s ease-out;
+      }
+
+      @keyframes bubbleAppear {
+        0% {
+          opacity: 0;
+          transform: scale(0.8) translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+
+      .speech-bubble::before {
+        content: "";
+        position: absolute;
+        left: -20px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        border-right: 20px solid white;
+      }
+
+      .speech-text {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin: 0;
+        line-height: 1.3;
+      }
+
+      .speech-text.success {
+        color: #4caf50;
+      }
+
+      .speech-text.error {
+        color: #f44336;
+      }
+
+      .click-hint {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Overlay invisível para carregar JSON */
+      .invisible-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        z-index: 3000;
+        cursor: pointer;
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <audio
+      id="bg-music"
+      src="../recursos/audio/background_music.mp3"
+      loop
+    ></audio>
+
+    <div class="overlay">
+      <span class="material-symbols-rounded" id="screen_rotation_icon"
+        >screen_rotation</span
+      >
+      <p>Vire a tela na horizontal</p>
+    </div>
+
+    <div id="box">
+      <div class="question-counter">
+        <span id="current-question">1</span> /
+        <span id="total-questions">5</span>
+      </div>
+
+      <button
+        class="volume-control"
+        id="volumeBtn"
+        title="Controlar música de fundo"
+      >
+        <span class="material-symbols-rounded" id="vol-icon">volume_off</span>
+      </button>
+
+      <div id="rectangle1">
+        <div id="content">
+          <div class="titulo">
+            <button
+              class="volume_off"
+              id="speakBtn"
+              title="Clique para ouvir a pergunta"
+            >
+              <span class="material-symbols-rounded" id="speak-icon"
+                >volume_up</span
+              >
+            </button>
+            <p id="txt">Carregando...</p>
+          </div>
+
+          <div class="buttons">
+            <button class="thumb-up" id="btn-sim">
+              <span class="material-symbols-rounded">thumb_up</span>
+            </button>
+            <p id="txt-sim">PODE</p>
+            <div id="separador"></div>
+            <button class="thumb-down" id="btn-nao">
+              <span class="material-symbols-rounded">thumb_down</span>
+            </button>
+            <p id="txt-nao">NÃO PODE</p>
+          </div>
+
+          <div class="illustration" id="illustration"></div>
+          <div class="ai-label">Imagem criada por inteligência artificial</div>
+        </div>
+      </div>
+
+      <!-- Personagem no lado direito -->
+      <div class="character-sidebar" id="character-sidebar"></div>
+
+      <div id="rectangle2"></div>
+    </div>
+
+    <!-- Sistema de balão de fala -->
+    <div class="speech-bubble-overlay" id="speech-overlay">
+      <div class="speech-bubble-container">
+        <div class="character-image" id="character-image"></div>
+        <div class="speech-bubble">
+          <p class="speech-text" id="speech-text">Texto do balão</p>
+        </div>
+      </div>
+      <div class="click-hint">Clique em qualquer lugar para continuar</div>
+    </div>
+
+    <!-- Overlay invisível para carregar JSON -->
+    <div class="invisible-loader" id="invisible-loader"></div>
+
+    <!-- Input file invisível para contornar CORS -->
+    <input
+      type="file"
+      id="json-file-input"
+      accept=".json"
+      style="display: none"
+    />
+
+    <script>
+      let perguntasConfig = [];
+      let perguntaAtual = 0;
+      let pontuacao = 0;
+      let totalAttempts = 0;
+      let personagemEscolhido = null; // menino ou menina
+      let aguardandoProximaPergunta = false;
+
+      // URL do JSONBin com suas perguntas
+      const JSONBIN_URL =
+        "https://api.jsonbin.io/v3/b/687873846063391d31af35f2";
+
+      // Carregar configurações das perguntas do JSONBin ou arquivo local
+      async function carregarPerguntas() {
+        try {
+          console.log("Tentando carregar do JSONBin...");
+
+          // Tentar carregar do JSONBin primeiro
+          const response = await fetch(JSONBIN_URL);
+          if (!response.ok) {
+            throw new Error(`JSONBin error! status: ${response.status}`);
+          }
+
+          const data = await response.json();
+
+          // JSONBin retorna os dados dentro de 'record'
+          const perguntasData = data.record || data;
+
+          if (
+            perguntasData.perguntas &&
+            Array.isArray(perguntasData.perguntas)
+          ) {
+            perguntasConfig = perguntasData.perguntas;
+            document.getElementById("total-questions").textContent =
+              perguntasConfig.length;
+
+            console.log(
+              `✅ ${perguntasConfig.length} perguntas carregadas do JSONBin!`
+            );
+
+            // Esconder overlay invisível e mostrar primeira pergunta
+            document.getElementById("invisible-loader").style.display = "none";
+            mostrarPergunta(0);
+          } else {
+            throw new Error("Formato JSON inválido no JSONBin");
+          }
+        } catch (error) {
+          console.warn("Erro ao carregar do JSONBin:", error.message);
+          console.log("Tentando carregar arquivo local...");
+
+          // Se falhar, usar o seletor de arquivo como fallback
+          carregarArquivoLocal();
+        }
+      }
+
+      // Fallback: carregar arquivo local
+      function carregarArquivoLocal() {
+        // Simular clique no input file para abrir seletor
+        const fileInput = document.getElementById("json-file-input");
+        fileInput.click();
+      }
+
+      // Processar arquivo JSON selecionado
+      function processarArquivoJSON(file) {
+        if (!file.name.toLowerCase().endsWith(".json")) {
+          document.getElementById("txt").textContent =
+            "Erro: Selecione um arquivo JSON";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            const data = JSON.parse(e.target.result);
+
+            if (data.perguntas && Array.isArray(data.perguntas)) {
+              const perguntasValidas = data.perguntas.every(
+                (p) =>
+                  p.id &&
+                  p.pergunta &&
+                  p.resposta_correta &&
+                  p.rectangle1_background_color &&
+                  p.rectangle2_background_color &&
+                  p.ilustracao &&
+                  p.opcoes
+              );
+
+              if (perguntasValidas) {
+                perguntasConfig = data.perguntas;
+                document.getElementById("total-questions").textContent =
+                  perguntasConfig.length;
+
+                // Esconder overlay invisível e mostrar primeira pergunta
+                document.getElementById("invisible-loader").style.display =
+                  "none";
+                mostrarPergunta(0);
+              } else {
+                document.getElementById("txt").textContent =
+                  "Erro: Estrutura do JSON inválida";
+              }
+            } else {
+              document.getElementById("txt").textContent =
+                "Erro: JSON deve conter 'perguntas'";
+            }
+          } catch (error) {
+            document.getElementById("txt").textContent =
+              "Erro ao processar JSON: " + error.message;
+          }
+        };
+
+        reader.onerror = function () {
+          document.getElementById("txt").textContent = "Erro ao ler o arquivo";
+        };
+
+        reader.readAsText(file);
+      }
+
+      // Atualizar personagem na sidebar
+      function atualizarPersonagemSidebar(emocao = "normal") {
+        const characterSidebar = document.getElementById("character-sidebar");
+        const imagemPersonagem = `url('../recursos/imagens/personagens/${personagemEscolhido}_${emocao}.png')`;
+        characterSidebar.style.backgroundImage = imagemPersonagem;
+      }
+
+      // Função para falar a pergunta (preparada para áudios futuros)
+      function falarPergunta() {
+        if (
+          perguntasConfig.length === 0 ||
+          perguntaAtual >= perguntasConfig.length
+        ) {
+          return;
+        }
+
+        const pergunta = perguntasConfig[perguntaAtual];
+
+        // Animar personagem falando
+        atualizarPersonagemSidebar("feliz");
+
+        // TODO: Aqui será implementado o áudio da fala
+        // const audio = new Audio(`../recursos/audio/perguntas/pergunta_${pergunta.id}.mp3`);
+        // audio.play();
+
+        // Mostrar balão de fala com a pergunta
+        mostrarBalaoFala(pergunta.pergunta, "normal", () => {
+          atualizarPersonagemSidebar("normal");
+        });
+
+        // Voltar ao normal após 3 segundos
+        setTimeout(() => {
+          atualizarPersonagemSidebar("normal");
+        }, 3000);
+      }
+
+      // Mostrar balão de fala com personagem
+      function mostrarBalaoFala(texto, emocao = "normal", callback = null) {
+        const overlay = document.getElementById("speech-overlay");
+        const characterImage = document.getElementById("character-image");
+        const speechText = document.getElementById("speech-text");
+
+        // Definir imagem do personagem baseada na emoção
+        const imagemPersonagem = `url('../recursos/imagens/personagens/${personagemEscolhido}_${emocao}.png')`;
+        characterImage.style.backgroundImage = imagemPersonagem;
+
+        // Definir texto e estilo
+        speechText.textContent = texto;
+        speechText.className = "speech-text";
+        if (emocao === "feliz") {
+          speechText.classList.add("success");
+        } else if (emocao === "triste") {
+          speechText.classList.add("error");
+        }
+
+        // Mostrar overlay
+        overlay.style.display = "flex";
+
+        // Configurar clique para fechar
+        overlay.onclick = function () {
+          overlay.style.display = "none";
+          overlay.onclick = null; // Remover listener
+          if (callback) {
+            callback();
+          }
+        };
+      }
+
+      // Mostrar pergunta específica
+      function mostrarPergunta(index) {
+        if (index >= perguntasConfig.length) {
+          mostrarResultadoFinal();
+          return;
+        }
+
+        const pergunta = perguntasConfig[index];
+        perguntaAtual = index;
+
+        // Atualizar contador
+        document.getElementById("current-question").textContent = index + 1;
+
+        // Atualizar conteúdo
+        document.getElementById("txt").textContent = pergunta.pergunta;
+        document.getElementById("txt-sim").textContent = pergunta.opcoes.sim;
+        document.getElementById("txt-nao").textContent = pergunta.opcoes.nao;
+
+        // Atualizar cores
+        const rectangle1 = document.getElementById("rectangle1");
+        const rectangle2 = document.getElementById("rectangle2");
+
+        rectangle1.style.backgroundColor = pergunta.rectangle1_background_color;
+        rectangle2.style.backgroundColor = pergunta.rectangle2_background_color;
+
+        // Atualizar ilustração
+        const illustration = document.getElementById("illustration");
+        illustration.style.backgroundImage = `url('../recursos/imagens/ilustracoes/${pergunta.ilustracao}')`;
+
+        // Atualizar personagem
+        atualizarPersonagemSidebar("normal");
+
+        // Adicionar animação
+        const content = document.getElementById("content");
+        content.classList.add("fade-transition");
+        setTimeout(() => {
+          content.classList.add("show");
+        }, 100);
+      }
+
+      // Processar resposta
+      function processarResposta(resposta) {
+        if (aguardandoProximaPergunta) return; // Evitar cliques múltiplos
+
+        const pergunta = perguntasConfig[perguntaAtual];
+        totalAttempts++;
+        aguardandoProximaPergunta = true;
+
+        const acertou = resposta === pergunta.resposta_correta;
+
+        if (acertou) {
+          pontuacao++;
+          mostrarBalaoFala("Escolha correta! 🎉", "feliz", () => {
+            aguardandoProximaPergunta = false;
+            perguntaAtual++;
+            mostrarPergunta(perguntaAtual);
+          });
+        } else {
+          mostrarBalaoFala(
+            "Ops! Tente pensar melhor na próxima! 🤔",
+            "triste",
+            () => {
+              aguardandoProximaPergunta = false;
+              perguntaAtual++;
+              mostrarPergunta(perguntaAtual);
+            }
+          );
+        }
+
+        // Salvar progresso
+        updateGameProgress(
+          pergunta.id,
+          resposta === "sim" ? 1 : 0,
+          totalAttempts
+        );
+      }
+
+      // Mostrar resultado final
+      function mostrarResultadoFinal() {
+        // Salvar resultado final
+        const resultadoFinal = {
+          acertos: pontuacao,
+          total: perguntasConfig.length,
+          percentual: Math.round((pontuacao / perguntasConfig.length) * 100),
+          tentativas: totalAttempts,
+        };
+
+        localStorage.setItem("finalScore", JSON.stringify(resultadoFinal));
+
+        // Mostrar mensagem final com personagem
+        const percentual = resultadoFinal.percentual;
+        let mensagem, emocao;
+
+        if (percentual >= 70) {
+          mensagem = "🎉 Parabéns! Você foi incrível! 🎉";
+          emocao = "feliz";
+        } else if (percentual >= 50) {
+          mensagem = "😊 Bom trabalho! Você pode melhorar! 😊";
+          emocao = "normal";
+        } else {
+          mensagem = "🤔 Continue tentando! Você vai conseguir! 🤔";
+          emocao = "triste";
+        }
+
+        mostrarBalaoFala(mensagem, emocao, () => {
+          // Redirecionar para a tela de resultados após clique
+          window.location.href = "resultados.html";
+        });
+      }
+
+      // Funções de áudio (mantidas do original)
+      function setVolumeIcon(isMuted) {
+        document.getElementById("vol-icon").textContent = isMuted
+          ? "volume_off"
+          : "volume_up";
+      }
+
+      function syncBGMusicWithState() {
+        const audio = document.getElementById("bg-music");
+        const muted = localStorage.getItem("bgMusicMuted") === "1";
+        setVolumeIcon(muted);
+        audio.volume = 0.3;
+        audio.muted = muted;
+        if (!muted && window.__musicStarted) {
+          audio.play().catch(() => {});
+        } else {
+          audio.pause();
+        }
+      }
+
+      function updateGameProgress(question, answer, attempts) {
+        let gameData = JSON.parse(localStorage.getItem("gameProgress")) || [];
+        let existingQuestionIndex = gameData.findIndex(
+          (item) => item.pergunta === question
+        );
+
+        if (existingQuestionIndex === -1) {
+          gameData.push({
+            pergunta: question,
+            resposta: answer,
+            quantidade: attempts,
+          });
+        } else {
+          gameData[existingQuestionIndex] = {
+            pergunta: question,
+            resposta: answer,
+            quantidade: attempts,
+          };
+        }
+        localStorage.setItem("gameProgress", JSON.stringify(gameData));
+      }
+
+      // Event Listeners
+      document.addEventListener("DOMContentLoaded", function () {
+        // Carregar personagem escolhido (padrão: menino)
+        personagemEscolhido =
+          localStorage.getItem("personagemEscolhido") ||
+          localStorage.getItem("selectedCharacter") ||
+          "menino";
+
+        // Configurar personagem na sidebar
+        atualizarPersonagemSidebar("normal");
+
+        // Mostrar texto "Carregando..." e overlay invisível
+        document.getElementById("txt").textContent = "Carregando...";
+        const invisibleLoader = document.getElementById("invisible-loader");
+        invisibleLoader.style.display = "block";
+
+        // Configurar input file
+        const fileInput = document.getElementById("json-file-input");
+        fileInput.addEventListener("change", function (e) {
+          if (e.target.files.length > 0) {
+            processarArquivoJSON(e.target.files[0]);
+          }
+        });
+
+        // Configurar clique no overlay invisível para carregar JSON
+        invisibleLoader.addEventListener("click", function () {
+          carregarPerguntas();
+        });
+
+        // Configurar áudio
+        const audio = document.getElementById("bg-music");
+        audio.volume = 0.3;
+        audio.muted = localStorage.getItem("bgMusicMuted") === "1";
+        setVolumeIcon(audio.muted);
+
+        // Botão de controle de volume
+        document
+          .getElementById("volumeBtn")
+          .addEventListener("click", function () {
+            const currentlyMuted = localStorage.getItem("bgMusicMuted") === "1";
+            localStorage.setItem("bgMusicMuted", currentlyMuted ? "0" : "1");
+            syncBGMusicWithState();
+            if (!currentlyMuted) {
+              window.__musicStarted = true;
+              syncBGMusicWithState();
+            }
+          });
+
+        // Botão de fala da pergunta
+        document
+          .getElementById("speakBtn")
+          .addEventListener("click", function () {
+            falarPergunta();
+          });
+
+        // Botões de resposta
+        document.getElementById("btn-sim").addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (!aguardandoProximaPergunta) {
+            processarResposta("sim");
+          }
+        });
+        document.getElementById("btn-nao").addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (!aguardandoProximaPergunta) {
+            processarResposta("nao");
+          }
+        });
+
+        // Iniciar música após interação
+        function tryPlayMusicAfterInteraction() {
+          if (localStorage.getItem("bgMusicMuted") === "0") {
+            window.__musicStarted = true;
+            syncBGMusicWithState();
+          }
+          document.body.removeEventListener(
+            "click",
+            tryPlayMusicAfterInteraction
+          );
+        }
+        document.body.addEventListener("click", tryPlayMusicAfterInteraction);
+      });
+    </script>
+  </body>
+</html>

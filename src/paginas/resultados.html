@@ -152,6 +152,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 2;
+        overflow: hidden;
 
         /* Adiciona o brilho no topo */
         background: linear-gradient(
@@ -175,35 +176,110 @@
         align-items: center;
         text-align: center;
         color: whitesmoke;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        padding: 2vh 3vw;
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: hidden;
+        position: relative;
+        z-index: 2;
       }
 
       .result-title {
-        font-size: 2em;
-        margin-bottom: 1em;
+        font-size: 1.8em;
+        margin-bottom: 0.5em;
+        word-wrap: break-word;
+        max-width: 100%;
+      }
+
+      .confetti-gif {
+        position: absolute;
+        width: 90%;
+        height: 90%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 3vw;
+        z-index: 1;
+        opacity: 1;
+        object-fit: cover;
       }
 
       .result-illustration {
         width: 100%;
-        height: 200px;
+        height: 15vh;
         background-size: cover;
         background-position: center;
-        border-radius: 4vw;
-        margin-bottom: 1em;
+        border-radius: 2vw;
+        margin-bottom: 1vh;
       }
 
       .result-text {
-        font-size: 1.5em;
-        margin-bottom: 1em;
+        font-size: 1.2em;
+        margin-bottom: 1vh;
+        word-wrap: break-word;
+        max-width: 100%;
+        line-height: 1.4;
+      }
+
+      #game-progress {
+        font-size: 1em;
+        margin-bottom: 1.5vh;
+        word-wrap: break-word;
+        max-width: 100%;
+        line-height: 1.3;
+      }
+
+      #game-progress h3 {
+        font-size: 1.3em;
+        margin: 1vh 0;
+      }
+
+      #game-progress p {
+        margin: 0.5vh 0;
+        font-size: 0.9em;
       }
 
       .restart-button {
-        padding: 1em 2em;
+        padding: 1.5vh 3vw;
         font-size: 1em;
         border: none;
-        border-radius: 4vw;
+        border-radius: 2vw;
         background-color: #00c853;
         color: white;
         cursor: pointer;
+        min-height: 5vh;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      .restart-button:hover {
+        background-color: #00a142;
+      }
+
+      .export-button {
+        padding: 1vh 2vw;
+        font-size: 0.8em;
+        border: none;
+        border-radius: 2vw;
+        background-color: #2196f3;
+        color: white;
+        cursor: pointer;
+        min-height: 4vh;
+        font-weight: bold;
+        transition: background-color 0.3s;
+      }
+
+      .export-button:hover {
+        background-color: #1976d2;
+      }
+
+      .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3vh;
+        margin-top: 2vh;
       }
     </style>
   </head>
@@ -223,14 +299,25 @@
     </div>
     <div id="box">
       <div id="rectangle1">
+        <img
+          src="../recursos/imagens/interface/parabens_confete.gif"
+          alt="Parabéns!"
+          class="confetti-gif"
+          id="confetti-gif"
+        />
         <div id="content">
           <div id="game-progress"></div>
           <div class="result-text" id="result-message">
             Carregando resultados...
           </div>
-          <button class="restart-button" onclick="restartGame()">
-            JOGAR NOVAMENTE
-          </button>
+          <div class="button-container">
+            <button class="restart-button" onclick="restartGame()">
+              JOGAR NOVAMENTE
+            </button>
+            <button class="export-button" onclick="exportarResultados()">
+              📊 EXPORTAR CSV
+            </button>
+          </div>
         </div>
       </div>
       <div id="rectangle2"></div>
@@ -257,40 +344,110 @@
         // Retrieve game progress and total attempts from localStorage
         const gameProgress =
           JSON.parse(localStorage.getItem("gameProgress")) || [];
-        const totalAttempts =
-          parseInt(localStorage.getItem("totalAttempts")) || 0;
+
+        // Tentar carregar dados do finalScore primeiro (sistema dinâmico)
+        const finalScore =
+          JSON.parse(localStorage.getItem("finalScore")) || null;
+        let totalAttempts = 0;
+
+        if (finalScore) {
+          // Usar dados do sistema dinâmico
+          totalAttempts = finalScore.tentativas || 0;
+        } else {
+          // Fallback para sistema antigo
+          totalAttempts = parseInt(localStorage.getItem("totalAttempts")) || 0;
+        }
 
         const gameProgressElement = document.getElementById("game-progress");
         const resultMessageElement = document.getElementById("result-message");
 
+        // Display final score summary if available
+        if (finalScore) {
+          let summaryHTML = `
+            <h3>🎯 Resultado Final</h3>
+            <p><strong>Acertos:</strong> ${finalScore.acertos}/${finalScore.total}</p>
+            <p><strong>Pontuação:</strong> ${finalScore.percentual}%</p>
+            <p><strong>Tentativas:</strong> ${finalScore.tentativas}</p>
+            <hr style="margin: 1.5vh 0; border-color: #fcfc00; opacity: 0.7;">
+          `;
+          gameProgressElement.innerHTML =
+            summaryHTML + (gameProgressElement.innerHTML || "");
+        }
+
         // Display game progress
         if (gameProgress.length > 0) {
-          let progressHTML = "<h3>Progresso do Jogo:</h3>";
-          gameProgress.forEach((item) => {
+          let progressHTML = "<h3>📊 Detalhes</h3>";
+          gameProgress.forEach((item, index) => {
             progressHTML += `
                         <p>
-                            Pergunta ${item.pergunta}: 
-                            Resposta: ${item.resposta === 1 ? "Sim" : "Não"}, 
-                            Tentativas: ${totalAttempts}
+                            P${item.pergunta}: ${
+              item.resposta === 1 ? "✅ Sim" : "❌ Não"
+            }
                         </p>
                     `;
           });
-          gameProgressElement.innerHTML = progressHTML;
 
-          // Determine result message based on the first question's answer
-          const firstQuestion = gameProgress[0];
-          if (firstQuestion.resposta === 0) {
-            resultMessageElement.innerHTML = `
-                        PARABÉNS, VOCÊ ACERTOU!
-                    `;
+          if (!finalScore) {
+            // Só mostrar tentativas se não tiver finalScore
+            gameProgressElement.innerHTML = progressHTML;
           } else {
-            resultMessageElement.innerHTML = `
-                        VOCÊ ERROU!
-                    `;
+            // Adicionar progresso detalhado ao resumo
+            gameProgressElement.innerHTML += progressHTML;
+          }
+
+          // Determine result message
+          if (finalScore) {
+            // Usar dados do sistema dinâmico
+            if (finalScore.percentual >= 70) {
+              resultMessageElement.innerHTML = `
+                <h2>🎉 PARABÉNS!</h2>
+                <p>Excelente desempenho!</p>
+              `;
+            } else if (finalScore.percentual >= 50) {
+              resultMessageElement.innerHTML = `
+                <h2>😊 BOM TRABALHO!</h2>
+                <p>Você pode melhorar!</p>
+              `;
+            } else {
+              resultMessageElement.innerHTML = `
+                <h2>🤔 TENTE NOVAMENTE!</h2>
+                <p>Na próxima você consegue!</p>
+              `;
+            }
+          } else if (gameProgress.length > 0) {
+            // Lógica original para compatibilidade
+            const firstQuestion = gameProgress[0];
+            if (firstQuestion.resposta === 0) {
+              resultMessageElement.innerHTML = `<h2>🎉 PARABÉNS!</h2><p>Você acertou!</p>`;
+            } else {
+              resultMessageElement.innerHTML = `<h2>🤔 TENTE NOVAMENTE!</h2><p>Você errou!</p>`;
+            }
           }
         } else {
-          gameProgressElement.innerHTML = "<p>Sem progresso do jogo</p>";
-          resultMessageElement.innerHTML = "Nenhum resultado encontrado.";
+          if (finalScore) {
+            // Mostrar resultado mesmo sem progresso detalhado
+            gameProgressElement.innerHTML = `
+              <h3>🎯 Resultado Final</h3>
+              <p><strong>Acertos:</strong> ${finalScore.acertos}/${finalScore.total}</p>
+              <p><strong>Pontuação:</strong> ${finalScore.percentual}%</p>
+              <p><strong>Tentativas:</strong> ${finalScore.tentativas}</p>
+            `;
+
+            if (finalScore.percentual >= 70) {
+              resultMessageElement.innerHTML = `
+                <h2>🎉 PARABÉNS!</h2>
+                <p>Excelente desempenho!</p>
+              `;
+            } else {
+              resultMessageElement.innerHTML = `
+                <h2>😊 BOM TRABALHO!</h2>
+                <p>Continue praticando!</p>
+              `;
+            }
+          } else {
+            gameProgressElement.innerHTML = "<p>📊 Sem dados do jogo</p>";
+            resultMessageElement.innerHTML = "<h2>🎮 Comece um novo jogo!</h2>";
+          }
         }
       });
 
@@ -302,9 +459,112 @@
         localStorage.removeItem("progressoJogo");
         localStorage.removeItem("totalTentativas");
         localStorage.removeItem("personagemSelecionado");
+        localStorage.removeItem("personagemEscolhido");
+        localStorage.removeItem("finalScore");
+        localStorage.removeItem("playerName");
+        localStorage.removeItem("nomeJogador");
 
         // Redirect to the main game page
         window.location.href = "../../index.html";
+      }
+
+      function exportarResultados() {
+        // Recuperar dados do localStorage
+        const gameProgress =
+          JSON.parse(localStorage.getItem("gameProgress")) || [];
+        const finalScore =
+          JSON.parse(localStorage.getItem("finalScore")) || null;
+        // Tentar ambas as chaves para compatibilidade
+        const personagemSelecionado =
+          localStorage.getItem("selectedCharacter") ||
+          localStorage.getItem("personagemEscolhido") ||
+          "Não informado";
+        const nomeJogador =
+          localStorage.getItem("playerName") ||
+          localStorage.getItem("nomeJogador") ||
+          "Não informado";
+
+        // Preparar dados para CSV
+        let csvContent = "data:text/csv;charset=utf-8,";
+
+        // Cabeçalho do CSV
+        csvContent += "SuperNetos - Resultados do Jogo\n";
+        csvContent += "Data/Hora," + new Date().toLocaleString("pt-BR") + "\n";
+        csvContent += "Nome do Jogador," + nomeJogador + "\n";
+        csvContent += "Personagem Escolhido," + personagemSelecionado + "\n\n";
+        if (finalScore) {
+          // Resumo final
+          csvContent += "RESUMO FINAL\n";
+          csvContent += "Total de Perguntas," + finalScore.total + "\n";
+          csvContent += "Acertos," + finalScore.acertos + "\n";
+          csvContent +=
+            "Erros," + (finalScore.total - finalScore.acertos) + "\n";
+          csvContent += "Percentual de Acerto," + finalScore.percentual + "%\n";
+          csvContent += "Total de Tentativas," + finalScore.tentativas + "\n\n";
+        }
+
+        if (gameProgress.length > 0) {
+          // Detalhes por pergunta
+          csvContent += "DETALHES POR PERGUNTA\n";
+          csvContent += "Numero da Pergunta,Resposta Dada,Status\n";
+
+          gameProgress.forEach((item) => {
+            const resposta = item.resposta === 1 ? "Sim" : "Não";
+            const status = item.resposta === 1 ? "Correto" : "Incorreto";
+            csvContent += item.pergunta + "," + resposta + "," + status + "\n";
+          });
+        } else {
+          csvContent += "PROGRESSO DETALHADO\n";
+          csvContent += "Nenhum dado de progresso encontrado\n";
+        }
+
+        // Adicionar estatísticas adicionais
+        csvContent += "\nESTATÍSTICAS\n";
+        if (finalScore) {
+          const eficiencia =
+            finalScore.tentativas > 0
+              ? ((finalScore.acertos / finalScore.tentativas) * 100).toFixed(1)
+              : 0;
+          csvContent += "Eficiência (Acertos/Tentativas)," + eficiencia + "%\n";
+          csvContent +=
+            "Média de Tentativas por Pergunta," +
+            (finalScore.tentativas / finalScore.total).toFixed(1) +
+            "\n";
+        }
+
+        // Gerar nome do arquivo com data/hora
+        const agora = new Date();
+        const pad = (n) => n.toString().padStart(2, "0");
+        const timestamp =
+          agora.getFullYear().toString() +
+          pad(agora.getMonth() + 1) +
+          pad(agora.getDate()) +
+          "_" +
+          pad(agora.getHours()) +
+          pad(agora.getMinutes()) +
+          pad(agora.getSeconds());
+        const nomeArquivo = "SuperNetos_Resultados_" + timestamp + ".csv";
+
+        // Criar e baixar o arquivo
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", nomeArquivo);
+        link.style.display = "none";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        // Feedback visual
+        const exportButton = document.querySelector(".export-button");
+        const textoOriginal = exportButton.innerHTML;
+        exportButton.innerHTML = "✅ EXPORTADO!";
+        exportButton.style.backgroundColor = "#4caf50";
+
+        setTimeout(() => {
+          exportButton.innerHTML = textoOriginal;
+          exportButton.style.backgroundColor = "#2196f3";
+        }, 2000);
       }
     </script>
   </body>

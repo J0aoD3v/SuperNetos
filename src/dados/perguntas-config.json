@@ -1,0 +1,64 @@
+{
+  "perguntas": [
+    {
+      "id": 1,
+      "pergunta": "PODE EMPURRAR O VOVÔ?",
+      "rectangle1_background_color": "#f4750d",
+      "rectangle2_background_color": "#fcfc00",
+      "resposta_correta": "nao",
+      "ilustracao": "01.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 2,
+      "pergunta": "PODE BATER NO COLEGA?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#e91e63",
+      "rectangle2_background_color": "#80FF00",
+      "ilustracao": "02.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 3,
+      "pergunta": "PODE AJUDAR A MAMÃE?",
+      "rectangle1_background_color": "#2196f3",
+      "rectangle2_background_color": "#03dac6",
+      "resposta_correta": "sim",
+      "ilustracao": "03.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 4,
+      "pergunta": "PODE GRITAR NA ESCOLA?",
+      "rectangle1_background_color": "#ff5722",
+      "rectangle2_background_color": "#ffc107",
+      "resposta_correta": "nao",
+      "ilustracao": "04.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 5,
+      "pergunta": "PODE DIVIDIR O LANCHE?",
+      "rectangle1_background_color": "#4caf50",
+      "rectangle2_background_color": "#8bc34a",
+      "resposta_correta": "sim",
+      "ilustracao": "05.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    }
+  ]
+}
