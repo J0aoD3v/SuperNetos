@@ -36,6 +36,17 @@
 
     <!-- Container principal do jogo -->
     <div id="box" class="game-container">
+      <!-- Botão de Fullscreen -->
+      <button
+        class="fullscreen-button"
+        id="fullscreen-btn"
+        title="Entrar em tela cheia"
+      >
+        <span class="material-symbols-rounded" id="fullscreen-icon"
+          >fullscreen</span
+        >
+      </button>
+
       <!-- Cabeçalho com navegação -->
       <div class="header">
         <p class="logo"></p>
@@ -83,16 +94,6 @@
 
       <!-- Área de conteúdo principal -->
       <div id="content">
-        <!-- Botão de Fullscreen -->
-    <button
-      class="fullscreen-button"
-      id="fullscreen-btn"
-      title="Entrar em tela cheia"
-    >
-      <span class="material-symbols-rounded" id="fullscreen-icon"
-        >fullscreen</span
-      >
-    </button>
         <!-- Tela inicial do jogo -->
         <div id="inicio">
           <!-- Container da logo com controle de volume -->
@@ -233,92 +234,8 @@
 
     <script>
       /**
-       * Funcionalidade de Fullscreen
-       */
-      class FullscreenManager {
-        constructor() {
-          this.button = document.getElementById("fullscreen-btn");
-          this.icon = document.getElementById("fullscreen-icon");
-          this.isFullscreen = false;
-
-          this.init();
-        }
-
-        init() {
-          // Event listener para o botão
-          this.button.addEventListener("click", () => this.toggleFullscreen());
-
-          // Event listeners para mudanças de fullscreen
-          document.addEventListener("fullscreenchange", () =>
-            this.onFullscreenChange()
-          );
-          document.addEventListener("webkitfullscreenchange", () =>
-            this.onFullscreenChange()
-          );
-          document.addEventListener("mozfullscreenchange", () =>
-            this.onFullscreenChange()
-          );
-          document.addEventListener("MSFullscreenChange", () =>
-            this.onFullscreenChange()
-          );
-        }
-
-        toggleFullscreen() {
-          if (!this.isFullscreen) {
-            this.enterFullscreen();
-          } else {
-            this.exitFullscreen();
-          }
-        }
-
-        enterFullscreen() {
-          const element = document.documentElement;
-
-          if (element.requestFullscreen) {
-            element.requestFullscreen();
-          } else if (element.webkitRequestFullscreen) {
-            element.webkitRequestFullscreen();
-          } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-          } else if (element.msRequestFullscreen) {
-            element.msRequestFullscreen();
-          }
-        }
-
-        exitFullscreen() {
-          if (document.exitFullscreen) {
-            document.exitFullscreen();
-          } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
-          } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-          } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-          }
-        }
-
-        onFullscreenChange() {
-          this.isFullscreen = !!(
-            document.fullscreenElement ||
-            document.webkitFullscreenElement ||
-            document.mozFullScreenElement ||
-            document.msFullscreenElement
-          );
-
-          // Atualizar ícone e tooltip
-          if (this.isFullscreen) {
-            this.icon.textContent = "fullscreen_exit";
-            this.button.title = "Sair da tela cheia";
-          } else {
-            this.icon.textContent = "fullscreen";
-            this.button.title = "Entrar em tela cheia";
-          }
-        }
-      }
-
-      /**
        * Inicialização específica da página inicial
-       * Configura o controle de volume quando a página carrega
+       * Configura o controle de volume e fullscreen quando a página carrega
        */
       document.addEventListener("DOMContentLoaded", function () {
         // Cria o controle de volume na tela inicial
@@ -328,8 +245,8 @@
           left: "12px",
         });
 
-        // Inicializar gerenciador de fullscreen
-        new FullscreenManager();
+        // Inicializar gerenciador de fullscreen global
+        FullscreenManager.init();
       });
     </script>
   </body>
