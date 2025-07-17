@@ -126,43 +126,115 @@
         }
       }
 
-      #rectangle2 {
+      /* Tela inicial com apenas o GIF e texto */
+      .celebration-screen {
         position: absolute;
-        width: 65vw;
-        /* Ajustável conforme tela */
-        height: 45vw;
-        /* Mantém proporção */
-        background-color: #b8daf0;
-        border-radius: 4vw;
-        /* Mantém cantos arredondados proporcionais */
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        z-index: 10;
+        background: linear-gradient(45deg, #000428, #004e92);
+      }
+
+      .celebration-gif {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
         z-index: 1;
       }
 
-      #rectangle1 {
+      .celebration-text {
+        position: relative;
+        z-index: 2;
+        color: white;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+        font-weight: bold;
+        margin-bottom: 2vh;
+        text-align: center;
+      }
+
+      .celebration-title {
+        font-family: "Arial Black", Arial, sans-serif;
+        font-size: 88px;
+        margin-bottom: 0.2em;
+        color: #00d4ff;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+      }
+
+      .celebration-subtitle {
+        font-family: "Arial Black", Arial, sans-serif;
+        font-size: 40px;
+        margin-bottom: 0.5em;
+      }
+
+      .celebration-message {
+        font-size: 1.5em;
+        max-width: 80%;
+        line-height: 1.4;
+        text-align: center;
+        margin: 0 auto;
+      }
+
+      /* Botão de continuar */
+      .continue-button {
         position: absolute;
-        width: calc(65vw - 3vh);
-        /* 3px menor proporcionalmente */
+        bottom: 4vh;
+        right: 4vw;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(0, 212, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        font-size: 2em;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        z-index: 3;
+        animation: pulse 2s infinite;
+      }
+
+      .continue-button:hover {
+        background-color: rgba(0, 212, 255, 1);
+        transform: scale(1.1);
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 1;
+        }
+      }
+
+      /* Tela de resultados (inicialmente oculta) */
+      .results-screen {
+        position: absolute;
+        width: 65vw;
         height: 45vw;
-        background-color: #c8e9ff;
+        background-color: #3d3d3d;
         border-radius: 4vw;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: 2;
         overflow: hidden;
-
-        /* Adiciona o brilho no topo */
-        background: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0.5) 0%,
-            rgba(255, 255, 255, 0) 20%
-          ),
-          #c8e9ff;
-
-        /* Sombra externa */
+        display: none;
         box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.25);
       }
 
@@ -172,17 +244,18 @@
         border-radius: 4vw;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         text-align: center;
         color: whitesmoke;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        padding: 2vh 3vw;
+        padding: 3vh 3vw;
         box-sizing: border-box;
         overflow-y: auto;
         overflow-x: hidden;
         position: relative;
         z-index: 2;
+        min-height: 0;
       }
 
       .result-title {
@@ -203,6 +276,7 @@
         z-index: 1;
         opacity: 1;
         object-fit: cover;
+        display: none; /* Oculto inicialmente */
       }
 
       .result-illustration {
@@ -220,6 +294,7 @@
         word-wrap: break-word;
         max-width: 100%;
         line-height: 1.4;
+        flex-shrink: 0;
       }
 
       #game-progress {
@@ -228,6 +303,7 @@
         word-wrap: break-word;
         max-width: 100%;
         line-height: 1.3;
+        flex-shrink: 0;
       }
 
       #game-progress h3 {
@@ -280,6 +356,8 @@
         align-items: center;
         gap: 3vh;
         margin-top: 2vh;
+        flex-shrink: 0;
+        padding-bottom: 2vh;
       }
     </style>
   </head>
@@ -298,13 +376,25 @@
       <p>Vire a tela na horizontal</p>
     </div>
     <div id="box">
-      <div id="rectangle1">
+      <!-- Tela inicial de celebração -->
+      <div class="celebration-screen" id="celebration-screen">
         <img
           src="../recursos/imagens/interface/parabens_confete.gif"
           alt="Parabéns!"
-          class="confetti-gif"
-          id="confetti-gif"
+          class="celebration-gif"
         />
+        <div class="celebration-text">
+          <div class="celebration-title">PARABÉNS</div>
+          <div class="celebration-subtitle">VOCÊ É UM SUPER NETO</div>
+          <div class="celebration-message" id="celebration-message">
+            Seu vovô e sua vovó irão ficar muito orgulhosos de você!
+          </div>
+        </div>
+        <button class="continue-button" onclick="mostrarResultados()">▶</button>
+      </div>
+
+      <!-- Tela de resultados (inicialmente oculta) -->
+      <div class="results-screen" id="results-screen">
         <div id="content">
           <div id="game-progress"></div>
           <div class="result-text" id="result-message">
@@ -320,10 +410,16 @@
           </div>
         </div>
       </div>
-      <div id="rectangle2"></div>
     </div>
 
     <script>
+      // Função para mostrar os resultados detalhados
+      function mostrarResultados() {
+        document.getElementById("celebration-screen").style.display = "none";
+        document.getElementById("results-screen").style.display = "block";
+        document.getElementById("confetti-gif").style.display = "block";
+      }
+
       document.addEventListener("DOMContentLoaded", function () {
         // Gerenciamento de áudio de fundo - manter consistência
         const audio = document.getElementById("bg-music");
@@ -363,6 +459,21 @@
 
         // Display final score summary if available
         if (finalScore) {
+          // Atualizar mensagem de celebração baseada no desempenho
+          const celebrationMessage = document.getElementById(
+            "celebration-message"
+          );
+          if (finalScore.percentual >= 70) {
+            celebrationMessage.textContent =
+              "Excelente desempenho! Seu vovô e sua vovó irão ficar muito orgulhosos de você!";
+          } else if (finalScore.percentual >= 50) {
+            celebrationMessage.textContent =
+              "Bom trabalho! Continue praticando e você será um super neto ainda melhor!";
+          } else {
+            celebrationMessage.textContent =
+              "Continue tentando! Cada erro é uma oportunidade de aprender mais!";
+          }
+
           let summaryHTML = `
             <h3>🎯 Resultado Final</h3>
             <p><strong>Acertos:</strong> ${finalScore.acertos}/${finalScore.total}</p>

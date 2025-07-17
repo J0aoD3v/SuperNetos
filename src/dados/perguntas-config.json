@@ -2,10 +2,10 @@
   "perguntas": [
     {
       "id": 1,
-      "pergunta": "PODE EMPURRAR O VOVÔ?",
-      "rectangle1_background_color": "#f4750d",
-      "rectangle2_background_color": "#fcfc00",
+      "pergunta": "PODE EMPURRAR O VOVÔ PARA ELE CAIR?",
       "resposta_correta": "nao",
+      "rectangle1_background_color": "#F97407",
+      "rectangle2_background_color": "#FFFF00",
       "ilustracao": "01.png",
       "opcoes": {
         "sim": "PODE",
@@ -14,10 +14,10 @@
     },
     {
       "id": 2,
-      "pergunta": "PODE BATER NO COLEGA?",
+      "pergunta": "PODE PUXAR O BRAÇO DO  VOVÔ COM FORÇA?",
       "resposta_correta": "nao",
-      "rectangle1_background_color": "#e91e63",
-      "rectangle2_background_color": "#80FF00",
+      "rectangle1_background_color": "#2EB9E8",
+      "rectangle2_background_color": "#4472C4",
       "ilustracao": "02.png",
       "opcoes": {
         "sim": "PODE",
@@ -26,10 +26,10 @@
     },
     {
       "id": 3,
-      "pergunta": "PODE AJUDAR A MAMÃE?",
-      "rectangle1_background_color": "#2196f3",
-      "rectangle2_background_color": "#03dac6",
+      "pergunta": "DEVEMOS AJUDAR O VOVÔ A SUBIR AS ESCADAS COM SEGURANÇA? ",
       "resposta_correta": "sim",
+      "rectangle1_background_color": "#F094DE",
+      "rectangle2_background_color": "#C90784",
       "ilustracao": "03.png",
       "opcoes": {
         "sim": "PODE",
@@ -38,10 +38,10 @@
     },
     {
       "id": 4,
-      "pergunta": "PODE GRITAR NA ESCOLA?",
-      "rectangle1_background_color": "#ff5722",
-      "rectangle2_background_color": "#ffc107",
+      "pergunta": " PODE BATER NA VOVÓ?",
       "resposta_correta": "nao",
+      "rectangle1_background_color": "#92D050",
+      "rectangle2_background_color": "#00B050",
       "ilustracao": "04.png",
       "opcoes": {
         "sim": "PODE",
@@ -50,11 +50,23 @@
     },
     {
       "id": 5,
-      "pergunta": "PODE DIVIDIR O LANCHE?",
-      "rectangle1_background_color": "#4caf50",
-      "rectangle2_background_color": "#8bc34a",
-      "resposta_correta": "sim",
+      "pergunta": " PODE JOGAR PEDRAS NO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#FFD966",
+      "rectangle2_background_color": "#FFFF00",
       "ilustracao": "05.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 6,
+      "pergunta": "PRECISA PEDIR DESCULPAS PARA O VOVÔ?",
+      "resposta_correta": "sim",
+      "rectangle1_background_color": "#66B033",
+      "rectangle2_background_color": "#00FFFF",
+      "ilustracao": "06.png",
       "opcoes": {
         "sim": "PODE",
         "nao": "NÃO PODE"

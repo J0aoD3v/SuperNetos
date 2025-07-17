@@ -494,8 +494,8 @@
                             <div class="detalhe">
                                 <strong>Resposta:</strong> ${
                                   pergunta.resposta_correta === "sim"
-                                    ? "PODE"
-                                    : "NÃO PODE"
+                                    ? pergunta.opcoes?.sim || "SIM"
+                                    : pergunta.opcoes?.nao || "NÃO"
                                 }
                             </div>
                             <div class="detalhe">
@@ -560,13 +560,27 @@
                               pergunta.resposta_correta === "sim"
                                 ? "selected"
                                 : ""
-                            }>PODE</option>
+                            }>SIM</option>
                             <option value="nao" ${
                               pergunta.resposta_correta === "nao"
                                 ? "selected"
                                 : ""
-                            }>NÃO PODE</option>
+                            }>NÃO</option>
                         </select>
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label>Texto do Botão Positivo:</label>
+                        <input type="text" id="texto-sim-${index}" value="${
+          pergunta.opcoes?.sim || "SIM"
+        }" placeholder="SIM">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label>Texto do Botão Negativo:</label>
+                        <input type="text" id="texto-nao-${index}" value="${
+          pergunta.opcoes?.nao || "NÃO"
+        }" placeholder="NÃO">
                     </div>
                     
                     <div class="form-grupo">
@@ -657,8 +671,8 @@
           rectangle2_background_color: cor2,
           ilustracao: document.getElementById(`ilustracao-${index}`).value,
           opcoes: {
-            sim: "PODE",
-            nao: "NÃO PODE",
+            sim: document.getElementById(`texto-sim-${index}`).value || "SIM",
+            nao: document.getElementById(`texto-nao-${index}`).value || "NÃO",
           },
         };
 
@@ -689,8 +703,8 @@
           rectangle2_background_color: "#fcfc00",
           ilustracao: "01.png",
           opcoes: {
-            sim: "PODE",
-            nao: "NÃO PODE",
+            sim: "SIM",
+            nao: "NÃO",
           },
         };
 
