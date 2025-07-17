@@ -52,7 +52,7 @@ const SUPERNETOS = {
  */
 const Navegacao = {
   /**
-   * Navega para uma página salvando o estado do áudio e fullscreen
+   * Navega para uma página salvando o estado do áudio
    * @param {string} pagina - URL da página de destino
    */
   irPara(pagina) {
@@ -60,15 +60,6 @@ const Navegacao = {
     if (window.gerenciadorAudio) {
       window.gerenciadorAudio.salvarEstado();
     }
-
-    // Salvar estado do fullscreen
-    const isFullscreen = !!(
-      document.fullscreenElement ||
-      document.webkitFullscreenElement ||
-      document.mozFullScreenElement ||
-      document.msFullscreenElement
-    );
-    localStorage.setItem("fullscreenState", isFullscreen ? "1" : "0");
 
     window.location.href = pagina;
   },
@@ -421,131 +412,100 @@ const Dispositivo = {
 };
 
 /**
- * Gerenciador de Fullscreen Global
- * Mantém o estado de fullscreen entre páginas
+ * Sistema de Fullscreen Simples
+ * Usa overlay invisível e localStorage para manter estado entre páginas
  */
-const FullscreenManager = {
-  isFullscreen: false,
-  button: null,
-  icon: null,
+function inicializarFullscreen() {
+  // Cria overlay invisível se não existir
+  if (!document.getElementById("fullscreen-overlay")) {
+    const overlay = document.createElement("div");
+    overlay.id = "fullscreen-overlay";
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: -1;
+      pointer-events: none;
+    `;
+    document.body.appendChild(overlay);
+  }
 
-  /**
-   * Inicializa o gerenciador de fullscreen
-   * @param {string} buttonId - ID do botão de fullscreen
-   * @param {string} iconId - ID do ícone do botão
-   */
-  init(buttonId = "fullscreen-btn", iconId = "fullscreen-icon") {
-    this.button = document.getElementById(buttonId);
-    this.icon = document.getElementById(iconId);
+  // Função para entrar em fullscreen
+  window.entrarFullscreen = function () {
+    document.documentElement
+      .requestFullscreen()
+      .then(() => {
+        localStorage.setItem("fullscreen", "1");
+        // Atualizar ícone se existir
+        const icon = document.getElementById("fullscreen-icon");
+        const btn = document.getElementById("fullscreen-btn");
+        if (icon) icon.textContent = "fullscreen_exit";
+        if (btn) btn.title = "Sair da tela cheia";
+      })
+      .catch(console.warn);
+  };
 
-    if (!this.button || !this.icon) {
-      console.warn("FullscreenManager: Botão ou ícone não encontrado");
-      return;
-    }
+  // Função para sair do fullscreen
+  window.sairFullscreen = function () {
+    document
+      .exitFullscreen()
+      .then(() => {
+        localStorage.setItem("fullscreen", "0");
+        // Atualizar ícone se existir
+        const icon = document.getElementById("fullscreen-icon");
+        const btn = document.getElementById("fullscreen-btn");
+        if (icon) icon.textContent = "fullscreen";
+        if (btn) btn.title = "Entrar em tela cheia";
+      })
+      .catch(console.warn);
+  };
 
-    // Event listener para o botão
-    this.button.addEventListener("click", () => this.toggleFullscreen());
-
-    // Event listeners para mudanças de fullscreen
-    document.addEventListener("fullscreenchange", () =>
-      this.onFullscreenChange()
-    );
-    document.addEventListener("webkitfullscreenchange", () =>
-      this.onFullscreenChange()
-    );
-    document.addEventListener("mozfullscreenchange", () =>
-      this.onFullscreenChange()
-    );
-    document.addEventListener("MSFullscreenChange", () =>
-      this.onFullscreenChange()
-    );
-
-    // Restaurar estado de fullscreen se estava ativo
-    this.restoreFullscreenState();
-  },
-
-  /**
-   * Restaura o estado de fullscreen salvo
-   */
-  restoreFullscreenState() {
-    const wasFullscreen = localStorage.getItem("fullscreenState") === "1";
-    if (wasFullscreen) {
-      // Aguardar um pouco para garantir que a página foi totalmente carregada
-      setTimeout(() => {
-        this.enterFullscreen();
-      }, 100);
-    }
-  },
-
-  /**
-   * Alterna entre fullscreen e windowed
-   */
-  toggleFullscreen() {
-    if (!this.isFullscreen) {
-      this.enterFullscreen();
-    } else {
-      this.exitFullscreen();
-    }
-  },
-
-  /**
-   * Entra em modo fullscreen
-   */
-  enterFullscreen() {
-    const element = document.documentElement;
-
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
-    }
-  },
-
-  /**
-   * Sai do modo fullscreen
-   */
-  exitFullscreen() {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  },
-
-  /**
-   * Callback chamado quando o estado de fullscreen muda
-   */
-  onFullscreenChange() {
-    this.isFullscreen = !!(
+  // Função para alternar fullscreen
+  window.alternarFullscreen = function () {
+    const isFullscreen = !!(
       document.fullscreenElement ||
       document.webkitFullscreenElement ||
       document.mozFullScreenElement ||
       document.msFullscreenElement
     );
 
-    // Salvar estado atual no localStorage
-    localStorage.setItem("fullscreenState", this.isFullscreen ? "1" : "0");
+    if (isFullscreen) {
+      window.sairFullscreen();
+    } else {
+      window.entrarFullscreen();
+    }
+  };
 
-    // Atualizar ícone e tooltip se existirem
-    if (this.icon && this.button) {
-      if (this.isFullscreen) {
-        this.icon.textContent = "fullscreen_exit";
-        this.button.title = "Sair da tela cheia";
+  // Restaurar fullscreen ao carregar página
+  if (localStorage.getItem("fullscreen") === "1") {
+    // Aguardar um pouco para garantir que a página carregou
+    setTimeout(() => {
+      document.documentElement.requestFullscreen().catch(console.warn);
+    }, 100);
+  }
+
+  // Listener para mudanças de fullscreen
+  document.addEventListener("fullscreenchange", () => {
+    const isFullscreen = !!document.fullscreenElement;
+    localStorage.setItem("fullscreen", isFullscreen ? "1" : "0");
+
+    // Atualizar ícone se existir
+    const icon = document.getElementById("fullscreen-icon");
+    const btn = document.getElementById("fullscreen-btn");
+    if (icon && btn) {
+      if (isFullscreen) {
+        icon.textContent = "fullscreen_exit";
+        btn.title = "Sair da tela cheia";
       } else {
-        this.icon.textContent = "fullscreen";
-        this.button.title = "Entrar em tela cheia";
+        icon.textContent = "fullscreen";
+        btn.title = "Entrar em tela cheia";
       }
     }
-  },
-};
+  });
+}
 
 // Disponibiliza objetos globalmente para uso em outras partes do projeto
 window.SUPERNETOS = SUPERNETOS;
@@ -553,7 +513,9 @@ window.Navegacao = Navegacao;
 window.ProgressoJogo = ProgressoJogo;
 window.InterfaceUsuario = InterfaceUsuario;
 window.Dispositivo = Dispositivo;
-window.FullscreenManager = FullscreenManager;
+
+// Inicializar fullscreen quando página carregar
+window.addEventListener("load", inicializarFullscreen);
 
 // Mantém compatibilidade com nomes antigos (será removido em versões futuras)
 window.Navigation = Navegacao; // DEPRECATED: usar Navegacao

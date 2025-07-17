@@ -359,6 +359,19 @@
         flex-shrink: 0;
         padding-bottom: 2vh;
       }
+
+      /* Overlay invisível para fullscreen */
+      .fullscreen-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        z-index: 3000;
+        cursor: pointer;
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -411,6 +424,9 @@
         </div>
       </div>
     </div>
+
+    <!-- Overlay invisível para fullscreen -->
+    <div class="fullscreen-overlay" id="fullscreen-overlay"></div>
 
     <script>
       // Função para mostrar os resultados detalhados
@@ -559,6 +575,20 @@
             gameProgressElement.innerHTML = "<p>📊 Sem dados do jogo</p>";
             resultMessageElement.innerHTML = "<h2>🎮 Comece um novo jogo!</h2>";
           }
+        }
+
+        // Configurar overlay invisível para fullscreen
+        const fullscreenOverlay = document.getElementById("fullscreen-overlay");
+        if (fullscreenOverlay && localStorage.getItem("fullscreen") === "1") {
+          fullscreenOverlay.style.display = "block";
+          fullscreenOverlay.onclick = function () {
+            document.documentElement
+              .requestFullscreen()
+              .then(() => {
+                fullscreenOverlay.style.display = "none";
+              })
+              .catch(console.warn);
+          };
         }
       });
 

@@ -511,6 +511,19 @@
         cursor: pointer;
         display: none;
       }
+
+      /* Overlay invisível para fullscreen */
+      .fullscreen-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        z-index: 3000;
+        cursor: pointer;
+        display: none;
+      }
     </style>
   </head>
 
@@ -603,6 +616,9 @@
 
     <!-- Overlay invisível para carregar JSON -->
     <div class="invisible-loader" id="invisible-loader"></div>
+
+    <!-- Overlay invisível para fullscreen -->
+    <div class="fullscreen-overlay" id="fullscreen-overlay"></div>
 
     <!-- Input file invisível para contornar CORS -->
     <input
@@ -1065,6 +1081,20 @@
           );
         }
         document.body.addEventListener("click", tryPlayMusicAfterInteraction);
+
+        // Configurar overlay invisível para fullscreen
+        const fullscreenOverlay = document.getElementById("fullscreen-overlay");
+        if (fullscreenOverlay && localStorage.getItem("fullscreen") === "1") {
+          fullscreenOverlay.style.display = "block";
+          fullscreenOverlay.onclick = function () {
+            document.documentElement
+              .requestFullscreen()
+              .then(() => {
+                fullscreenOverlay.style.display = "none";
+              })
+              .catch(console.warn);
+          };
+        }
       });
     </script>
   </body>

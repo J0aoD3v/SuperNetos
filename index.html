@@ -41,6 +41,7 @@
         class="fullscreen-button"
         id="fullscreen-btn"
         title="Entrar em tela cheia"
+        onclick="alternarFullscreen()"
       >
         <span class="material-symbols-rounded" id="fullscreen-icon"
           >fullscreen</span
@@ -245,8 +246,8 @@
           left: "12px",
         });
 
-        // Inicializar gerenciador de fullscreen global
-        FullscreenManager.init();
+        // Inicializar sistema de fullscreen simples
+        // A função inicializarFullscreen() é chamada automaticamente via globals.js
       });
     </script>
   </body>
