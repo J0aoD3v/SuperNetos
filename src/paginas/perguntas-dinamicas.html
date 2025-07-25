@@ -636,6 +636,23 @@
       let personagemEscolhido = null; // menino ou menina
       let aguardandoProximaPergunta = false;
 
+      // Sistema de motivação e selos
+      let perguntasRespondidas = 0; // Total de perguntas respondidas (incluindo repetidas)
+      let perguntasUnicas = 0; // Perguntas únicas para conquista de selos
+      let selosConquistados = [];
+
+      // Frases motivacionais
+      const frasesMotivacionais = [
+        "Parabéns! Você está se tornando um verdadeiro SuperNeto! 🌟",
+        "Excelente progresso! Continue assim, campeão! 🏆",
+        "Incrível! Você está aprendendo muito sobre cuidar dos idosos! 💪",
+        "Fantástico! Sua sabedoria está crescendo a cada pergunta! 🧠",
+        "Impressionante! Você é um exemplo de respeito aos idosos! ❤️",
+        "Brilhante! Continue nessa jornada de aprendizado! ✨",
+        "Maravilhoso! Você está dominando a arte de ser um SuperNeto! 🎯",
+        "Sensacional! Sua dedicação é inspiradora! 🌈",
+      ];
+
       // URL do JSONBin com suas perguntas
       const JSONBIN_URL =
         "https://api.jsonbin.io/v3/b/687873846063391d31af35f2";
@@ -751,6 +768,63 @@
         const characterSidebar = document.getElementById("character-sidebar");
         const imagemPersonagem = `url('../recursos/imagens/personagens/${personagemEscolhido}_${emocao}.png')`;
         characterSidebar.style.backgroundImage = imagemPersonagem;
+      }
+
+      // Verificar se deve mostrar motivação e conceder selo
+      function verificarMotivacaoESelo() {
+        // Recalcular perguntas únicas baseado no gameProgress atualizado
+        const gameData = JSON.parse(
+          localStorage.getItem("gameProgress") || "[]"
+        );
+        const perguntasUnicas = gameData.length;
+
+        // A cada 5 perguntas únicas respondidas
+        if (perguntasUnicas > 0 && perguntasUnicas % 5 === 0) {
+          const numeroSelo = Math.floor(perguntasUnicas / 5);
+
+          // Verificar se já conquistou este selo
+          const seloJaConquistado = selosConquistados.some(
+            (selo) => selo.id === numeroSelo
+          );
+
+          if (!seloJaConquistado) {
+            const fraseMotivacional =
+              frasesMotivacionais[
+                (numeroSelo - 1) % frasesMotivacionais.length
+              ];
+
+            // Conceder selo
+            const novoSelo = {
+              id: numeroSelo,
+              nome: `Selo ${numeroSelo}`,
+              descricao: `Conquistado após ${perguntasUnicas} perguntas únicas respondidas`,
+              icone: "🏅",
+              dataConquista: new Date().toISOString(),
+            };
+
+            selosConquistados.push(novoSelo);
+
+            // Salvar selos no localStorage
+            localStorage.setItem(
+              "selosConquistados",
+              JSON.stringify(selosConquistados)
+            );
+
+            // Mostrar motivação com selo
+            const mensagemCompleta = `${fraseMotivacional}\n\n🏅 Você ganhou um novo selo!\n"${novoSelo.nome}"`;
+
+            mostrarBalaoFala(mensagemCompleta, "feliz", () => {
+              // Continuar com a próxima pergunta
+              aguardandoProximaPergunta = false;
+              perguntaAtual++;
+              mostrarPergunta(perguntaAtual);
+            });
+
+            return true; // Indica que foi mostrada motivação
+          }
+        }
+
+        return false; // Não foi mostrada motivação
       }
 
       // Função para falar a pergunta (preparada para áudios futuros)
@@ -890,27 +964,56 @@
 
         const pergunta = perguntasConfig[perguntaAtual];
         totalAttempts++;
+
+        // Sempre incrementar o total de perguntas respondidas
+        perguntasRespondidas++;
+
+        // Verificar se é uma pergunta nova (única) para os selos
+        const gameData = JSON.parse(
+          localStorage.getItem("gameProgress") || "[]"
+        );
+        const perguntaJaRespondida = gameData.some(
+          (item) => item.pergunta === pergunta.id
+        );
+
+        // Só incrementar perguntas únicas se for pergunta nova
+        if (!perguntaJaRespondida) {
+          perguntasUnicas++;
+        }
         aguardandoProximaPergunta = true;
 
         const acertou = resposta === pergunta.resposta_correta;
 
         if (acertou) {
           pontuacao++;
-          mostrarBalaoFala("Escolha correta! 🎉", "feliz", () => {
-            aguardandoProximaPergunta = false;
-            perguntaAtual++;
-            mostrarPergunta(perguntaAtual);
-          });
-        } else {
-          mostrarBalaoFala(
-            "Ops! Tente pensar melhor na próxima! 🤔",
-            "triste",
-            () => {
+
+          // Verificar se deve mostrar motivação e selo
+          const mostroumotivacao = verificarMotivacaoESelo();
+
+          if (!mostroumotivacao) {
+            // Mostrar balão normal se não houve motivação
+            mostrarBalaoFala("Escolha correta! 🎉", "feliz", () => {
               aguardandoProximaPergunta = false;
               perguntaAtual++;
               mostrarPergunta(perguntaAtual);
-            }
-          );
+            });
+          }
+        } else {
+          // Verificar se deve mostrar motivação e selo mesmo com erro
+          const mostroumotivacao = verificarMotivacaoESelo();
+
+          if (!mostroumotivacao) {
+            // Mostrar balão normal se não houve motivação
+            mostrarBalaoFala(
+              "Ops! Tente pensar melhor na próxima! 🤔",
+              "triste",
+              () => {
+                aguardandoProximaPergunta = false;
+                perguntaAtual++;
+                mostrarPergunta(perguntaAtual);
+              }
+            );
+          }
         }
 
         // Salvar progresso
@@ -918,6 +1021,12 @@
           pergunta.id,
           resposta === "sim" ? 1 : 0,
           totalAttempts
+        );
+
+        // Salvar contador de perguntas respondidas
+        localStorage.setItem(
+          "perguntasRespondidas",
+          perguntasRespondidas.toString()
         );
       }
 
@@ -1003,6 +1112,25 @@
           localStorage.getItem("personagemEscolhido") ||
           localStorage.getItem("selectedCharacter") ||
           "menino";
+
+        // Carregar selos conquistados do localStorage
+        const selosSalvos = localStorage.getItem("selosConquistados");
+        if (selosSalvos) {
+          selosConquistados = JSON.parse(selosSalvos);
+        }
+
+        // Carregar contadores de perguntas
+        // Total de perguntas respondidas (incluindo repetidas)
+        const perguntasSalvas = localStorage.getItem("perguntasRespondidas");
+        if (perguntasSalvas) {
+          perguntasRespondidas = parseInt(perguntasSalvas) || 0;
+        }
+
+        // Perguntas únicas baseadas no gameProgress
+        const gameData = JSON.parse(
+          localStorage.getItem("gameProgress") || "[]"
+        );
+        perguntasUnicas = gameData.length; // Cada item no gameProgress é uma pergunta única
 
         // Configurar personagem na sidebar
         atualizarPersonagemSidebar("normal");

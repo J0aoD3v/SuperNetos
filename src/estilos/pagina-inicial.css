@@ -61,6 +61,31 @@
   margin: 0;
   box-sizing: border-box;
   text-align: center;
+  position: relative;
+}
+
+/* === LOGOS DAS INSTITUIÇÕES === */
+.institution-logos {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  display: flex;
+  flex-direction: column; /* coloca uma abaixo da outra */
+  gap: 0.5rem; /* espaço vertical entre as logos */
+  z-index: 100;
+}
+
+.institution-logo {
+  width: 12em; /* define tamanho pequeno */
+  border-radius: 8px;
+  border: 0px solid transparent;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.institution-logo:hover {
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
 }
 
 /* === CONTAINER DA LOGO === */
@@ -116,6 +141,17 @@
 
   .start-button-link {
     width: 60%;
+  }
+
+  .institution-logos {
+    top: 1rem;
+    right: 1rem;
+    gap: 0.5rem;
+  }
+
+  .institution-logo {
+    width: 45px;
+    height: 45px;
   }
 }
 

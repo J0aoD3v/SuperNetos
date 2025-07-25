@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="shortcut icon"
+      href="../recursos/audio/favicon.ico"
+      type="image/x-icon"
+    />
+    <title>SuperNetos - Meus Selos</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
+      * {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      @font-face {
+        font-family: "Material Symbols Rounded";
+        font-style: normal;
+        font-weight: 400;
+        src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v226/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOcbTCVpeRL2w5rwZu2rIelXxc.woff2)
+          format("woff2");
+      }
+
+      .material-symbols-rounded {
+        font-family: "Material Symbols Rounded";
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        font-feature-settings: "liga";
+        -moz-font-feature-settings: "liga";
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: "Roboto", serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        overflow-x: hidden;
+      }
+
+      .container {
+        min-height: 100vh;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 3rem;
+        width: 100%;
+      }
+
+      .header h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        margin-bottom: 1rem;
+      }
+
+      .header p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .selos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+        width: 100%;
+        max-width: 1200px;
+        margin-bottom: 3rem;
+      }
+
+      .selo-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .selo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .selo-card.locked {
+        opacity: 0.5;
+        background: rgba(0, 0, 0, 0.2);
+      }
+
+      .selo-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        display: block;
+      }
+
+      .selo-card.locked .selo-icon {
+        filter: grayscale(100%);
+      }
+
+      .selo-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #fff;
+      }
+
+      .selo-description {
+        font-size: 1rem;
+        opacity: 0.8;
+        margin-bottom: 1rem;
+        line-height: 1.4;
+      }
+
+      .selo-date {
+        font-size: 0.9rem;
+        opacity: 0.7;
+        font-style: italic;
+      }
+
+      .selo-card.locked .selo-date {
+        display: none;
+      }
+
+      .selo-card.locked .selo-description::after {
+        content: " - Bloqueado";
+        color: #ff6b6b;
+        font-weight: bold;
+      }
+
+      .stats-container {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        text-align: center;
+        min-width: 200px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        font-size: 1rem;
+        opacity: 0.8;
+      }
+
+      .back-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .back-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .reset-button {
+        background: rgba(255, 107, 107, 0.2);
+        border: 2px solid rgba(255, 107, 107, 0.5);
+        color: #ff6b6b;
+        padding: 0.8rem 1.5rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-left: 1rem;
+      }
+
+      .reset-button:hover {
+        background: rgba(255, 107, 107, 0.3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+      }
+
+      .buttons-container {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        max-width: 500px;
+        width: 100%;
+      }
+
+      .empty-state .icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.6;
+      }
+
+      .empty-state h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .empty-state p {
+        opacity: 0.8;
+        line-height: 1.6;
+      }
+
+      /* Responsividade */
+      @media (max-width: 768px) {
+        .container {
+          padding: 1rem;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .selos-grid {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+
+        .stats-container {
+          gap: 1rem;
+        }
+
+        .stat-card {
+          min-width: 150px;
+          padding: 1rem;
+        }
+
+        .stat-number {
+          font-size: 2rem;
+        }
+
+        .buttons-container {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .reset-button {
+          margin-left: 0;
+        }
+      }
+
+      /* Animações */
+      @keyframes slideInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .selo-card {
+        animation: slideInUp 0.6s ease forwards;
+      }
+
+      .selo-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+      .selo-card:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .selo-card:nth-child(3) {
+        animation-delay: 0.3s;
+      }
+      .selo-card:nth-child(4) {
+        animation-delay: 0.4s;
+      }
+      .selo-card:nth-child(5) {
+        animation-delay: 0.5s;
+      }
+      .selo-card:nth-child(6) {
+        animation-delay: 0.6s;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Scripts globais -->
+    <script src="../scripts/globals.js"></script>
+
+    <div class="container">
+      <!-- Cabeçalho -->
+      <div class="header">
+        <h1>🏅 Meus Selos</h1>
+        <p>
+          Conquiste selos respondendo perguntas e se tornando um verdadeiro
+          SuperNeto!
+        </p>
+      </div>
+
+      <!-- Estatísticas -->
+      <div class="stats-container">
+        <div class="stat-card">
+          <span class="stat-number" id="total-selos">0</span>
+          <span class="stat-label">Selos Conquistados</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-number" id="perguntas-respondidas">0</span>
+          <span class="stat-label">Perguntas Respondidas</span>
+        </div>
+      </div>
+
+      <!-- Grade de selos -->
+      <div class="selos-grid" id="selos-grid">
+        <!-- Selos serão carregados aqui via JavaScript -->
+      </div>
+
+      <!-- Estado vazio -->
+      <div class="empty-state" id="empty-state" style="display: none">
+        <div class="icon">🎯</div>
+        <h3>Nenhum selo conquistado ainda</h3>
+        <p>
+          Responda perguntas no jogo para conquistar seus primeiros selos! A
+          cada 5 perguntas respondidas você ganha um novo selo.
+        </p>
+      </div>
+
+      <!-- Botões -->
+      <div class="buttons-container">
+        <a href="../../index.html" class="back-button">
+          <span class="material-symbols-rounded">arrow_back</span>
+          Voltar ao Início
+        </a>
+
+        <button class="reset-button" onclick="resetarProgresso()">
+          <span class="material-symbols-rounded">restart_alt</span>
+          Resetar Progresso
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Definição dos selos disponíveis
+      const selosDisponiveis = [
+        {
+          id: 1,
+          nome: "Primeiro Passo",
+          descricao: "Completou suas primeiras 5 perguntas",
+          icone: "🎯",
+          perguntasNecessarias: 5,
+        },
+        {
+          id: 2,
+          nome: "Perseverança",
+          descricao: "Respondeu 10 perguntas com dedicação",
+          icone: "💪",
+          perguntasNecessarias: 10,
+        },
+        {
+          id: 3,
+          nome: "Sabedoria",
+          descricao: "Demonstrou conhecimento em 15 perguntas",
+          icone: "🧠",
+          perguntasNecessarias: 15,
+        },
+        {
+          id: 4,
+          nome: "Coração Generoso",
+          descricao: "Mostrou empatia em 20 perguntas",
+          icone: "❤️",
+          perguntasNecessarias: 20,
+        },
+        {
+          id: 5,
+          nome: "SuperNeto",
+          descricao: "Conquistou o título de SuperNeto com 25 perguntas",
+          icone: "⭐",
+          perguntasNecessarias: 25,
+        },
+        {
+          id: 6,
+          nome: "Mestre da Empatia",
+          descricao: "Dominou a arte da empatia com 30 perguntas",
+          icone: "🌟",
+          perguntasNecessarias: 30,
+        },
+        {
+          id: 7,
+          nome: "Guardião dos Idosos",
+          descricao: "Tornou-se protetor dos direitos dos idosos",
+          icone: "🛡️",
+          perguntasNecessarias: 35,
+        },
+        {
+          id: 8,
+          nome: "Lenda SuperNetos",
+          descricao: "Alcançou o status de lenda entre os SuperNetos",
+          icone: "👑",
+          perguntasNecessarias: 40,
+        },
+      ];
+
+      function carregarSelos() {
+        // Carregar selos conquistados do localStorage
+        const selosConquistados = JSON.parse(
+          localStorage.getItem("selosConquistados") || "[]"
+        );
+
+        // Obter contagem de perguntas únicas para lógica dos selos
+        const gameProgress = JSON.parse(
+          localStorage.getItem("gameProgress") || "[]"
+        );
+        const perguntasUnicas = gameProgress.length; // Para verificar bloqueio dos selos
+
+        // Obter contagem TOTAL de perguntas respondidas para exibição
+        const perguntasTotais = parseInt(
+          localStorage.getItem("perguntasRespondidas") || "0"
+        );
+
+        // Atualizar estatísticas (mostra TOTAL de perguntas respondidas)
+        document.getElementById("total-selos").textContent =
+          selosConquistados.length;
+        document.getElementById("perguntas-respondidas").textContent =
+          perguntasTotais;
+
+        const selosGrid = document.getElementById("selos-grid");
+        const emptyState = document.getElementById("empty-state");
+
+        if (selosDisponiveis.length === 0) {
+          selosGrid.style.display = "none";
+          emptyState.style.display = "block";
+          return;
+        }
+
+        selosGrid.innerHTML = "";
+        emptyState.style.display = "none";
+
+        selosDisponiveis.forEach((seloDisponivel) => {
+          const seloConquistado = selosConquistados.find(
+            (s) => s.id === seloDisponivel.id
+          );
+          const isLocked =
+            !seloConquistado &&
+            perguntasUnicas < seloDisponivel.perguntasNecessarias;
+
+          const seloCard = document.createElement("div");
+          seloCard.className = `selo-card ${isLocked ? "locked" : ""}`;
+
+          let dataText = "";
+          if (seloConquistado) {
+            const data = new Date(seloConquistado.dataConquista);
+            dataText = `<div class="selo-date">Conquistado em ${data.toLocaleDateString(
+              "pt-BR"
+            )}</div>`;
+          }
+
+          seloCard.innerHTML = `
+            <div class="selo-icon">${seloDisponivel.icone}</div>
+            <div class="selo-name">${seloDisponivel.nome}</div>
+            <div class="selo-description">${seloDisponivel.descricao}</div>
+            ${dataText}
+          `;
+
+          selosGrid.appendChild(seloCard);
+        });
+
+        // Se não há selos e não há perguntas únicas, mostrar estado vazio
+        if (selosConquistados.length === 0 && perguntasUnicas === 0) {
+          emptyState.style.display = "block";
+        }
+      }
+
+      // Função para resetar todo o progresso
+      function resetarProgresso() {
+        const confirmacao = confirm(
+          "⚠️ Tem certeza que deseja resetar todo o progresso?\n\n" +
+            "Isso irá apagar:\n" +
+            "• Todos os selos conquistados\n" +
+            "• Progresso das perguntas\n" +
+            "• Contagem de perguntas respondidas\n" +
+            "• Resultados salvos\n\n" +
+            "Esta ação não pode ser desfeita!"
+        );
+
+        if (confirmacao) {
+          // Remover todos os dados do localStorage relacionados ao jogo
+          localStorage.removeItem("selosConquistados");
+          localStorage.removeItem("perguntasRespondidas");
+          localStorage.removeItem("gameProgress");
+          localStorage.removeItem("totalAttempts");
+          localStorage.removeItem("gameResults");
+
+          // Recarregar a página para atualizar a interface
+          location.reload();
+
+          alert("✅ Progresso resetado com sucesso!");
+        }
+      }
+
+      // Carregar selos quando a página carrega
+      document.addEventListener("DOMContentLoaded", carregarSelos);
+    </script>
+  </body>
+</html>
