@@ -71,6 +71,234 @@
         "sim": "PODE",
         "nao": "NÃO PODE"
       }
+    },
+    {
+      "id": 7,
+      "pergunta": "PODE JOGAR A BOLA COM FORÇA NO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#f4750d",
+      "rectangle2_background_color": "#fcfc00",
+      "ilustracao": "07.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 8,
+      "pergunta": "PODE EMPURRAR A PORTA CONTRA O VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#7030A0",
+      "rectangle2_background_color": "#FCD665",
+      "ilustracao": "08.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 9,
+      "pergunta": "PODE JOGAR COPO NO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#F094DE",
+      "rectangle2_background_color": "#C20881",
+      "ilustracao": "09.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 10,
+      "pergunta": "O COLEGUINHA PODE BATER NO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#F0DA0D",
+      "rectangle2_background_color": "#D04C03",
+      "ilustracao": "10.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 11,
+      "pergunta": "PODE BELISCAR A VOVÓ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#f4750d",
+      "rectangle2_background_color": "#fcfc00",
+      "ilustracao": "11.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 12,
+      "pergunta": "PODEMOS PISAR NA MÃO DA VOVÓ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#7030A0",
+      "rectangle2_background_color": "#E8C769",
+      "ilustracao": "12.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 13,
+      "pergunta": "PODE RABISCAR A VOVÓ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#00B0F0",
+      "rectangle2_background_color": "#EB92DB",
+      "ilustracao": "13.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 14,
+      "pergunta": "PODE BATER NA VOVÓ QUANDO NÃO QUER TOMAR BANHO?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#f4750d",
+      "rectangle2_background_color": "#fcfc00",
+      "ilustracao": "14.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 15,
+      "pergunta": "SEU PAPAI PODE DAR SOCOS NO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#92D050",
+      "rectangle2_background_color": "#02AA52",
+      "ilustracao": "15.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 16,
+      "pergunta": "NÃO QUERO IR A ESCOLA. POSSO PUXAR O BRAÇO DO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#FFC000",
+      "rectangle2_background_color": "#F4D165",
+      "ilustracao": "16.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 17,
+      "pergunta": "PODEMOS TIRAR A BENGALA DO VOVÔ ENQUANTO ELE ANDA?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#2EB9E8",
+      "rectangle2_background_color": "#436FC0",
+      "ilustracao": "17.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 18,
+      "pergunta": "DEVEMOS PEDIR COM CARINHO E PACIÊNCIA O BRINQUEDO PARA A VOVÓ?",
+      "resposta_correta": "sim",
+      "rectangle1_background_color": "#F094DE",
+      "rectangle2_background_color": "#C32891",
+      "ilustracao": "18.png",
+      "opcoes": {
+        "sim": "DEVEMOS",
+        "nao": "NÃO DEVEMOS"
+      }
+    },
+    {
+      "id": 19,
+      "pergunta": "JOGAR ÁGUA NA VOVÓ É FALTA DE RESPEITO?",
+      "resposta_correta": "sim",
+      "rectangle1_background_color": "#7030A0",
+      "rectangle2_background_color": "#F3D066",
+      "ilustracao": "19.png",
+      "opcoes": {
+        "sim": "SIM",
+        "nao": "NÃO"
+      }
+    },
+    {
+      "id": 20,
+      "pergunta": "PODE PUXAR O CABELO DO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#FFD966",
+      "rectangle2_background_color": "#FFFF00",
+      "ilustracao": "20.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 21,
+      "pergunta": "POSSO EMPURRAR A VOVÓ PARA EU SENTAR NA CADEIRA?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#f4750d",
+      "rectangle2_background_color": "#fcfc00",
+      "ilustracao": "21.png",
+      "opcoes": {
+        "sim": "POSSO",
+        "nao": "NÃO POSSO"
+      }
+    },
+    {
+      "id": 22,
+      "pergunta": "PODE AMARRAR OS CADARÇOS DO VOVÔ PARA ELE CAIR?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#F094DE",
+      "rectangle2_background_color": "#C70783",
+      "ilustracao": "22.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 23,
+      "pergunta": "PODE JOGAR OBJETOS NO VOVÔ?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#FFC000",
+      "rectangle2_background_color": "#FDD865",
+      "ilustracao": "23.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 24,
+      "pergunta": "PODE MORDER A VOVÓ QUANDO ELA DIZ \"NÃO\"?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#7030A0",
+      "rectangle2_background_color": "#F6D263",
+      "ilustracao": "24.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
+    },
+    {
+      "id": 25,
+      "pergunta": "PODE EMPURRAR O VOVÔ PARA PASSAR NA FRENTE?",
+      "resposta_correta": "nao",
+      "rectangle1_background_color": "#2EB9E8",
+      "rectangle2_background_color": "#426EBD",
+      "ilustracao": "25.png",
+      "opcoes": {
+        "sim": "PODE",
+        "nao": "NÃO PODE"
+      }
     }
   ]
 }
