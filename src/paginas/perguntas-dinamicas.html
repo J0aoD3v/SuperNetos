@@ -117,6 +117,190 @@
         }
       }
 
+      /* Responsividade para dispositivos móveis pequenos */
+      @media (max-width: 768px) and (min-aspect-ratio: 1/1) {
+        #background-question-container {
+          width: 90vw;
+          height: auto;
+          min-height: 80vh;
+          padding: 2vh;
+        }
+
+        #main-question-container {
+          width: calc(90vw - 2vh);
+          height: auto;
+          min-height: 80vh;
+          padding: 3vh 2vw;
+        }
+
+        #main-content {
+          gap: 1.5vh;
+          justify-content: space-evenly;
+        }
+
+        .question-title-section {
+          font-size: 0.7em;
+          flex-wrap: wrap;
+          margin-bottom: 1vh;
+        }
+
+        #question-text {
+          font-size: 1.5em;
+          margin-top: 0.3em;
+          margin-bottom: 0.5em;
+          padding: 0 2vw;
+          line-height: 1.2;
+        }
+
+        .question-audio-button {
+          font-size: 2.8em;
+        }
+
+        .answer-buttons-section {
+          flex-wrap: wrap;
+          gap: 1vh;
+          margin: 2vh 0;
+        }
+
+        .answer-option-text {
+          font-size: 1.5em;
+          margin: 0.3em 0;
+        }
+
+        .answer-button {
+          margin: 0.5vw;
+          padding: 2.5vw 4vw;
+          font-size: 26px;
+        }
+
+        .button-separator {
+          width: 3vw;
+        }
+
+        .question-illustration {
+          width: 70vw;
+          height: auto;
+          min-height: 25vh;
+          max-height: 35vh;
+          border-width: 0.4vw;
+          border-radius: 3vw;
+          margin-bottom: 1vh;
+        }
+
+        .ai-generated-label {
+          font-size: 0.7em;
+          padding: 0.5vh 1vw;
+          margin-bottom: 0.5vh;
+        }
+
+        .character-sidebar {
+          width: 18vw;
+          height: 36vw;
+          min-width: 110px;
+          min-height: 130px;
+          right: 1.5vw;
+          top: 72%;
+        }
+
+        .question-counter {
+          top: 1.5vw;
+          right: 1.5vw;
+          padding: 1.8vw 2.8vw;
+          border-radius: 1.5vw;
+          font-size: 1em;
+        }
+
+        .volume-control {
+          top: 1.5vw;
+          left: 1.5vw;
+          width: 12vw;
+          height: 12vw;
+          min-width: 48px;
+          min-height: 48px;
+          font-size: 1.3em;
+        }
+      }
+
+      @media (max-width: 480px) and (min-aspect-ratio: 1/1) {
+        #background-question-container {
+          width: 95vw;
+          height: auto;
+          min-height: 85vh;
+          padding: 1.5vh;
+        }
+
+        #main-question-container {
+          width: calc(95vw - 1.5vh);
+          height: auto;
+          min-height: 85vh;
+          padding: 2.5vh 2vw;
+        }
+
+        #main-content {
+          gap: 1vh;
+          justify-content: space-evenly;
+        }
+
+        .question-title-section {
+          font-size: 0.6em;
+          margin-bottom: 0.5vh;
+        }
+
+        #question-text {
+          font-size: 1.1em;
+          padding: 0 3vw;
+          line-height: 1.2;
+        }
+
+        .question-audio-button {
+          font-size: 2.3em;
+        }
+
+        .answer-option-text {
+          font-size: 1.3em;
+        }
+
+        .answer-button {
+          padding: 3vw 5vw;
+          font-size: 22px;
+        }
+
+        .button-separator {
+          width: 2vw;
+        }
+
+        .question-illustration {
+          width: 75vw;
+          height: auto;
+          min-height: 22vh;
+          max-height: 30vh;
+          border-width: 0.3vw;
+        }
+
+        .ai-generated-label {
+          font-size: 0.65em;
+        }
+
+        .character-sidebar {
+          width: 22vw;
+          height: 42vw;
+          min-width: 90px;
+          min-height: 110px;
+        }
+
+        .question-counter {
+          font-size: 0.95em;
+          padding: 2vw 3.5vw;
+        }
+
+        .volume-control {
+          width: 13vw;
+          height: 13vw;
+          min-width: 42px;
+          min-height: 42px;
+        }
+      }
+
       /* Retângulo de fundo secundário */
       #background-question-container {
         position: absolute;
@@ -163,32 +347,50 @@
         color: rgba(0, 0, 0, 0.5);
       }
 
-      /* Seção do título com ícone de som */
+      /* Seção do título com ícone de som - Estilos base */
       .question-title-section {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 0.8em;
         text-shadow: 0 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
       }
 
-      /* Texto da pergunta */
+      /* Media query para desktop - font-size 0.8em apenas em telas grandes */
+      @media (min-width: 769px) {
+        .question-title-section {
+          font-size: 0.8em;
+        }
+      }
+
+      /* Texto da pergunta - Estilos base */
       #question-text {
-        font-size: 2.5em;
         transition: all 0.3s ease;
         font-weight: bold;
         margin-bottom: 0;
         margin-top: 0.4em;
       }
 
-      /* Botão de reprodução de áudio da pergunta */
+      /* Media query para desktop - font-size 2.5em apenas em telas grandes */
+      @media (min-width: 769px) {
+        #question-text {
+          font-size: 2.5em;
+        }
+      }
+
+      /* Botão de reprodução de áudio da pergunta - Estilos base */
       .question-audio-button {
-        font-size: 3.5em;
         border: none;
         background: none;
         cursor: pointer;
         transition: transform 0.2s ease;
         color: white;
+      }
+
+      /* Media query para desktop - font-size 3.5em apenas em telas grandes */
+      @media (min-width: 769px) {
+        .question-audio-button {
+          font-size: 3.5em;
+        }
       }
 
       .question-audio-button:hover {
@@ -207,27 +409,39 @@
         text-shadow: 0 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
       }
 
-      /* Textos das opções de resposta */
+      /* Textos das opções de resposta - Estilos base */
       .answer-option-text {
         margin-top: 0;
         margin-bottom: 0.2em;
-        font-size: 1.8em;
         font-weight: bold;
       }
 
-      /* Botões de resposta (Pode/Não Pode) */
+      /* Media query para desktop - font-size 1.8em apenas em telas grandes */
+      @media (min-width: 769px) {
+        .answer-option-text {
+          font-size: 1.8em;
+        }
+      }
+
+      /* Botões de resposta (Pode/Não Pode) - Estilos base */
       .answer-button {
         margin: 1vw;
         padding: 1vw 1vw;
         border-radius: 1vw;
         border: none;
         color: white;
-        font-size: 32px;
         cursor: pointer;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         transition: transform 0.1s ease;
+      }
+
+      /* Media query para desktop - font-size 32px apenas em telas grandes */
+      @media (min-width: 769px) {
+        .answer-button {
+          font-size: 32px;
+        }
       }
 
       .answer-button:hover {
@@ -306,7 +520,7 @@
         transform: translateY(-50%) scale(1.05);
       }
 
-      /* Contador de pergunta */
+      /* Contador de pergunta - Estilos base */
       .question-counter {
         position: absolute;
         top: 2vw;
@@ -315,12 +529,18 @@
         color: white;
         padding: 1vw 2vw;
         border-radius: 2vw;
-        font-size: 1.2em;
         font-weight: bold;
         z-index: 10;
       }
 
-      /* Controle de volume discreto */
+      /* Media query para desktop - font-size 1.2em apenas em telas grandes */
+      @media (min-width: 769px) {
+        .question-counter {
+          font-size: 1.2em;
+        }
+      }
+
+      /* Controle de volume discreto - Estilos base */
       .volume-control {
         position: absolute;
         top: 2vw;
@@ -339,7 +559,13 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
         z-index: 10;
-        font-size: 1.5em;
+      }
+
+      /* Media query para desktop - font-size 1.5em apenas em telas grandes */
+      @media (min-width: 769px) {
+        .volume-control {
+          font-size: 1.5em;
+        }
       }
 
       .volume-control:hover {
@@ -461,12 +687,18 @@
       }
 
       .speech-text {
-        font-size: 1.8em;
         font-weight: bold;
         color: #333;
         text-align: center;
         margin: 0;
         line-height: 1.3;
+      }
+
+      /* Media query para desktop - font-size 1.8em apenas em telas grandes */
+      @media (min-width: 769px) {
+        .speech-text {
+          font-size: 1.8em;
+        }
       }
 
       .speech-text.success {
