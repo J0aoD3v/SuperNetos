@@ -9,10 +9,8 @@
       type="image/x-icon"
     />
     <title>Super Netos - Minhas Figurinhas</title>
-
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
-
       * {
         user-select: none;
         -webkit-user-select: none;
@@ -22,7 +20,6 @@
         padding: 0;
         box-sizing: border-box;
       }
-
       @font-face {
         font-family: "Material Symbols Rounded";
         font-style: normal;
@@ -30,7 +27,6 @@
         src: url(https://fonts.gstatic.com/s/materialsymbolsrounded/v226/syl0-zNym6YjUruM-QrEh7-nyTnjDwKNJ_190FjpZIvDmUSVOK7BDB_Qb9vUSzq3wzLK-P0J-V_Zs-QtQth3-jOcbTCVpeRL2w5rwZu2rIelXxc.woff2)
           format("woff2");
       }
-
       .material-symbols-rounded {
         font-family: "Material Symbols Rounded";
         font-weight: normal;
@@ -47,7 +43,6 @@
         -moz-font-feature-settings: "liga";
         -moz-osx-font-smoothing: grayscale;
       }
-
       html,
       body {
         height: 100%;
@@ -56,7 +51,6 @@
         color: white;
         overflow-x: hidden;
       }
-
       .container {
         min-height: 100vh;
         padding: 2rem;
@@ -64,27 +58,23 @@
         flex-direction: column;
         align-items: center;
       }
-
       .header {
         text-align: center;
         margin-bottom: 3rem;
         width: 100%;
       }
-
       .header h1 {
         font-size: 3rem;
         font-weight: bold;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         margin-bottom: 1rem;
       }
-
       .header p {
         font-size: 1.2rem;
         opacity: 0.9;
         max-width: 600px;
         margin: 0 auto;
       }
-
       .selos-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -93,7 +83,6 @@
         max-width: 1200px;
         margin-bottom: 3rem;
       }
-
       .selo-card {
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
@@ -105,57 +94,47 @@
         position: relative;
         overflow: hidden;
       }
-
       .selo-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       }
-
       .selo-card.locked {
         opacity: 0.5;
         background: rgba(0, 0, 0, 0.2);
       }
-
       .selo-icon {
         font-size: 4rem;
         margin-bottom: 1rem;
         display: block;
       }
-
       .selo-card.locked .selo-icon {
         filter: grayscale(100%);
       }
-
       .selo-name {
         font-size: 1.5rem;
         font-weight: bold;
         margin-bottom: 0.5rem;
         color: #fff;
       }
-
       .selo-description {
         font-size: 1rem;
         opacity: 0.8;
         margin-bottom: 1rem;
         line-height: 1.4;
       }
-
       .selo-date {
         font-size: 0.9rem;
         opacity: 0.7;
         font-style: italic;
       }
-
       .selo-card.locked .selo-date {
         display: none;
       }
-
       .selo-card.locked .selo-description::after {
         content: " - Bloqueado";
         color: #ff6b6b;
         font-weight: bold;
       }
-
       .stats-container {
         display: flex;
         gap: 2rem;
@@ -163,7 +142,6 @@
         flex-wrap: wrap;
         justify-content: center;
       }
-
       .stat-card {
         background: rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(10px);
@@ -173,19 +151,16 @@
         min-width: 200px;
         border: 1px solid rgba(255, 255, 255, 0.2);
       }
-
       .stat-number {
         font-size: 2.5rem;
         font-weight: bold;
         display: block;
         margin-bottom: 0.5rem;
       }
-
       .stat-label {
         font-size: 1rem;
         opacity: 0.8;
       }
-
       .back-button {
         background: rgba(255, 255, 255, 0.2);
         border: 2px solid rgba(255, 255, 255, 0.3);
@@ -201,13 +176,11 @@
         align-items: center;
         gap: 0.5rem;
       }
-
       .back-button:hover {
         background: rgba(255, 255, 255, 0.3);
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       }
-
       .reset-button {
         background: rgba(255, 107, 107, 0.2);
         border: 2px solid rgba(255, 107, 107, 0.5);
@@ -224,13 +197,11 @@
         gap: 0.5rem;
         margin-left: 1rem;
       }
-
       .reset-button:hover {
         background: rgba(255, 107, 107, 0.3);
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
       }
-
       .buttons-container {
         display: flex;
         gap: 1rem;
@@ -238,7 +209,6 @@
         justify-content: center;
         align-items: center;
       }
-
       .empty-state {
         text-align: center;
         padding: 4rem 2rem;
@@ -249,61 +219,49 @@
         max-width: 500px;
         width: 100%;
       }
-
       .empty-state .icon {
         font-size: 4rem;
         margin-bottom: 1rem;
         opacity: 0.6;
       }
-
       .empty-state h3 {
         font-size: 1.5rem;
         margin-bottom: 1rem;
       }
-
       .empty-state p {
         opacity: 0.8;
         line-height: 1.6;
       }
-
       /* Responsividade */
       @media (max-width: 768px) {
         .container {
           padding: 1rem;
         }
-
         .header h1 {
           font-size: 2rem;
         }
-
         .selos-grid {
           grid-template-columns: 1fr;
           gap: 1rem;
         }
-
         .stats-container {
           gap: 1rem;
         }
-
         .stat-card {
           min-width: 150px;
           padding: 1rem;
         }
-
         .stat-number {
           font-size: 2rem;
         }
-
         .buttons-container {
           flex-direction: column;
           gap: 1rem;
         }
-
         .reset-button {
           margin-left: 0;
         }
       }
-
       /* Animações */
       @keyframes slideInUp {
         from {
@@ -315,11 +273,9 @@
           transform: translateY(0);
         }
       }
-
       .selo-card {
         animation: slideInUp 0.6s ease forwards;
       }
-
       .selo-card:nth-child(1) {
         animation-delay: 0.1s;
       }
