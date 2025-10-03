@@ -1,5 +1,5 @@
 {
-  "name": "supernetos",
+  "name": "super-netos",
   "version": "2.0.0",
   "description": "Jogo educativo sobre valorização dos idosos - Desenvolvido pela UENP em parceria com FAMEMA",
   "keywords": [
@@ -13,7 +13,7 @@
   "authors": [
     {
       "name": "Miriam Fernanda Sanches Alarcon",
-      "role": "Orientadora e idealizadora do jogo SuperNetos e do website"
+  "role": "Orientadora e idealizadora do jogo Super Netos e do website"
     },
     {
       "name": "Carina Bortolato Major",
@@ -21,11 +21,11 @@
     },
     {
       "name": "Edna Aparecida Lopes Bezerra Katakura",
-      "role": "Coorientadora e idealizadora do jogo SuperNetos"
+  "role": "Coorientadora e idealizadora do jogo Super Netos"
     },
     {
       "name": "Cristiano Massao Tashima",
-      "role": "Coorientador e idealizador do jogo SuperNetos"
+  "role": "Coorientador e idealizador do jogo Super Netos"
     },
     {
       "name": "Adriane Aparecida Betini dos Santos",

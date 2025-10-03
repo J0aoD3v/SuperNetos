@@ -1,10 +1,10 @@
-# SuperNetos 🎮👴👵
+# Super Netos 🎮👴👵
 
 Um jogo educativo digital desenvolvido para promover a valorização das pessoas idosas, estimulando o respeito inter-geracional, a empatia e o reconhecimento dos direitos da pessoa idosa.
 
 ## 🎮 **JOGAR AGORA**
 
-### 🌟 **[🕹️ CLIQUE AQUI PARA JOGAR O SUPERNETOS! 🕹️](https://j0aod3v.github.io/SuperNetos/)**
+### 🌟 **[🕹️ CLIQUE AQUI PARA JOGAR O SUPER NETOS! 🕹️](https://j0aod3v.github.io/SuperNetos/)**
 
 > 🚀 **Jogue diretamente no seu navegador!** Não precisa baixar nada - funciona em computador, tablet e celular!
 
@@ -23,7 +23,7 @@ A documentação inclui diagramas UML, análise de complexidade de software, mé
 
 ## 🎯 Objetivo
 
-O jogo **SuperNetos** tem como objetivo promover a valorização das pessoas idosas, estimulando, de forma lúdica e educativa, o respeito intergeracional, a empatia e o reconhecimento dos direitos da pessoa idosa, contribuindo para a formação cidadã de crianças e adolescentes.
+O jogo **Super Netos** tem como objetivo promover a valorização das pessoas idosas, estimulando, de forma lúdica e educativa, o respeito intergeracional, a empatia e o reconhecimento dos direitos da pessoa idosa, contribuindo para a formação cidadã de crianças e adolescentes.
 
 ## 🚀 Como Jogar
 
