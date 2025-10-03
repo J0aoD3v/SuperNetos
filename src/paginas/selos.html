@@ -8,7 +8,7 @@
       href="../recursos/audio/favicon.ico"
       type="image/x-icon"
     />
-    <title>SuperNetos - Meus Selos</title>
+    <title>Super Netos - Minhas Figurinhas</title>
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
@@ -348,10 +348,10 @@
     <div class="container">
       <!-- Cabeçalho -->
       <div class="header">
-        <h1>🏅 Meus Selos</h1>
+        <h1>� Premiação: Minhas Figurinhas</h1>
         <p>
-          Conquiste selos respondendo perguntas e se tornando um verdadeiro
-          SuperNeto!
+          Conquiste figurinhas respondendo perguntas e se tornando um verdadeiro
+          Super Neto!
         </p>
       </div>
 
@@ -359,7 +359,7 @@
       <div class="stats-container">
         <div class="stat-card">
           <span class="stat-number" id="total-selos">0</span>
-          <span class="stat-label">Selos Conquistados</span>
+          <span class="stat-label">Figurinhas Conquistadas</span>
         </div>
         <div class="stat-card">
           <span class="stat-number" id="perguntas-respondidas">0</span>
@@ -368,17 +368,17 @@
       </div>
 
       <!-- Grade de selos -->
-      <div class="selos-grid" id="selos-grid">
+      <div class="figurinhas-grid" id="figurinhas-grid">
         <!-- Selos serão carregados aqui via JavaScript -->
       </div>
 
       <!-- Estado vazio -->
       <div class="empty-state" id="empty-state" style="display: none">
         <div class="icon">🎯</div>
-        <h3>Nenhum selo conquistado ainda</h3>
+        <h3>Nenhuma figurinha conquistada ainda</h3>
         <p>
-          Responda perguntas no jogo para conquistar seus primeiros selos! A
-          cada 5 perguntas respondidas você ganha um novo selo.
+          Responda perguntas no jogo para conquistar suas primeiras figurinhas!
+          A cada 5 perguntas respondidas você ganha uma nova figurinha.
         </p>
       </div>
 
@@ -397,8 +397,8 @@
     </div>
 
     <script>
-      // Definição dos selos disponíveis
-      const selosDisponiveis = [
+      // Definição das figurinhas disponíveis
+      const figurinhasDisponiveis = [
         {
           id: 1,
           nome: "Primeiro Passo",
@@ -457,13 +457,13 @@
         },
       ];
 
-      function carregarSelos() {
-        // Carregar selos conquistados do localStorage
-        const selosConquistados = JSON.parse(
-          localStorage.getItem("selosConquistados") || "[]"
+      function carregarFigurinhas() {
+        // Carregar figurinhas conquistadas do localStorage
+        const figurinhasConquistadas = JSON.parse(
+          localStorage.getItem("figurinhasConquistadas") || "[]"
         );
 
-        // Obter contagem de perguntas únicas para lógica dos selos
+        // Obter contagem de perguntas únicas para lógica das figurinhas
         const gameProgress = JSON.parse(
           localStorage.getItem("gameProgress") || "[]"
         );
@@ -476,53 +476,53 @@
 
         // Atualizar estatísticas (mostra TOTAL de perguntas respondidas)
         document.getElementById("total-selos").textContent =
-          selosConquistados.length;
+          figurinhasConquistadas.length;
         document.getElementById("perguntas-respondidas").textContent =
           perguntasTotais;
 
-        const selosGrid = document.getElementById("selos-grid");
+        const figurinhasGrid = document.getElementById("figurinhas-grid");
         const emptyState = document.getElementById("empty-state");
 
-        if (selosDisponiveis.length === 0) {
-          selosGrid.style.display = "none";
+        if (figurinhasDisponiveis.length === 0) {
+          figurinhasGrid.style.display = "none";
           emptyState.style.display = "block";
           return;
         }
 
-        selosGrid.innerHTML = "";
+        figurinhasGrid.innerHTML = "";
         emptyState.style.display = "none";
 
-        selosDisponiveis.forEach((seloDisponivel) => {
-          const seloConquistado = selosConquistados.find(
-            (s) => s.id === seloDisponivel.id
+        figurinhasDisponiveis.forEach((figurinhaDisponivel) => {
+          const figurinhaConquistada = figurinhasConquistadas.find(
+            (f) => f.id === figurinhaDisponivel.id
           );
           const isLocked =
-            !seloConquistado &&
-            perguntasUnicas < seloDisponivel.perguntasNecessarias;
+            !figurinhaConquistada &&
+            perguntasUnicas < figurinhaDisponivel.perguntasNecessarias;
 
-          const seloCard = document.createElement("div");
-          seloCard.className = `selo-card ${isLocked ? "locked" : ""}`;
+          const figurinhaCard = document.createElement("div");
+          figurinhaCard.className = `selo-card ${isLocked ? "locked" : ""}`;
 
           let dataText = "";
-          if (seloConquistado) {
-            const data = new Date(seloConquistado.dataConquista);
-            dataText = `<div class="selo-date">Conquistado em ${data.toLocaleDateString(
+          if (figurinhaConquistada) {
+            const data = new Date(figurinhaConquistada.dataConquista);
+            dataText = `<div class="selo-date">Conquistada em ${data.toLocaleDateString(
               "pt-BR"
             )}</div>`;
           }
 
-          seloCard.innerHTML = `
-            <div class="selo-icon">${seloDisponivel.icone}</div>
-            <div class="selo-name">${seloDisponivel.nome}</div>
-            <div class="selo-description">${seloDisponivel.descricao}</div>
+          figurinhaCard.innerHTML = `
+            <div class="selo-icon">${figurinhaDisponivel.icone}</div>
+            <div class="selo-name">${figurinhaDisponivel.nome}</div>
+            <div class="selo-description">${figurinhaDisponivel.descricao}</div>
             ${dataText}
           `;
 
-          selosGrid.appendChild(seloCard);
+          figurinhasGrid.appendChild(figurinhaCard);
         });
 
         // Se não há selos e não há perguntas únicas, mostrar estado vazio
-        if (selosConquistados.length === 0 && perguntasUnicas === 0) {
+        if (figurinhasConquistadas.length === 0 && perguntasUnicas === 0) {
           emptyState.style.display = "block";
         }
       }
@@ -554,8 +554,8 @@
         }
       }
 
-      // Carregar selos quando a página carrega
-      document.addEventListener("DOMContentLoaded", carregarSelos);
+      // Carregar figurinhas quando a página carrega
+      document.addEventListener("DOMContentLoaded", carregarFigurinhas);
     </script>
   </body>
 </html>
