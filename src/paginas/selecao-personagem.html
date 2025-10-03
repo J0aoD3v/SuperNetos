@@ -338,17 +338,10 @@
           <img id="happyCharacter" class="happy-character" src="" alt="" />
           <div class="side-content">
             <div class="speech-bubble" id="speech"></div>
-            <div class="name-label">Qual é o seu nome?</div>
-            <input
-              type="text"
-              class="name-input"
-              id="nameInput"
-              placeholder="Digite seu nome aqui..."
-              maxlength="20"
-            />
-            <button class="next-btn" id="nextBtn">Ir para o Jogo!</button>
+            <!-- Campos de nome e botão removidos -->
           </div>
         </div>
+        <!-- Overlay removido, não será exibido -->
       </div>
     </div>
 
@@ -468,55 +461,26 @@
           happyCharacter.alt = "Menina feliz";
           speech.textContent = frases.menina;
         }
-        nextBtn.style.display = "block";
 
-        // Focar no campo de nome
-        setTimeout(() => {
-          nameInput.focus();
-        }, 500);
+        saveAudioState();
+        window.location.href = "perguntas-dinamicas.html";
       }
 
       boy.onclick = () => selecionarPersonagem("menino");
       girl.onclick = () => selecionarPersonagem("menina");
 
       nextBtn.onclick = function () {
-        const nome = nameInput.value.trim();
-
-        if (nome === "") {
-          alert("Por favor, digite seu nome para continuar! 😊");
-          nameInput.focus();
-          return;
-        }
-
-        if (nome.length < 2) {
-          alert("O nome deve ter pelo menos 2 caracteres! 😊");
-          nameInput.focus();
-          return;
-        }
-
-        // Salvar o nome do jogador
-        localStorage.setItem("playerName", nome);
-        localStorage.setItem("nomeJogador", nome); // compatibilidade
-
-        saveAudioState();
-        window.location.href = "perguntas-dinamicas.html";
+        // Função removida, não há mais botão de avançar
       };
 
       // Permitir pressionar Enter no campo de nome
       nameInput.addEventListener("keypress", function (event) {
-        if (event.key === "Enter") {
-          nextBtn.click();
-        }
+        // Removido: não há mais campo de nome
       });
 
       // Fechar overlay ao clicar fora do conteúdo
       overlay.onclick = function (event) {
-        if (event.target === overlay) {
-          overlay.style.display = "none";
-          happyCharacter.src = "";
-          speech.textContent = "";
-          nameInput.value = "";
-        }
+        // Removido: overlay não será exibido
       };
 
       overlay.addEventListener(
