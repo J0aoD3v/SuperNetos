@@ -91,7 +91,7 @@
         text-align: center;
         margin: 0;
       }
-      
+
       /* Álbum e Figurinhas Disponíveis */
       .album-container {
         width: 100%;
@@ -102,7 +102,7 @@
         flex-wrap: wrap;
         justify-content: center;
       }
-      
+
       .album-section {
         flex: 1;
         min-width: 300px;
@@ -112,7 +112,7 @@
         padding: 2rem;
         border: 2px solid rgba(255, 255, 255, 0.2);
       }
-      
+
       .section-title {
         font-size: 1.8rem;
         font-weight: bold;
@@ -120,13 +120,13 @@
         text-align: center;
         color: #fff;
       }
-      
+
       .album-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 1rem;
       }
-      
+
       .album-slot {
         aspect-ratio: 3 / 4;
         background: rgba(255, 255, 255, 0.9);
@@ -140,35 +140,35 @@
         transition: all 0.3s ease;
         cursor: pointer;
       }
-      
+
       .album-slot.drag-over {
-        border-color: #4CAF50;
+        border-color: #4caf50;
         background: rgba(76, 175, 80, 0.2);
         transform: scale(1.05);
       }
-      
+
       .album-slot.filled {
         border-style: solid;
         background: white;
       }
-      
+
       .album-slot .slot-number {
         font-size: 2rem;
         color: #ccc;
         font-weight: bold;
       }
-      
+
       .album-slot .slot-label {
         font-size: 0.9rem;
         color: #999;
         margin-top: 0.5rem;
       }
-      
+
       .album-slot.filled .slot-number,
       .album-slot.filled .slot-label {
         display: none;
       }
-      
+
       .sticker-in-album {
         width: 100%;
         height: 100%;
@@ -177,21 +177,21 @@
         justify-content: space-between;
         padding: 0.5rem;
       }
-      
+
       .sticker-in-album img {
         width: 100%;
         height: 60%;
         object-fit: contain;
         border-radius: 8px;
       }
-      
+
       .sticker-in-album .sticker-name {
         font-size: 0.9rem;
         font-weight: bold;
         color: #2a2353;
         text-align: center;
       }
-      
+
       /* Figurinhas Disponíveis */
       .available-stickers {
         display: flex;
@@ -200,7 +200,7 @@
         max-height: 600px;
         overflow-y: auto;
       }
-      
+
       .sticker-item {
         background: white;
         border-radius: 12px;
@@ -212,93 +212,93 @@
         transition: all 0.3s ease;
         border: 3px solid transparent;
       }
-      
+
       .sticker-item:hover {
         transform: translateX(5px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       }
-      
+
       .sticker-item.dragging {
         opacity: 0.5;
         cursor: grabbing;
       }
-      
+
       .sticker-item.locked {
         opacity: 0.5;
         cursor: not-allowed;
         filter: grayscale(100%);
       }
-      
+
       .sticker-item img {
         width: 60px;
         height: 60px;
         object-fit: contain;
         border-radius: 8px;
       }
-      
+
       .sticker-info {
         flex: 1;
       }
-      
+
       .sticker-info .name {
         font-weight: bold;
         color: #2a2353;
         font-size: 1.1rem;
       }
-      
+
       .sticker-info .cost {
         color: #667eea;
         font-size: 0.9rem;
         margin-top: 0.3rem;
       }
-      
+
       .sticker-info .status {
         color: #666;
         font-size: 0.85rem;
         margin-top: 0.2rem;
       }
-      
+
       /* Scrollbar personalizada */
       .available-stickers::-webkit-scrollbar {
         width: 8px;
       }
-      
+
       .available-stickers::-webkit-scrollbar-track {
         background: rgba(255, 255, 255, 0.1);
         border-radius: 10px;
       }
-      
+
       .available-stickers::-webkit-scrollbar-thumb {
         background: rgba(255, 255, 255, 0.3);
         border-radius: 10px;
       }
-      
+
       .available-stickers::-webkit-scrollbar-thumb:hover {
         background: rgba(255, 255, 255, 0.5);
       }
-      
+
       /* Cores das bordas por figurinha */
       .sticker-item[data-id="1"],
       .album-slot[data-id="1"].filled {
-        border-color: #FFD700;
+        border-color: #ffd700;
       }
       .sticker-item[data-id="2"],
       .album-slot[data-id="2"].filled {
-        border-color: #FF8C00;
+        border-color: #ff8c00;
       }
       .sticker-item[data-id="3"],
       .album-slot[data-id="3"].filled {
-        border-color: #32CD32;
+        border-color: #32cd32;
       }
       .sticker-item[data-id="4"],
       .album-slot[data-id="4"].filled {
-        border-color: #FF1493;
+        border-color: #ff1493;
       }
       .sticker-item[data-id="5"],
       .album-slot[data-id="5"].filled {
-        border-color: #1E90FF;
+        border-color: #1e90ff;
       }
-      
+
       .figurinhas-grid {
         width: 100%;
         max-width: 1200px;
@@ -361,35 +361,35 @@
       }
       /* Cores das bordas por figurinha */
       .selo-card[data-id="1"] {
-        border-color: #FFD700;
+        border-color: #ffd700;
         box-shadow: 0 12px 24px rgba(255, 215, 0, 0.3);
       }
       .selo-card[data-id="1"]:hover {
         box-shadow: 0 16px 36px rgba(255, 215, 0, 0.4);
       }
       .selo-card[data-id="2"] {
-        border-color: #FF8C00;
+        border-color: #ff8c00;
         box-shadow: 0 12px 24px rgba(255, 140, 0, 0.3);
       }
       .selo-card[data-id="2"]:hover {
         box-shadow: 0 16px 36px rgba(255, 140, 0, 0.4);
       }
       .selo-card[data-id="3"] {
-        border-color: #32CD32;
+        border-color: #32cd32;
         box-shadow: 0 12px 24px rgba(50, 205, 50, 0.3);
       }
       .selo-card[data-id="3"]:hover {
         box-shadow: 0 16px 36px rgba(50, 205, 50, 0.4);
       }
       .selo-card[data-id="4"] {
-        border-color: #FF1493;
+        border-color: #ff1493;
         box-shadow: 0 12px 24px rgba(255, 20, 147, 0.3);
       }
       .selo-card[data-id="4"]:hover {
         box-shadow: 0 16px 36px rgba(255, 20, 147, 0.4);
       }
       .selo-card[data-id="5"] {
-        border-color: #1E90FF;
+        border-color: #1e90ff;
         box-shadow: 0 12px 24px rgba(30, 144, 255, 0.3);
       }
       .selo-card[data-id="5"]:hover {
@@ -592,7 +592,7 @@
           transform: translateY(0);
         }
       }
-      
+
       @keyframes stickerPaste {
         0% {
           transform: scale(0) rotate(-10deg);
@@ -606,9 +606,10 @@
           opacity: 1;
         }
       }
-      
+
       @keyframes celebrate {
-        0%, 100% {
+        0%,
+        100% {
           transform: scale(1);
         }
         25% {
@@ -618,15 +619,15 @@
           transform: scale(1.1) rotate(5deg);
         }
       }
-      
+
       .sticker-in-album {
         animation: stickerPaste 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
       }
-      
+
       .album-slot.celebrate {
         animation: celebrate 0.5s ease;
       }
-      
+
       .selo-card {
         animation: slideInUp 0.6s ease forwards;
       }
@@ -695,7 +696,7 @@
         </div>
 
         <!-- Figurinhas Disponíveis -->
-        <div class="album-section" style="max-width: 400px;">
+        <div class="album-section" style="max-width: 400px">
           <h2 class="section-title">✨ Figurinhas Disponíveis</h2>
           <div class="available-stickers" id="available-stickers">
             <!-- Figurinhas disponíveis serão criadas via JavaScript -->
@@ -704,7 +705,7 @@
       </div>
 
       <!-- Grade de selos (antiga - manter por compatibilidade) -->
-      <div class="figurinhas-grid" id="figurinhas-grid" style="display: none;">
+      <div class="figurinhas-grid" id="figurinhas-grid" style="display: none">
         <!-- Selos serão carregados aqui via JavaScript -->
       </div>
 
@@ -778,19 +779,18 @@
         );
 
         // Carregar álbum colado
-        albumColado = JSON.parse(
-          localStorage.getItem("albumColado") || "[]"
-        );
+        albumColado = JSON.parse(localStorage.getItem("albumColado") || "[]");
 
         // Calcular quantas figurinhas foram coladas
         const totalColadas = albumColado.length;
-        
+
         // Próxima figurinha disponível (sempre na ordem 1, 2, 3, 4, 5)
         const proximaFigurinhaId = totalColadas + 1;
 
         // Atualizar estatísticas
         document.getElementById("total-selos").textContent = totalColadas;
-        document.getElementById("perguntas-respondidas").textContent = pontosDisponiveis;
+        document.getElementById("perguntas-respondidas").textContent =
+          pontosDisponiveis;
 
         console.log("=== DEBUG ÁLBUM ===");
         console.log("Pontos disponíveis:", pontosDisponiveis);
@@ -801,12 +801,12 @@
 
         // Criar slots do álbum
         const albumGrid = document.getElementById("album-grid");
-        
+
         if (!albumGrid) {
           console.error("❌ Elemento album-grid não encontrado!");
           return;
         }
-        
+
         console.log("✅ Elemento album-grid encontrado:", albumGrid);
         albumGrid.innerHTML = "";
 
@@ -814,12 +814,12 @@
           const slot = document.createElement("div");
           slot.className = "album-slot";
           slot.dataset.id = figurinha.id;
-          
+
           console.log(`Criando slot para figurinha ${figurinha.id}`);
-          
+
           // Verificar se já foi colado
-          const jaColado = albumColado.find(a => a.id === figurinha.id);
-          
+          const jaColado = albumColado.find((a) => a.id === figurinha.id);
+
           if (jaColado) {
             slot.classList.add("filled");
             slot.innerHTML = `
@@ -833,34 +833,39 @@
               <div class="slot-number">${figurinha.id}</div>
               <div class="slot-label">${figurinha.nome}</div>
             `;
-            
+
             // Adicionar eventos de drop apenas no slot vazio
             slot.addEventListener("dragover", handleDragOver);
             slot.addEventListener("drop", handleDrop);
             slot.addEventListener("dragleave", handleDragLeave);
           }
-          
+
           // IMPORTANTE: Adicionar o slot ao grid!
           albumGrid.appendChild(slot);
           console.log(`Slot ${figurinha.id} adicionado ao DOM`);
         });
-        
-        console.log(`✅ Total de ${figurinhasDisponiveis.length} slots criados no álbum`);
+
+        console.log(
+          `✅ Total de ${figurinhasDisponiveis.length} slots criados no álbum`
+        );
 
         // Criar figurinhas disponíveis
         const availableStickers = document.getElementById("available-stickers");
-        
+
         if (!availableStickers) {
           console.error("❌ Elemento available-stickers não encontrado!");
           return;
         }
-        
-        console.log("✅ Elemento available-stickers encontrado:", availableStickers);
+
+        console.log(
+          "✅ Elemento available-stickers encontrado:",
+          availableStickers
+        );
         availableStickers.innerHTML = "";
 
         figurinhasDisponiveis.forEach((figurinha) => {
-          const jaColado = albumColado.find(a => a.id === figurinha.id);
-          
+          const jaColado = albumColado.find((a) => a.id === figurinha.id);
+
           // Só pode desbloquear se:
           // 1. Ainda não foi colada
           // 2. É a próxima na sequência (ID = total coladas + 1)
@@ -868,11 +873,11 @@
           const ehProxima = figurinha.id === proximaFigurinhaId;
           const temPontos = pontosDisponiveis >= 5;
           const podeDesbloquear = !jaColado && ehProxima && temPontos;
-          
+
           const stickerItem = document.createElement("div");
           stickerItem.className = "sticker-item";
           stickerItem.dataset.id = figurinha.id;
-          
+
           if (jaColado) {
             stickerItem.classList.add("locked");
             stickerItem.draggable = false;
@@ -884,7 +889,7 @@
             stickerItem.classList.add("locked");
             stickerItem.draggable = false;
           }
-          
+
           let statusText;
           if (jaColado) {
             statusText = "✅ Já colada";
@@ -895,7 +900,7 @@
           } else {
             statusText = "✨ Arraste ou clique para colar";
           }
-          
+
           stickerItem.innerHTML = `
             <img src="${figurinha.imagem}" alt="${figurinha.nome}" />
             <div class="sticker-info">
@@ -904,51 +909,64 @@
               <div class="status">${statusText}</div>
             </div>
           `;
-          
+
           // Adicionar clique para dispositivos móveis
           if (podeDesbloquear) {
             stickerItem.addEventListener("click", () => {
-              if (confirm(`Deseja colar a figurinha "${figurinha.nome}" no álbum?\n\nCusto: 5 pontos`)) {
+              if (
+                confirm(
+                  `Deseja colar a figurinha "${figurinha.nome}" no álbum?\n\nCusto: 5 pontos`
+                )
+              ) {
                 colarFigurinhaNoAlbum(figurinha.id);
               }
             });
           }
-          
+
           availableStickers.appendChild(stickerItem);
         });
       }
 
       // Função para colar figurinha (usada por clique em mobile)
       function colarFigurinhaNoAlbum(figurinhaId) {
-        const figurinha = figurinhasDisponiveis.find(f => f.id === figurinhaId);
+        const figurinha = figurinhasDisponiveis.find(
+          (f) => f.id === figurinhaId
+        );
         const proximaFigurinhaId = albumColado.length + 1;
-        
+
         // Verificar se é a próxima na ordem
         if (figurinhaId !== proximaFigurinhaId) {
-          alert(`⚠️ Você precisa colar as figurinhas em ordem!\nCole a figurinha ${proximaFigurinhaId} primeiro.`);
+          alert(
+            `⚠️ Você precisa colar as figurinhas em ordem!\nCole a figurinha ${proximaFigurinhaId} primeiro.`
+          );
           return;
         }
-        
+
         // Verificar se tem pontos suficientes (sempre 5 pontos)
         if (pontosDisponiveis < 5) {
-          alert(`⚠️ Você precisa de 5 pontos para colar esta figurinha!\nVocê tem apenas ${pontosDisponiveis} pontos.`);
+          alert(
+            `⚠️ Você precisa de 5 pontos para colar esta figurinha!\nVocê tem apenas ${pontosDisponiveis} pontos.`
+          );
           return;
         }
-        
+
         // Descontar 5 pontos
         pontosDisponiveis -= 5;
-        localStorage.setItem("perguntasRespondidas", pontosDisponiveis.toString());
-        
+        localStorage.setItem(
+          "perguntasRespondidas",
+          pontosDisponiveis.toString()
+        );
+
         // Adicionar ao álbum
         albumColado.push({
           id: figurinha.id,
-          dataColagem: new Date().toISOString()
+          dataColagem: new Date().toISOString(),
         });
         localStorage.setItem("albumColado", JSON.stringify(albumColado));
-        
+
         // Mostrar mensagem de sucesso
         mostrarMensagemSucesso(figurinha.nome);
-        
+
         // Recarregar álbum
         carregarAlbum();
       }
@@ -989,61 +1007,68 @@
         if (e.preventDefault) {
           e.preventDefault();
         }
-        
+
         e.currentTarget.classList.remove("drag-over");
-        
+
         const slotId = parseInt(e.currentTarget.dataset.id);
         const proximaFigurinhaId = albumColado.length + 1;
-        
+
         console.log("Drop no slot:", slotId);
         console.log("Figurinha arrastada:", draggedStickerId);
         console.log("Próxima esperada:", proximaFigurinhaId);
-        
+
         // Verificar se está soltando na figurinha correta
         if (draggedStickerId !== slotId) {
           alert("⚠️ Coloque a figurinha no espaço correto!");
           return false;
         }
-        
+
         // Verificar se é a próxima na ordem
         if (draggedStickerId !== proximaFigurinhaId) {
-          alert(`⚠️ Você precisa colar as figurinhas em ordem!\nCole a figurinha ${proximaFigurinhaId} primeiro.`);
+          alert(
+            `⚠️ Você precisa colar as figurinhas em ordem!\nCole a figurinha ${proximaFigurinhaId} primeiro.`
+          );
           return false;
         }
-        
-        const figurinha = figurinhasDisponiveis.find(f => f.id === slotId);
-        
+
+        const figurinha = figurinhasDisponiveis.find((f) => f.id === slotId);
+
         // Verificar se tem pontos suficientes (sempre 5 pontos)
         if (pontosDisponiveis < 5) {
-          alert(`⚠️ Você precisa de 5 pontos para colar esta figurinha!\nVocê tem apenas ${pontosDisponiveis} pontos.`);
+          alert(
+            `⚠️ Você precisa de 5 pontos para colar esta figurinha!\nVocê tem apenas ${pontosDisponiveis} pontos.`
+          );
           return false;
         }
-        
+
         // Descontar 5 pontos
         pontosDisponiveis -= 5;
-        localStorage.setItem("perguntasRespondidas", pontosDisponiveis.toString());
-        
+        localStorage.setItem(
+          "perguntasRespondidas",
+          pontosDisponiveis.toString()
+        );
+
         // Adicionar ao álbum
         albumColado.push({
           id: figurinha.id,
-          dataColagem: new Date().toISOString()
+          dataColagem: new Date().toISOString(),
         });
         localStorage.setItem("albumColado", JSON.stringify(albumColado));
-        
+
         // Animação de celebração
         e.currentTarget.classList.add("celebrate");
         setTimeout(() => {
           e.currentTarget.classList.remove("celebrate");
         }, 500);
-        
+
         // Mostrar mensagem de sucesso
         mostrarMensagemSucesso(figurinha.nome);
-        
+
         // Recarregar álbum
         setTimeout(() => {
           carregarAlbum();
         }, 600);
-        
+
         return false;
       }
 
@@ -1071,7 +1096,7 @@
           "${nomeFigurinha}"!
         `;
         document.body.appendChild(mensagem);
-        
+
         setTimeout(() => {
           mensagem.style.opacity = "0";
           mensagem.style.transition = "opacity 0.5s";
@@ -1242,7 +1267,7 @@
       }
 
       // Carregar álbum quando a página carrega
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         carregarAlbum();
         carregarFigurinhas(); // Manter compatibilidade com visualização antiga
       });
