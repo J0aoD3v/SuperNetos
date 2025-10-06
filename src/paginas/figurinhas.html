@@ -59,73 +59,379 @@
         align-items: center;
       }
       .header {
-        text-align: center;
-        margin-bottom: 3rem;
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 3rem;
       }
-      .header h1 {
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .header-image {
+        width: 160px;
+        max-width: 35vw;
+        height: auto;
+      }
+      .header-title {
         font-size: 3rem;
         font-weight: bold;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        color: #fff;
       }
-      .header p {
+      .header-description {
         font-size: 1.2rem;
         opacity: 0.9;
         max-width: 600px;
-        margin: 0 auto;
+        text-align: center;
+        margin: 0;
       }
-      .selos-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 2rem;
+      
+      /* Álbum e Figurinhas Disponíveis */
+      .album-container {
         width: 100%;
         max-width: 1200px;
+        display: flex;
+        gap: 2rem;
         margin-bottom: 3rem;
+        flex-wrap: wrap;
+        justify-content: center;
       }
-      .selo-card {
+      
+      .album-section {
+        flex: 1;
+        min-width: 300px;
         background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(10px);
         border-radius: 20px;
         padding: 2rem;
+        border: 2px solid rgba(255, 255, 255, 0.2);
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
         text-align: center;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+      
+      .album-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+      }
+      
+      .album-slot {
+        aspect-ratio: 3 / 4;
+        background: rgba(255, 255, 255, 0.9);
+        border: 3px dashed #ccc;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         position: relative;
-        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+      
+      .album-slot.drag-over {
+        border-color: #4CAF50;
+        background: rgba(76, 175, 80, 0.2);
+        transform: scale(1.05);
+      }
+      
+      .album-slot.filled {
+        border-style: solid;
+        background: white;
+      }
+      
+      .album-slot .slot-number {
+        font-size: 2rem;
+        color: #ccc;
+        font-weight: bold;
+      }
+      
+      .album-slot .slot-label {
+        font-size: 0.9rem;
+        color: #999;
+        margin-top: 0.5rem;
+      }
+      
+      .album-slot.filled .slot-number,
+      .album-slot.filled .slot-label {
+        display: none;
+      }
+      
+      .sticker-in-album {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 0.5rem;
+      }
+      
+      .sticker-in-album img {
+        width: 100%;
+        height: 60%;
+        object-fit: contain;
+        border-radius: 8px;
+      }
+      
+      .sticker-in-album .sticker-name {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #2a2353;
+        text-align: center;
+      }
+      
+      /* Figurinhas Disponíveis */
+      .available-stickers {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        max-height: 600px;
+        overflow-y: auto;
+      }
+      
+      .sticker-item {
+        background: white;
+        border-radius: 12px;
+        padding: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        cursor: grab;
+        transition: all 0.3s ease;
+        border: 3px solid transparent;
+      }
+      
+      .sticker-item:hover {
+        transform: translateX(5px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+      
+      .sticker-item.dragging {
+        opacity: 0.5;
+        cursor: grabbing;
+      }
+      
+      .sticker-item.locked {
+        opacity: 0.5;
+        cursor: not-allowed;
+        filter: grayscale(100%);
+      }
+      
+      .sticker-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+        border-radius: 8px;
+      }
+      
+      .sticker-info {
+        flex: 1;
+      }
+      
+      .sticker-info .name {
+        font-weight: bold;
+        color: #2a2353;
+        font-size: 1.1rem;
+      }
+      
+      .sticker-info .cost {
+        color: #667eea;
+        font-size: 0.9rem;
+        margin-top: 0.3rem;
+      }
+      
+      .sticker-info .status {
+        color: #666;
+        font-size: 0.85rem;
+        margin-top: 0.2rem;
+      }
+      
+      /* Scrollbar personalizada */
+      .available-stickers::-webkit-scrollbar {
+        width: 8px;
+      }
+      
+      .available-stickers::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+      
+      .available-stickers::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 10px;
+      }
+      
+      .available-stickers::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+      }
+      
+      /* Cores das bordas por figurinha */
+      .sticker-item[data-id="1"],
+      .album-slot[data-id="1"].filled {
+        border-color: #FFD700;
+      }
+      .sticker-item[data-id="2"],
+      .album-slot[data-id="2"].filled {
+        border-color: #FF8C00;
+      }
+      .sticker-item[data-id="3"],
+      .album-slot[data-id="3"].filled {
+        border-color: #32CD32;
+      }
+      .sticker-item[data-id="4"],
+      .album-slot[data-id="4"].filled {
+        border-color: #FF1493;
+      }
+      .sticker-item[data-id="5"],
+      .album-slot[data-id="5"].filled {
+        border-color: #1E90FF;
+      }
+      
+      .figurinhas-grid {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        align-items: center;
+        margin-bottom: 3rem;
+      }
+      .figurinhas-row {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .selo-card {
+        background: #ffffff;
+        border: 6px solid
+          var(--figurinha-border-color, rgba(118, 75, 162, 0.35));
+        border-radius: 24px;
+        color: #2a2353;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        gap: 0.75rem;
+        box-shadow: 0 12px 24px rgba(10, 10, 30, 0.12);
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .selo-card.horizontal {
+        width: clamp(280px, 35vw, 450px);
+        min-height: 320px;
+        height: auto;
+      }
+      .selo-card.vertical {
+        aspect-ratio: 9 / 16;
+        width: clamp(160px, 22vw, 260px);
       }
       .selo-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 16px 36px rgba(10, 10, 30, 0.2);
       }
       .selo-card.locked {
-        opacity: 0.5;
-        background: rgba(0, 0, 0, 0.2);
-      }
-      .selo-icon {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-        display: block;
+        opacity: 0.6;
+        box-shadow: none;
+        filter: grayscale(0.15);
       }
       .selo-card.locked .selo-icon {
         filter: grayscale(100%);
       }
+      .selo-card.locked .selo-image {
+        filter: grayscale(100%) blur(3px);
+        opacity: 0.4;
+      }
+      /* Cores das bordas por figurinha */
+      .selo-card[data-id="1"] {
+        border-color: #FFD700;
+        box-shadow: 0 12px 24px rgba(255, 215, 0, 0.3);
+      }
+      .selo-card[data-id="1"]:hover {
+        box-shadow: 0 16px 36px rgba(255, 215, 0, 0.4);
+      }
+      .selo-card[data-id="2"] {
+        border-color: #FF8C00;
+        box-shadow: 0 12px 24px rgba(255, 140, 0, 0.3);
+      }
+      .selo-card[data-id="2"]:hover {
+        box-shadow: 0 16px 36px rgba(255, 140, 0, 0.4);
+      }
+      .selo-card[data-id="3"] {
+        border-color: #32CD32;
+        box-shadow: 0 12px 24px rgba(50, 205, 50, 0.3);
+      }
+      .selo-card[data-id="3"]:hover {
+        box-shadow: 0 16px 36px rgba(50, 205, 50, 0.4);
+      }
+      .selo-card[data-id="4"] {
+        border-color: #FF1493;
+        box-shadow: 0 12px 24px rgba(255, 20, 147, 0.3);
+      }
+      .selo-card[data-id="4"]:hover {
+        box-shadow: 0 16px 36px rgba(255, 20, 147, 0.4);
+      }
+      .selo-card[data-id="5"] {
+        border-color: #1E90FF;
+        box-shadow: 0 12px 24px rgba(30, 144, 255, 0.3);
+      }
+      .selo-card[data-id="5"]:hover {
+        box-shadow: 0 16px 36px rgba(30, 144, 255, 0.4);
+      }
+      .selo-icon {
+        font-size: clamp(2.5rem, 4vw, 4rem);
+        display: block;
+      }
+      .selo-image {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: contain;
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
+        flex-shrink: 0;
+      }
+      .selo-card.horizontal .selo-image {
+        max-height: 150px;
+        max-width: 90%;
+      }
+      .selo-card.vertical .selo-image {
+        max-height: 250px;
+      }
       .selo-name {
         font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-        color: #fff;
+        font-weight: 700;
+        color: #2a2353;
+        flex-shrink: 0;
       }
       .selo-description {
         font-size: 1rem;
-        opacity: 0.8;
-        margin-bottom: 1rem;
-        line-height: 1.4;
+        color: #4a4466;
+        line-height: 1.5;
+        flex-shrink: 0;
       }
       .selo-date {
         font-size: 0.9rem;
-        opacity: 0.7;
+        color: #6a6585;
         font-style: italic;
+        flex-shrink: 0;
       }
       .selo-card.locked .selo-date {
         display: none;
@@ -134,6 +440,22 @@
         content: " - Bloqueado";
         color: #ff6b6b;
         font-weight: bold;
+      }
+      @media (max-width: 768px) {
+        .header-title {
+          font-size: 2.2rem;
+        }
+        .figurinhas-row {
+          flex-direction: column;
+          align-items: center;
+        }
+        .selo-card.horizontal {
+          width: min(100%, 360px);
+          min-height: 300px;
+        }
+        .selo-card.vertical {
+          width: min(100%, 260px);
+        }
       }
       .stats-container {
         display: flex;
@@ -209,29 +531,7 @@
         justify-content: center;
         align-items: center;
       }
-      .empty-state {
-        text-align: center;
-        padding: 4rem 2rem;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        max-width: 500px;
-        width: 100%;
-      }
-      .empty-state .icon {
-        font-size: 4rem;
-        margin-bottom: 1rem;
-        opacity: 0.6;
-      }
-      .empty-state h3 {
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
-      }
-      .empty-state p {
-        opacity: 0.8;
-        line-height: 1.6;
-      }
+
       /* Responsividade */
       @media (max-width: 768px) {
         .container {
@@ -239,6 +539,25 @@
         }
         .header h1 {
           font-size: 2rem;
+        }
+        .album-container {
+          flex-direction: column;
+        }
+        .album-section {
+          min-width: 100%;
+        }
+        .album-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .available-stickers {
+          max-height: 400px;
+        }
+        .sticker-item {
+          padding: 0.8rem;
+        }
+        .sticker-item img {
+          width: 50px;
+          height: 50px;
         }
         .selos-grid {
           grid-template-columns: 1fr;
@@ -273,6 +592,41 @@
           transform: translateY(0);
         }
       }
+      
+      @keyframes stickerPaste {
+        0% {
+          transform: scale(0) rotate(-10deg);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.2) rotate(5deg);
+        }
+        100% {
+          transform: scale(1) rotate(0deg);
+          opacity: 1;
+        }
+      }
+      
+      @keyframes celebrate {
+        0%, 100% {
+          transform: scale(1);
+        }
+        25% {
+          transform: scale(1.1) rotate(-5deg);
+        }
+        75% {
+          transform: scale(1.1) rotate(5deg);
+        }
+      }
+      
+      .sticker-in-album {
+        animation: stickerPaste 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+      
+      .album-slot.celebrate {
+        animation: celebrate 0.5s ease;
+      }
+      
       .selo-card {
         animation: slideInUp 0.6s ease forwards;
       }
@@ -304,8 +658,15 @@
     <div class="container">
       <!-- Cabeçalho -->
       <div class="header">
-        <h1>� Premiação: Minhas Figurinhas</h1>
-        <p>
+        <div class="header-top">
+          <img
+            class="header-image"
+            src="../recursos/imagens/personagens/menina_normal.png"
+            alt="Personagem SuperNetos"
+          />
+          <h1 class="header-title">SuperNetos</h1>
+        </div>
+        <p class="header-description">
           Conquiste figurinhas respondendo perguntas e se tornando um verdadeiro
           Super Neto!
         </p>
@@ -315,27 +676,36 @@
       <div class="stats-container">
         <div class="stat-card">
           <span class="stat-number" id="total-selos">0</span>
-          <span class="stat-label">Figurinhas Conquistadas</span>
+          <span class="stat-label">Figurinhas Coladas</span>
         </div>
         <div class="stat-card">
           <span class="stat-number" id="perguntas-respondidas">0</span>
-          <span class="stat-label">Perguntas Respondidas</span>
+          <span class="stat-label">Pontos Disponíveis</span>
         </div>
       </div>
 
-      <!-- Grade de selos -->
-      <div class="figurinhas-grid" id="figurinhas-grid">
-        <!-- Selos serão carregados aqui via JavaScript -->
+      <!-- Álbum e Figurinhas Disponíveis -->
+      <div class="album-container">
+        <!-- Álbum -->
+        <div class="album-section">
+          <h2 class="section-title">📔 Meu Álbum</h2>
+          <div class="album-grid" id="album-grid">
+            <!-- Slots serão criados via JavaScript -->
+          </div>
+        </div>
+
+        <!-- Figurinhas Disponíveis -->
+        <div class="album-section" style="max-width: 400px;">
+          <h2 class="section-title">✨ Figurinhas Disponíveis</h2>
+          <div class="available-stickers" id="available-stickers">
+            <!-- Figurinhas disponíveis serão criadas via JavaScript -->
+          </div>
+        </div>
       </div>
 
-      <!-- Estado vazio -->
-      <div class="empty-state" id="empty-state" style="display: none">
-        <div class="icon">🎯</div>
-        <h3>Nenhuma figurinha conquistada ainda</h3>
-        <p>
-          Responda perguntas no jogo para conquistar suas primeiras figurinhas!
-          A cada 5 perguntas respondidas você ganha uma nova figurinha.
-        </p>
+      <!-- Grade de selos (antiga - manter por compatibilidade) -->
+      <div class="figurinhas-grid" id="figurinhas-grid" style="display: none;">
+        <!-- Selos serão carregados aqui via JavaScript -->
       </div>
 
       <!-- Botões -->
@@ -360,6 +730,7 @@
           nome: "Primeiro Passo",
           descricao: "Completou suas primeiras 5 perguntas",
           icone: "🎯",
+          imagem: "../recursos/imagens/figurinhas/01.jfif",
           perguntasNecessarias: 5,
         },
         {
@@ -367,6 +738,7 @@
           nome: "Perseverança",
           descricao: "Respondeu 10 perguntas com dedicação",
           icone: "💪",
+          imagem: "../recursos/imagens/figurinhas/02.jfif",
           perguntasNecessarias: 10,
         },
         {
@@ -374,6 +746,7 @@
           nome: "Sabedoria",
           descricao: "Demonstrou conhecimento em 15 perguntas",
           icone: "🧠",
+          imagem: "../recursos/imagens/figurinhas/03.jfif",
           perguntasNecessarias: 15,
         },
         {
@@ -381,6 +754,7 @@
           nome: "Coração Generoso",
           descricao: "Mostrou empatia em 20 perguntas",
           icone: "❤️",
+          imagem: "../recursos/imagens/figurinhas/04.jfif",
           perguntasNecessarias: 20,
         },
         {
@@ -388,47 +762,359 @@
           nome: "SuperNeto",
           descricao: "Conquistou o título de SuperNeto com 25 perguntas",
           icone: "⭐",
+          imagem: "../recursos/imagens/figurinhas/05.jfif",
           perguntasNecessarias: 25,
-        },
-        {
-          id: 6,
-          nome: "Mestre da Empatia",
-          descricao: "Dominou a arte da empatia com 30 perguntas",
-          icone: "🌟",
-          perguntasNecessarias: 30,
-        },
-        {
-          id: 7,
-          nome: "Guardião dos Idosos",
-          descricao: "Tornou-se protetor dos direitos dos idosos",
-          icone: "🛡️",
-          perguntasNecessarias: 35,
-        },
-        {
-          id: 8,
-          nome: "Lenda SuperNetos",
-          descricao: "Alcançou o status de lenda entre os SuperNetos",
-          icone: "👑",
-          perguntasNecessarias: 40,
         },
       ];
 
+      // Estado do álbum
+      let pontosDisponiveis = 0;
+      let albumColado = [];
+
+      function carregarAlbum() {
+        // Carregar pontos (perguntas respondidas)
+        pontosDisponiveis = parseInt(
+          localStorage.getItem("perguntasRespondidas") || "0"
+        );
+
+        // Carregar álbum colado
+        albumColado = JSON.parse(
+          localStorage.getItem("albumColado") || "[]"
+        );
+
+        // Calcular quantas figurinhas foram coladas
+        const totalColadas = albumColado.length;
+        
+        // Próxima figurinha disponível (sempre na ordem 1, 2, 3, 4, 5)
+        const proximaFigurinhaId = totalColadas + 1;
+
+        // Atualizar estatísticas
+        document.getElementById("total-selos").textContent = totalColadas;
+        document.getElementById("perguntas-respondidas").textContent = pontosDisponiveis;
+
+        console.log("=== DEBUG ÁLBUM ===");
+        console.log("Pontos disponíveis:", pontosDisponiveis);
+        console.log("Total de figurinhas coladas:", totalColadas);
+        console.log("Próxima figurinha disponível:", proximaFigurinhaId);
+        console.log("Álbum colado:", albumColado);
+        console.log("===================");
+
+        // Criar slots do álbum
+        const albumGrid = document.getElementById("album-grid");
+        
+        if (!albumGrid) {
+          console.error("❌ Elemento album-grid não encontrado!");
+          return;
+        }
+        
+        console.log("✅ Elemento album-grid encontrado:", albumGrid);
+        albumGrid.innerHTML = "";
+
+        figurinhasDisponiveis.forEach((figurinha) => {
+          const slot = document.createElement("div");
+          slot.className = "album-slot";
+          slot.dataset.id = figurinha.id;
+          
+          console.log(`Criando slot para figurinha ${figurinha.id}`);
+          
+          // Verificar se já foi colado
+          const jaColado = albumColado.find(a => a.id === figurinha.id);
+          
+          if (jaColado) {
+            slot.classList.add("filled");
+            slot.innerHTML = `
+              <div class="sticker-in-album">
+                <img src="${figurinha.imagem}" alt="${figurinha.nome}" />
+                <div class="sticker-name">${figurinha.nome}</div>
+              </div>
+            `;
+          } else {
+            slot.innerHTML = `
+              <div class="slot-number">${figurinha.id}</div>
+              <div class="slot-label">${figurinha.nome}</div>
+            `;
+            
+            // Adicionar eventos de drop apenas no slot vazio
+            slot.addEventListener("dragover", handleDragOver);
+            slot.addEventListener("drop", handleDrop);
+            slot.addEventListener("dragleave", handleDragLeave);
+          }
+          
+          // IMPORTANTE: Adicionar o slot ao grid!
+          albumGrid.appendChild(slot);
+          console.log(`Slot ${figurinha.id} adicionado ao DOM`);
+        });
+        
+        console.log(`✅ Total de ${figurinhasDisponiveis.length} slots criados no álbum`);
+
+        // Criar figurinhas disponíveis
+        const availableStickers = document.getElementById("available-stickers");
+        
+        if (!availableStickers) {
+          console.error("❌ Elemento available-stickers não encontrado!");
+          return;
+        }
+        
+        console.log("✅ Elemento available-stickers encontrado:", availableStickers);
+        availableStickers.innerHTML = "";
+
+        figurinhasDisponiveis.forEach((figurinha) => {
+          const jaColado = albumColado.find(a => a.id === figurinha.id);
+          
+          // Só pode desbloquear se:
+          // 1. Ainda não foi colada
+          // 2. É a próxima na sequência (ID = total coladas + 1)
+          // 3. Tem pelo menos 5 pontos disponíveis
+          const ehProxima = figurinha.id === proximaFigurinhaId;
+          const temPontos = pontosDisponiveis >= 5;
+          const podeDesbloquear = !jaColado && ehProxima && temPontos;
+          
+          const stickerItem = document.createElement("div");
+          stickerItem.className = "sticker-item";
+          stickerItem.dataset.id = figurinha.id;
+          
+          if (jaColado) {
+            stickerItem.classList.add("locked");
+            stickerItem.draggable = false;
+          } else if (podeDesbloquear) {
+            stickerItem.draggable = true;
+            stickerItem.addEventListener("dragstart", handleDragStart);
+            stickerItem.addEventListener("dragend", handleDragEnd);
+          } else {
+            stickerItem.classList.add("locked");
+            stickerItem.draggable = false;
+          }
+          
+          let statusText;
+          if (jaColado) {
+            statusText = "✅ Já colada";
+          } else if (!ehProxima) {
+            statusText = `🔒 Cole a figurinha ${proximaFigurinhaId} primeiro`;
+          } else if (!temPontos) {
+            statusText = "🔒 Precisa de 5 pontos";
+          } else {
+            statusText = "✨ Arraste ou clique para colar";
+          }
+          
+          stickerItem.innerHTML = `
+            <img src="${figurinha.imagem}" alt="${figurinha.nome}" />
+            <div class="sticker-info">
+              <div class="name">${figurinha.nome}</div>
+              <div class="cost">Custo: 5 pontos</div>
+              <div class="status">${statusText}</div>
+            </div>
+          `;
+          
+          // Adicionar clique para dispositivos móveis
+          if (podeDesbloquear) {
+            stickerItem.addEventListener("click", () => {
+              if (confirm(`Deseja colar a figurinha "${figurinha.nome}" no álbum?\n\nCusto: 5 pontos`)) {
+                colarFigurinhaNoAlbum(figurinha.id);
+              }
+            });
+          }
+          
+          availableStickers.appendChild(stickerItem);
+        });
+      }
+
+      // Função para colar figurinha (usada por clique em mobile)
+      function colarFigurinhaNoAlbum(figurinhaId) {
+        const figurinha = figurinhasDisponiveis.find(f => f.id === figurinhaId);
+        const proximaFigurinhaId = albumColado.length + 1;
+        
+        // Verificar se é a próxima na ordem
+        if (figurinhaId !== proximaFigurinhaId) {
+          alert(`⚠️ Você precisa colar as figurinhas em ordem!\nCole a figurinha ${proximaFigurinhaId} primeiro.`);
+          return;
+        }
+        
+        // Verificar se tem pontos suficientes (sempre 5 pontos)
+        if (pontosDisponiveis < 5) {
+          alert(`⚠️ Você precisa de 5 pontos para colar esta figurinha!\nVocê tem apenas ${pontosDisponiveis} pontos.`);
+          return;
+        }
+        
+        // Descontar 5 pontos
+        pontosDisponiveis -= 5;
+        localStorage.setItem("perguntasRespondidas", pontosDisponiveis.toString());
+        
+        // Adicionar ao álbum
+        albumColado.push({
+          id: figurinha.id,
+          dataColagem: new Date().toISOString()
+        });
+        localStorage.setItem("albumColado", JSON.stringify(albumColado));
+        
+        // Mostrar mensagem de sucesso
+        mostrarMensagemSucesso(figurinha.nome);
+        
+        // Recarregar álbum
+        carregarAlbum();
+      }
+
+      // Drag and Drop Handlers
+      let draggedStickerId = null;
+
+      function handleDragStart(e) {
+        draggedStickerId = parseInt(e.currentTarget.dataset.id);
+        e.currentTarget.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.setData("text/plain", draggedStickerId);
+        console.log("Iniciando arraste da figurinha:", draggedStickerId);
+      }
+
+      function handleDragEnd(e) {
+        e.currentTarget.classList.remove("dragging");
+        console.log("Finalizando arraste");
+      }
+
+      function handleDragOver(e) {
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        e.currentTarget.classList.add("drag-over");
+        e.dataTransfer.dropEffect = "move";
+        return false;
+      }
+
+      function handleDragLeave(e) {
+        e.currentTarget.classList.remove("drag-over");
+      }
+
+      function handleDrop(e) {
+        if (e.stopPropagation) {
+          e.stopPropagation();
+        }
+        if (e.preventDefault) {
+          e.preventDefault();
+        }
+        
+        e.currentTarget.classList.remove("drag-over");
+        
+        const slotId = parseInt(e.currentTarget.dataset.id);
+        const proximaFigurinhaId = albumColado.length + 1;
+        
+        console.log("Drop no slot:", slotId);
+        console.log("Figurinha arrastada:", draggedStickerId);
+        console.log("Próxima esperada:", proximaFigurinhaId);
+        
+        // Verificar se está soltando na figurinha correta
+        if (draggedStickerId !== slotId) {
+          alert("⚠️ Coloque a figurinha no espaço correto!");
+          return false;
+        }
+        
+        // Verificar se é a próxima na ordem
+        if (draggedStickerId !== proximaFigurinhaId) {
+          alert(`⚠️ Você precisa colar as figurinhas em ordem!\nCole a figurinha ${proximaFigurinhaId} primeiro.`);
+          return false;
+        }
+        
+        const figurinha = figurinhasDisponiveis.find(f => f.id === slotId);
+        
+        // Verificar se tem pontos suficientes (sempre 5 pontos)
+        if (pontosDisponiveis < 5) {
+          alert(`⚠️ Você precisa de 5 pontos para colar esta figurinha!\nVocê tem apenas ${pontosDisponiveis} pontos.`);
+          return false;
+        }
+        
+        // Descontar 5 pontos
+        pontosDisponiveis -= 5;
+        localStorage.setItem("perguntasRespondidas", pontosDisponiveis.toString());
+        
+        // Adicionar ao álbum
+        albumColado.push({
+          id: figurinha.id,
+          dataColagem: new Date().toISOString()
+        });
+        localStorage.setItem("albumColado", JSON.stringify(albumColado));
+        
+        // Animação de celebração
+        e.currentTarget.classList.add("celebrate");
+        setTimeout(() => {
+          e.currentTarget.classList.remove("celebrate");
+        }, 500);
+        
+        // Mostrar mensagem de sucesso
+        mostrarMensagemSucesso(figurinha.nome);
+        
+        // Recarregar álbum
+        setTimeout(() => {
+          carregarAlbum();
+        }, 600);
+        
+        return false;
+      }
+
+      function mostrarMensagemSucesso(nomeFigurinha) {
+        const mensagem = document.createElement("div");
+        mensagem.style.cssText = `
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 2rem 3rem;
+          border-radius: 20px;
+          font-size: 1.5rem;
+          font-weight: bold;
+          text-align: center;
+          z-index: 10000;
+          box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+          animation: celebrate 0.5s ease;
+        `;
+        mensagem.innerHTML = `
+          🎉 Parabéns! 🎉<br>
+          Você colou a figurinha<br>
+          "${nomeFigurinha}"!
+        `;
+        document.body.appendChild(mensagem);
+        
+        setTimeout(() => {
+          mensagem.style.opacity = "0";
+          mensagem.style.transition = "opacity 0.5s";
+          setTimeout(() => mensagem.remove(), 500);
+        }, 2000);
+      }
+
       function carregarFigurinhas() {
-        // Carregar figurinhas conquistadas do localStorage
+        // Carregar figurinhas conquistadas do localStorage (usando chave correta)
         const figurinhasConquistadas = JSON.parse(
-          localStorage.getItem("figurinhasConquistadas") || "[]"
+          localStorage.getItem("selosConquistados") || "[]"
         );
 
         // Obter contagem de perguntas únicas para lógica das figurinhas
         const gameProgress = JSON.parse(
           localStorage.getItem("gameProgress") || "[]"
         );
-        const perguntasUnicas = gameProgress.length; // Para verificar bloqueio dos selos
+        let perguntasUnicas = gameProgress.length; // Para verificar bloqueio dos selos
 
         // Obter contagem TOTAL de perguntas respondidas para exibição
         const perguntasTotais = parseInt(
           localStorage.getItem("perguntasRespondidas") || "0"
         );
+
+        // FALLBACK: Se gameProgress estiver vazio mas há perguntas respondidas,
+        // usar perguntasRespondidas como base (compatibilidade com versões antigas)
+        if (perguntasUnicas === 0 && perguntasTotais > 0) {
+          perguntasUnicas = perguntasTotais;
+          console.warn(
+            "⚠️ gameProgress vazio, usando perguntasRespondidas como fallback"
+          );
+        }
+
+        // Debug: mostrar valores no console
+        console.log("=== DEBUG FIGURINHAS ===");
+        console.log("gameProgress.length:", gameProgress.length);
+        console.log("perguntasRespondidas:", perguntasTotais);
+        console.log(
+          "Perguntas únicas (usado para desbloqueio):",
+          perguntasUnicas
+        );
+        console.log("Selos conquistados:", figurinhasConquistadas);
+        console.log("========================");
 
         // Atualizar estatísticas (mostra TOTAL de perguntas respondidas)
         document.getElementById("total-selos").textContent =
@@ -437,27 +1123,57 @@
           perguntasTotais;
 
         const figurinhasGrid = document.getElementById("figurinhas-grid");
-        const emptyState = document.getElementById("empty-state");
 
         if (figurinhasDisponiveis.length === 0) {
           figurinhasGrid.style.display = "none";
-          emptyState.style.display = "block";
           return;
         }
 
         figurinhasGrid.innerHTML = "";
-        emptyState.style.display = "none";
 
-        figurinhasDisponiveis.forEach((figurinhaDisponivel) => {
+        const primeiraLinha = document.createElement("div");
+        primeiraLinha.className = "figurinhas-row";
+        const segundaLinha = document.createElement("div");
+        segundaLinha.className = "figurinhas-row";
+
+        figurinhasDisponiveis.forEach((figurinhaDisponivel, index) => {
           const figurinhaConquistada = figurinhasConquistadas.find(
             (f) => f.id === figurinhaDisponivel.id
           );
+          // A partir de 25 perguntas únicas, todos os selos ficam desbloqueados
+          // Antes disso, verifica se foi conquistado OU se atingiu o número necessário
           const isLocked =
+            perguntasUnicas < 25 &&
             !figurinhaConquistada &&
             perguntasUnicas < figurinhaDisponivel.perguntasNecessarias;
 
+          // Debug para o selo 5 (SuperNeto)
+          if (figurinhaDisponivel.id === 5) {
+            console.log("=== DEBUG SELO 5 (SuperNeto) ===");
+            console.log("perguntasUnicas:", perguntasUnicas);
+            console.log("perguntasUnicas < 25:", perguntasUnicas < 25);
+            console.log("figurinhaConquistada:", figurinhaConquistada);
+            console.log("!figurinhaConquistada:", !figurinhaConquistada);
+            console.log(
+              "perguntasNecessarias:",
+              figurinhaDisponivel.perguntasNecessarias
+            );
+            console.log(
+              "perguntasUnicas < perguntasNecessarias:",
+              perguntasUnicas < figurinhaDisponivel.perguntasNecessarias
+            );
+            console.log("isLocked:", isLocked);
+            console.log("================================");
+          }
+
           const figurinhaCard = document.createElement("div");
-          figurinhaCard.className = `selo-card ${isLocked ? "locked" : ""}`;
+          const orientationClass = index < 2 ? "horizontal" : "vertical";
+          figurinhaCard.className = `selo-card ${orientationClass} ${
+            isLocked ? "locked" : ""
+          }`;
+
+          figurinhaCard.dataset.id = figurinhaDisponivel.id;
+          figurinhaCard.dataset.nome = figurinhaDisponivel.nome;
 
           let dataText = "";
           if (figurinhaConquistada) {
@@ -467,15 +1183,28 @@
             )}</div>`;
           }
 
+          // Sempre mostrar a imagem da figurinha
           figurinhaCard.innerHTML = `
-            <div class="selo-icon">${figurinhaDisponivel.icone}</div>
+            <img src="${figurinhaDisponivel.imagem}" alt="${figurinhaDisponivel.nome}" class="selo-image" />
             <div class="selo-name">${figurinhaDisponivel.nome}</div>
             <div class="selo-description">${figurinhaDisponivel.descricao}</div>
             ${dataText}
           `;
 
-          figurinhasGrid.appendChild(figurinhaCard);
+          if (index < 2) {
+            primeiraLinha.appendChild(figurinhaCard);
+          } else {
+            segundaLinha.appendChild(figurinhaCard);
+          }
         });
+
+        if (primeiraLinha.children.length > 0) {
+          figurinhasGrid.appendChild(primeiraLinha);
+        }
+
+        if (segundaLinha.children.length > 0) {
+          figurinhasGrid.appendChild(segundaLinha);
+        }
 
         // Se não há selos e não há perguntas únicas, mostrar estado vazio
         if (figurinhasConquistadas.length === 0 && perguntasUnicas === 0) {
@@ -488,6 +1217,7 @@
         const confirmacao = confirm(
           "⚠️ Tem certeza que deseja resetar todo o progresso?\n\n" +
             "Isso irá apagar:\n" +
+            "• Todas as figurinhas coladas no álbum\n" +
             "• Todos os selos conquistados\n" +
             "• Progresso das perguntas\n" +
             "• Contagem de perguntas respondidas\n" +
@@ -497,6 +1227,7 @@
 
         if (confirmacao) {
           // Remover todos os dados do localStorage relacionados ao jogo
+          localStorage.removeItem("albumColado");
           localStorage.removeItem("selosConquistados");
           localStorage.removeItem("perguntasRespondidas");
           localStorage.removeItem("gameProgress");
@@ -510,8 +1241,11 @@
         }
       }
 
-      // Carregar figurinhas quando a página carrega
-      document.addEventListener("DOMContentLoaded", carregarFigurinhas);
+      // Carregar álbum quando a página carrega
+      document.addEventListener("DOMContentLoaded", function() {
+        carregarAlbum();
+        carregarFigurinhas(); // Manter compatibilidade com visualização antiga
+      });
     </script>
   </body>
 </html>
