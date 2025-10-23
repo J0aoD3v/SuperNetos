@@ -10,6 +10,14 @@
     />
     <title>SuperNetos - Jogo Educativo sobre Valorização dos Idosos</title>
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4CAF50" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="SuperNetos" />
+    <link rel="apple-touch-icon" href="src/recursos/imagens/interface/placa_supernetos.png" />
+
     <!-- Estilos globais do projeto -->
     <link rel="stylesheet" href="src/estilos/global.css" />
     <!-- Estilos específicos da página inicial -->
@@ -239,6 +247,31 @@
 
         // Inicializar sistema de fullscreen simples
         // A função inicializarFullscreen() é chamada automaticamente via globals.js
+
+        // ========== REGISTRAR SERVICE WORKER (PWA) ==========
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+              .then((registration) => {
+                console.log('✅ Service Worker registrado com sucesso:', registration.scope);
+                
+                // Verificar se há atualizações
+                registration.addEventListener('updatefound', () => {
+                  const newWorker = registration.installing;
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      console.log('🔄 Nova versão disponível! Recarregue para atualizar.');
+                    }
+                  });
+                });
+              })
+              .catch((error) => {
+                console.error('❌ Erro ao registrar Service Worker:', error);
+              });
+          });
+        } else {
+          console.log('⚠️ Service Worker não suportado neste navegador');
+        }
       });
     </script>
   </body>
