@@ -308,7 +308,11 @@
       <div id="rectangle1">
         <div id="content">
           <div class="titulo">
-            <button class="volume_off" id="question-audio-btn" title="Clique para ouvir a pergunta">
+            <button
+              class="volume_off"
+              id="question-audio-btn"
+              title="Clique para ouvir a pergunta"
+            >
               <span class="material-symbols-rounded">volume_up</span>
             </button>
             <p id="txt">Carregando...</p>
@@ -372,17 +376,20 @@
       // Inicializar vozes disponíveis
       function inicializarVozes() {
         vozesDisponiveis = window.speechSynthesis.getVoices();
-        
-        // Selecionar melhor voz em português
-        vozSelecionada = vozesDisponiveis.find(
-          (v) => v.lang === "pt-BR" && v.name.includes("Google")
-        ) || vozesDisponiveis.find(
-          (v) => v.lang === "pt-BR"
-        ) || vozesDisponiveis.find(
-          (v) => v.lang.startsWith("pt")
-        ) || vozesDisponiveis[0];
 
-        console.log("Voz selecionada:", vozSelecionada?.name || "Padrão do sistema");
+        // Selecionar melhor voz em português
+        vozSelecionada =
+          vozesDisponiveis.find(
+            (v) => v.lang === "pt-BR" && v.name.includes("Google")
+          ) ||
+          vozesDisponiveis.find((v) => v.lang === "pt-BR") ||
+          vozesDisponiveis.find((v) => v.lang.startsWith("pt")) ||
+          vozesDisponiveis[0];
+
+        console.log(
+          "Voz selecionada:",
+          vozSelecionada?.name || "Padrão do sistema"
+        );
       }
 
       // Carregar vozes
@@ -396,7 +403,7 @@
         if (!ttsHabilitado) return;
 
         window.speechSynthesis.cancel();
-        const textoLimpo = texto.replace(/[🌟🏆💪🧠❤️✨🎯🌈🎉]/g, '').trim();
+        const textoLimpo = texto.replace(/[🌟🏆💪🧠❤️✨🎯🌈🎉]/g, "").trim();
 
         const utterance = new SpeechSynthesisUtterance(textoLimpo);
         utterance.lang = "pt-BR";
@@ -538,7 +545,7 @@
         content.classList.add("fade-transition");
         setTimeout(() => {
           content.classList.add("show");
-          
+
           // 🎤 FALAR PERGUNTA AUTOMATICAMENTE
           setTimeout(() => {
             falarPergunta(pergunta.pergunta);

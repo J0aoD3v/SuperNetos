@@ -7,21 +7,25 @@ O projeto SuperNetos agora possui um sistema de **Text-to-Speech (TTS)** integra
 ## ✨ Funcionalidades Implementadas
 
 ### 1. **Fala Automática das Perguntas**
+
 - Quando uma nova pergunta aparece, o texto é lido automaticamente
 - Voz ajustada para soar como uma criança (pitch mais alto)
 - Velocidade controlada para facilitar a compreensão
 
 ### 2. **Botão de Repetir Pergunta**
+
 - Botão com ícone 🔊 ao lado do texto da pergunta
 - Permite que a criança ouça a pergunta quantas vezes quiser
 - Útil para crianças com dificuldades de leitura
 
 ### 3. **Feedback com Emoção**
+
 - Acertos são falados com tom mais alegre (pitch alto)
 - Erros são falados com tom mais calmo (pitch baixo)
 - Sincronizado com as expressões do personagem (feliz/triste)
 
 ### 4. **Frases Motivacionais Faladas**
+
 - Mensagens de incentivo são lidas em voz alta
 - Aumenta o engajamento da criança
 
@@ -62,12 +66,14 @@ falarFeedback(texto, false) {
 ## 📁 Arquivos Modificados
 
 ### ✅ `src/paginas/perguntas-dinamicas.html`
+
 - Sistema TTS completo implementado
 - Fala automática ao carregar pergunta
 - Botão de repetir pergunta funcional
 - Feedback falado nos balões de fala
 
 ### ✅ `src/paginas/perguntas-dinamicas-servidor.html`
+
 - Sistema TTS implementado
 - Botão de áudio adicionado no HTML
 - Fala automática das perguntas
@@ -90,26 +96,29 @@ falarFeedback(texto, false) {
 
 ## 🌐 Compatibilidade de Navegadores
 
-| Navegador | Suporte | Qualidade de Voz |
-|-----------|---------|------------------|
-| Chrome    | ✅ Excelente | ⭐⭐⭐⭐⭐ |
-| Edge      | ✅ Excelente | ⭐⭐⭐⭐⭐ |
-| Safari    | ✅ Muito Boa | ⭐⭐⭐⭐ |
-| Firefox   | ✅ Boa | ⭐⭐⭐ |
+| Navegador | Suporte      | Qualidade de Voz |
+| --------- | ------------ | ---------------- |
+| Chrome    | ✅ Excelente | ⭐⭐⭐⭐⭐       |
+| Edge      | ✅ Excelente | ⭐⭐⭐⭐⭐       |
+| Safari    | ✅ Muito Boa | ⭐⭐⭐⭐         |
+| Firefox   | ✅ Boa       | ⭐⭐⭐           |
 
 ## 🎓 Benefícios Educacionais
 
 ### Para Crianças com Dificuldades de Leitura
+
 - ✅ Ouvem as perguntas antes/durante a leitura
 - ✅ Podem repetir quantas vezes precisarem
 - ✅ Aprendem associando som e texto
 
 ### Para Crianças em Fase de Alfabetização
+
 - ✅ Reforçam a relação letra-som
 - ✅ Desenvolvem compreensão auditiva
 - ✅ Maior autonomia no jogo
 
 ### Para Inclusão
+
 - ✅ Acessibilidade para crianças com deficiência visual parcial
 - ✅ Facilita para crianças com dislexia
 - ✅ Útil para todas as idades
@@ -119,6 +128,7 @@ falarFeedback(texto, false) {
 ✅ **Funciona perfeitamente com perguntas do JSON!**
 
 O sistema TTS lê o texto que já está carregado do arquivo JSON (local ou JSONBin), então:
+
 - Não precisa de arquivos de áudio extras
 - Funciona com qualquer texto do JSON
 - Adicione novas perguntas e elas serão faladas automaticamente
@@ -126,11 +136,13 @@ O sistema TTS lê o texto que já está carregado do arquivo JSON (local ou JSON
 ## 🎛️ Controles Disponíveis
 
 ### Para o Usuário:
+
 - 🔊 **Botão de Áudio**: Clique para repetir a pergunta
 - 🔇 **Botão de Volume**: Controla apenas a música de fundo (não afeta TTS)
 - ⏭️ **Clicar/Enter**: Para a fala do feedback e avança
 
 ### Para Desenvolvedores:
+
 ```javascript
 // Ativar/desativar TTS globalmente
 ttsHabilitado = true; // ou false
@@ -139,7 +151,7 @@ ttsHabilitado = true; // ou false
 falarTexto("Seu texto aqui", {
   pitch: 1.0,
   rate: 1.0,
-  volume: 0.8
+  volume: 0.8,
 });
 
 // Parar qualquer fala

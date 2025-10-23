@@ -893,17 +893,20 @@
       // Inicializar vozes disponíveis
       function inicializarVozes() {
         vozesDisponiveis = window.speechSynthesis.getVoices();
-        
-        // Selecionar melhor voz em português
-        vozSelecionada = vozesDisponiveis.find(
-          (v) => v.lang === "pt-BR" && v.name.includes("Google")
-        ) || vozesDisponiveis.find(
-          (v) => v.lang === "pt-BR"
-        ) || vozesDisponiveis.find(
-          (v) => v.lang.startsWith("pt")
-        ) || vozesDisponiveis[0];
 
-        console.log("Voz selecionada:", vozSelecionada?.name || "Padrão do sistema");
+        // Selecionar melhor voz em português
+        vozSelecionada =
+          vozesDisponiveis.find(
+            (v) => v.lang === "pt-BR" && v.name.includes("Google")
+          ) ||
+          vozesDisponiveis.find((v) => v.lang === "pt-BR") ||
+          vozesDisponiveis.find((v) => v.lang.startsWith("pt")) ||
+          vozesDisponiveis[0];
+
+        console.log(
+          "Voz selecionada:",
+          vozSelecionada?.name || "Padrão do sistema"
+        );
       }
 
       // Carregar vozes (alguns navegadores carregam de forma assíncrona)
@@ -920,7 +923,7 @@
         window.speechSynthesis.cancel();
 
         // Limpar emojis e caracteres especiais do texto
-        const textoLimpo = texto.replace(/[🌟🏆💪🧠❤️✨🎯🌈]/g, '').trim();
+        const textoLimpo = texto.replace(/[🌟🏆💪🧠❤️✨🎯🌈]/g, "").trim();
 
         const utterance = new SpeechSynthesisUtterance(textoLimpo);
         utterance.lang = "pt-BR";
@@ -1146,11 +1149,21 @@
         // Animar personagem falando
         atualizarPersonagemSidebar("feliz");
 
-        // Implementação do áudio da primeira pergunta
-        if (perguntaAtual === 0) {
-          const audio = new Audio("../recursos/audio/falas/01.ogg");
-          audio.play();
-        }
+        // ========== ÁUDIO PERSONALIZADO COM VOZES DE CRIANÇA (IA) ==========
+        // TODO: Implementação futura de falas personalizadas geradas por IA
+        // Cada pergunta terá seu próprio arquivo de áudio com voz de criança real
+        // Arquivos esperados: src/recursos/audio/falas/01.ogg, 02.ogg, etc.
+        // 
+        // Exemplo de implementação:
+        // if (perguntaAtual === 0) {
+        //   const audio = new Audio("../recursos/audio/falas/01.ogg");
+        //   audio.play();
+        // }
+        // 
+        // Quando implementar, descomentar e estender para todas as perguntas:
+        // const audioFala = new Audio(`../recursos/audio/falas/${String(perguntaAtual + 1).padStart(2, '0')}.ogg`);
+        // audioFala.play().catch(err => console.log('Áudio personalizado não disponível, usando TTS'));
+        // ==================================================================
 
         // Mostrar balão de fala com a pergunta
         mostrarBalaoFala(pergunta.pergunta, "normal", () => {
@@ -1269,7 +1282,7 @@
         content.classList.add("fade-transition");
         setTimeout(() => {
           content.classList.add("show");
-          
+
           // 🎤 FALAR PERGUNTA AUTOMATICAMENTE após animação
           setTimeout(() => {
             falarPergunta(pergunta.pergunta);
