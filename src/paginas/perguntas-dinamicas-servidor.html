@@ -308,12 +308,15 @@
       <div id="rectangle1">
         <div id="content">
           <div class="titulo">
+            <button class="volume_off" id="question-audio-btn" title="Clique para ouvir a pergunta">
+              <span class="material-symbols-rounded">volume_up</span>
+            </button>
+            <p id="txt">Carregando...</p>
             <button class="volume_off" id="volumeBtn">
               <span class="material-symbols-rounded" id="vol-icon"
                 >volume_off</span
               >
             </button>
-            <p id="txt">Carregando...</p>
           </div>
 
           <div class="buttons">
@@ -360,6 +363,63 @@
       let perguntaAtual = 0;
       let pontuacao = 0;
       let totalAttempts = 0;
+
+      // ========== SISTEMA DE TEXT-TO-SPEECH (TTS) ==========
+      let vozesDisponiveis = [];
+      let vozSelecionada = null;
+      let ttsHabilitado = true;
+
+      // Inicializar vozes disponíveis
+      function inicializarVozes() {
+        vozesDisponiveis = window.speechSynthesis.getVoices();
+        
+        // Selecionar melhor voz em português
+        vozSelecionada = vozesDisponiveis.find(
+          (v) => v.lang === "pt-BR" && v.name.includes("Google")
+        ) || vozesDisponiveis.find(
+          (v) => v.lang === "pt-BR"
+        ) || vozesDisponiveis.find(
+          (v) => v.lang.startsWith("pt")
+        ) || vozesDisponiveis[0];
+
+        console.log("Voz selecionada:", vozSelecionada?.name || "Padrão do sistema");
+      }
+
+      // Carregar vozes
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = inicializarVozes;
+      }
+      setTimeout(inicializarVozes, 100);
+
+      // Função para falar texto
+      function falarTexto(texto, opcoes = {}) {
+        if (!ttsHabilitado) return;
+
+        window.speechSynthesis.cancel();
+        const textoLimpo = texto.replace(/[🌟🏆💪🧠❤️✨🎯🌈🎉]/g, '').trim();
+
+        const utterance = new SpeechSynthesisUtterance(textoLimpo);
+        utterance.lang = "pt-BR";
+        utterance.rate = opcoes.rate || 0.9;
+        utterance.pitch = opcoes.pitch || 1.0;
+        utterance.volume = opcoes.volume || 0.8;
+
+        if (vozSelecionada) {
+          utterance.voice = vozSelecionada;
+        }
+
+        window.speechSynthesis.speak(utterance);
+      }
+
+      // Parar fala
+      function pararFala() {
+        window.speechSynthesis.cancel();
+      }
+
+      // Falar pergunta
+      function falarPergunta(textoPergunta) {
+        falarTexto(textoPergunta, { pitch: 1.2, rate: 0.85 });
+      }
 
       // Atualizar status de carregamento
       function updateLoadingStatus(message, isError = false) {
@@ -478,6 +538,11 @@
         content.classList.add("fade-transition");
         setTimeout(() => {
           content.classList.add("show");
+          
+          // 🎤 FALAR PERGUNTA AUTOMATICAMENTE
+          setTimeout(() => {
+            falarPergunta(pergunta.pergunta);
+          }, 300);
         }, 100);
       }
 
@@ -600,6 +665,16 @@
             if (!currentlyMuted) {
               window.__musicStarted = true;
               syncBGMusicWithState();
+            }
+          });
+
+        // Botão de fala da pergunta - Repetir pergunta atual
+        document
+          .getElementById("question-audio-btn")
+          .addEventListener("click", function () {
+            if (perguntaAtual >= 0 && perguntaAtual < perguntasConfig.length) {
+              const pergunta = perguntasConfig[perguntaAtual];
+              falarPergunta(pergunta.pergunta);
             }
           });
 

@@ -885,6 +885,83 @@
       const JSONBIN_URL =
         "https://api.jsonbin.io/v3/b/68dedd45ae596e708f04019b";
 
+      // ========== SISTEMA DE TEXT-TO-SPEECH (TTS) ==========
+      let vozesDisponiveis = [];
+      let vozSelecionada = null;
+      let ttsHabilitado = true;
+
+      // Inicializar vozes disponíveis
+      function inicializarVozes() {
+        vozesDisponiveis = window.speechSynthesis.getVoices();
+        
+        // Selecionar melhor voz em português
+        vozSelecionada = vozesDisponiveis.find(
+          (v) => v.lang === "pt-BR" && v.name.includes("Google")
+        ) || vozesDisponiveis.find(
+          (v) => v.lang === "pt-BR"
+        ) || vozesDisponiveis.find(
+          (v) => v.lang.startsWith("pt")
+        ) || vozesDisponiveis[0];
+
+        console.log("Voz selecionada:", vozSelecionada?.name || "Padrão do sistema");
+      }
+
+      // Carregar vozes (alguns navegadores carregam de forma assíncrona)
+      if (window.speechSynthesis.onvoiceschanged !== undefined) {
+        window.speechSynthesis.onvoiceschanged = inicializarVozes;
+      }
+      setTimeout(inicializarVozes, 100);
+
+      // Função para falar texto usando Web Speech API
+      function falarTexto(texto, opcoes = {}) {
+        if (!ttsHabilitado) return;
+
+        // Cancelar qualquer fala anterior
+        window.speechSynthesis.cancel();
+
+        // Limpar emojis e caracteres especiais do texto
+        const textoLimpo = texto.replace(/[🌟🏆💪🧠❤️✨🎯🌈]/g, '').trim();
+
+        const utterance = new SpeechSynthesisUtterance(textoLimpo);
+        utterance.lang = "pt-BR";
+        utterance.rate = opcoes.rate || 0.9; // Velocidade
+        utterance.pitch = opcoes.pitch || 1.0; // Tom de voz
+        utterance.volume = opcoes.volume || 0.8; // Volume
+
+        // Usar voz selecionada se disponível
+        if (vozSelecionada) {
+          utterance.voice = vozSelecionada;
+        }
+
+        // Callbacks opcionais
+        if (opcoes.onEnd) {
+          utterance.onend = opcoes.onEnd;
+        }
+        if (opcoes.onError) {
+          utterance.onerror = opcoes.onError;
+        }
+
+        window.speechSynthesis.speak(utterance);
+      }
+
+      // Parar fala
+      function pararFala() {
+        window.speechSynthesis.cancel();
+      }
+
+      // Falar pergunta com voz de criança (pitch mais alto)
+      function falarPergunta(textoPergunta) {
+        const pitch = personagemEscolhido === "menino" ? 1.3 : 1.1;
+        falarTexto(textoPergunta, { pitch, rate: 0.85 });
+      }
+
+      // Falar feedback com emoção
+      function falarFeedback(textoFeedback, isPositivo = true) {
+        const pitch = isPositivo ? 1.2 : 0.9;
+        const rate = isPositivo ? 1.0 : 0.85;
+        falarTexto(textoFeedback, { pitch, rate });
+      }
+
       // Carregar configurações das perguntas do JSONBin ou arquivo local
       async function carregarPerguntas() {
         try {
@@ -1108,11 +1185,18 @@
         // Mostrar overlay
         overlay.style.display = "flex";
 
+        // 🎤 FALAR FEEDBACK com emoção
+        const isPositivo = emocao === "feliz";
+        setTimeout(() => {
+          falarFeedback(texto, isPositivo);
+        }, 200);
+
         // Função para fechar o balão
         function fecharBalao() {
           overlay.style.display = "none";
           overlay.onclick = null; // Remover listener de clique
           document.removeEventListener("keydown", handleKeyDown); // Remover listener de tecla
+          pararFala(); // Parar qualquer fala em andamento
           if (callback) {
             callback();
           }
@@ -1185,6 +1269,11 @@
         content.classList.add("fade-transition");
         setTimeout(() => {
           content.classList.add("show");
+          
+          // 🎤 FALAR PERGUNTA AUTOMATICAMENTE após animação
+          setTimeout(() => {
+            falarPergunta(pergunta.pergunta);
+          }, 300);
         }, 100);
       }
 
@@ -1402,11 +1491,14 @@
             }
           });
 
-        // Botão de fala da pergunta
+        // Botão de fala da pergunta - Repetir pergunta atual
         document
           .getElementById("question-audio-btn")
           .addEventListener("click", function () {
-            falarPergunta();
+            if (perguntaAtual >= 0 && perguntaAtual < perguntasConfig.length) {
+              const pergunta = perguntasConfig[perguntaAtual];
+              falarPergunta(pergunta.pergunta);
+            }
           });
 
         // Botões de resposta
