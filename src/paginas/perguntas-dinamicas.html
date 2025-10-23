@@ -760,11 +760,7 @@
   </head>
 
   <body>
-    <audio
-      id="bg-music"
-      src="../recursos/audio/background_music.mp3"
-      loop
-    ></audio>
+    <audio id="bg-music" src="../recursos/audio/Heroic.mp3" loop></audio>
 
     <div class="overlay">
       <span class="material-symbols-rounded" id="screen_rotation_icon"
@@ -1073,9 +1069,11 @@
         // Animar personagem falando
         atualizarPersonagemSidebar("feliz");
 
-        // TODO: Aqui será implementado o áudio da fala
-        // const audio = new Audio(`../recursos/audio/perguntas/pergunta_${pergunta.id}.mp3`);
-        // audio.play();
+        // Implementação do áudio da primeira pergunta
+        if (perguntaAtual === 0) {
+          const audio = new Audio("../recursos/audio/falas/01.ogg");
+          audio.play();
+        }
 
         // Mostrar balão de fala com a pergunta
         mostrarBalaoFala(pergunta.pergunta, "normal", () => {

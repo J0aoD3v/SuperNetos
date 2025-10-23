@@ -19,7 +19,7 @@ const SUPERNETOS = {
   // Configurações de áudio
   AUDIO: {
     VOLUME_PADRAO: 0.3,
-    MUSICA_FUNDO: "src/recursos/audio/background_music.mp3",
+    MUSICA_FUNDO: "src/recursos/audio/Heroic.mp3",
   },
 
   // Chaves do armazenamento local
