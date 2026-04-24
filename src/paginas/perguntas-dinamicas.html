@@ -500,7 +500,7 @@
         text-align: center;
       }
 
-      /* Personagem no lado direito */
+            /* Personagem no lado direito */
       .character-sidebar {
         position: absolute;
         right: 2vw;
@@ -517,6 +517,7 @@
         border-radius: 2vw;
         filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         transition: transform 0.3s ease;
+        cursor: pointer; /* Adicionado cursor de clique */
       }
 
       .character-sidebar:hover {
@@ -784,17 +785,8 @@
       </div>
 
       <div id="main-question-container">
-        <div id="main-content">
+                <div id="main-content">
           <div class="question-title-section">
-            <button
-              class="question-audio-button"
-              id="question-audio-btn"
-              title="Clique para ouvir a pergunta"
-            >
-              <span class="material-symbols-rounded" id="speak-icon"
-                >volume_up</span
-              >
-            </button>
             <p id="question-text">Carregando...</p>
           </div>
 
@@ -1490,13 +1482,13 @@
         audio.muted = localStorage.getItem("bgMusicMuted") === "1";
         // setVolumeIcon era chamada aqui, mas ControlsManager agora cuida disso
 
-        // Botão de fala da pergunta - Repetir pergunta atual
+                // Configurar clique no personagem (sidebar) para repetir a pergunta
         document
-          .getElementById("question-audio-btn")
+          .getElementById("character-sidebar")
           .addEventListener("click", function () {
             if (perguntaAtual >= 0 && perguntaAtual < perguntasConfig.length) {
               const pergunta = perguntasConfig[perguntaAtual];
-              falarPergunta(pergunta.pergunta);
+              falarPergunta(pergunta.pergunta); // Mostra o balão e fala
             }
           });
 

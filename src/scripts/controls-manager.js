@@ -48,84 +48,147 @@ class ControlsManager {
   /**
    * Cria o botão de volume
    */
-  createVolumeControl() {
+        createVolumeControl() {
+    // Criar container para o botão e o slider
+    const wrapper = document.createElement("div");
+    wrapper.id = "global-volume-wrapper";
+    wrapper.style.cssText = `
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(30, 30, 30, 0.7);
+      border-radius: 25px;
+      z-index: 999;
+      top: 12px;
+      left: 12px;
+      padding: 0;
+      width: 48px;
+    `;
+
     // Criar botão de volume
     const volumeBtn = document.createElement("button");
-    volumeBtn.className = "volume-control";
+    volumeBtn.className = "volume-control-btn"; // Classe nova para não pegar estilos globais que quebram o layout
     volumeBtn.id = "global-volume-btn";
-    volumeBtn.title = "Ligar/desligar música";
+    volumeBtn.title = "Clique para ajustar volume, Duplo clique para Mute";
     volumeBtn.setAttribute("aria-label", "Controlar volume da música");
 
-    // Aplicar estilos inline
+    // Aplicar estilos inline no botão
     volumeBtn.style.cssText = `
-      position: absolute;
-      width: 48px;
-      height: 48px;
-      background: rgba(30, 30, 30, 0.7);
-      border-radius: 50%;
+      background: transparent;
       border: none;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.2s;
-      z-index: 999;
-      top: 12px;
-      left: 12px;
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      margin: 0;
+      border-radius: 50%;
     `;
 
-    // Criar ícone
-    const icon = document.createElement("span");
-    icon.className = "material-symbols-rounded";
-    icon.id = "global-volume-icon";
-    icon.style.cssText = `
-      font-size: 32px;
-      color: #fff;
-    `;
-    icon.textContent = "volume_up";
+      // Criar ícone
+      const icon = document.createElement("span");
+      icon.className = "material-symbols-rounded";
+      icon.id = "global-volume-icon";
+      icon.style.cssText = `
+        font-size: 32px;
+        color: #fff;
+      `;
+      icon.textContent = "volume_up";
 
-    volumeBtn.appendChild(icon);
-    document.body.appendChild(volumeBtn);
+      // Criar Slider (escondido inicialmente)
+      const sliderContainer = document.createElement("div");
+      sliderContainer.id = "global-volume-slider-container";
+      sliderContainer.style.cssText = `
+        display: none;
+        height: 100px;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 15px;
+      `;
 
-    // Hover effects
-    volumeBtn.addEventListener("mouseenter", () => {
-      volumeBtn.style.background = "rgba(60, 60, 60, 0.85)";
-    });
+      const slider = document.createElement("input");
+      slider.type = "range";
+      slider.id = "global-volume-slider";
+      slider.min = "0";
+      slider.max = "1";
+      slider.step = "0.05";
+      slider.style.cssText = `
+        cursor: pointer;
+        width: 80px;
+        transform: rotate(-90deg);
+        margin: 0;
+        padding: 0;
+      `;
 
-    volumeBtn.addEventListener("mouseleave", () => {
-      volumeBtn.style.background = "rgba(30, 30, 30, 0.7)";
-    });
-
-        // Click para mutar/desmutar
-    volumeBtn.addEventListener("click", () => {
+      // Configurar valor inicial do slider
       const audio = document.getElementById("bg-music");
       if (audio) {
-        if (audio.muted) {
-          audio.muted = false;
-          audio.currentTime = 0; // Reinicia a música ao ligar
-          audio.play().catch(e => console.log("Erro ao reproduzir:", e));
+        slider.value = audio.volume;
+      }
+
+      volumeBtn.appendChild(icon);
+      wrapper.appendChild(volumeBtn);
+      sliderContainer.appendChild(slider);
+      wrapper.appendChild(sliderContainer);
+      document.body.appendChild(wrapper);
+
+      // Click único: Mostrar/Esconder slider
+      volumeBtn.addEventListener("click", () => {
+        sliderContainer.style.display = (sliderContainer.style.display === "none") ? "flex" : "none";
+      });
+
+    // Clique duplo para mutar/desmutar
+    volumeBtn.addEventListener("dblclick", () => {
+      const audioEl = document.getElementById("bg-music");
+      if (audioEl) {
+        if (audioEl.muted) {
+          audioEl.muted = false;
+          audioEl.currentTime = 0; // Reinicia a música ao ligar
+          audioEl.play().catch(e => console.log("Erro ao reproduzir:", e));
         } else {
-          audio.muted = true;
-          audio.pause();
+          audioEl.muted = true;
+          audioEl.pause();
         }
         this.updateVolumeIcon();
-        // Não salva no localStorage
-        // localStorage.setItem("bgMusicMuted", audio.muted ? "1" : "0");
 
         // Sincronizar CC: desativar se música for mutada
-        this.syncCaptionsWithAudio(audio.muted);
+        this.syncCaptionsWithAudio(audioEl.muted);
       }
     });
 
-    // Atualizar ícone quando houver mudança
-    const audio = document.getElementById("bg-music");
+    // Mudança no Slider
+    slider.addEventListener("input", (e) => {
+      const vol = parseFloat(e.target.value);
+      const audioEl = document.getElementById("bg-music");
+      if (audioEl) {
+        audioEl.volume = vol;
+        if (vol > 0 && audioEl.muted) {
+          audioEl.muted = false;
+          audioEl.play().catch(e => console.log("Erro ao reproduzir:", e));
+          this.updateVolumeIcon();
+        } else if (vol === 0 && !audioEl.muted) {
+          audioEl.muted = true;
+          audioEl.pause();
+          this.updateVolumeIcon();
+        }
+      }
+    });
+
+    // Atualizar ícone quando houver mudança externa
     if (audio) {
       audio.addEventListener("play", () => this.updateVolumeIcon());
       audio.addEventListener("pause", () => this.updateVolumeIcon());
-      audio.addEventListener("volumechange", () => this.updateVolumeIcon());
+      audio.addEventListener("volumechange", () => {
+        this.updateVolumeIcon();
+        slider.value = audio.volume;
+      });
     }
 
-    this.volumeControl = volumeBtn;
+    this.volumeControl = wrapper;
     this.updateVolumeIcon();
   }
 
@@ -158,7 +221,7 @@ class ControlsManager {
     
     console.log(`🎬 ControlsManager: Criando botão CC - Estado fixo: desativado`);
     
-    // Aplicar estilos inline
+            // Aplicar estilos inline
     ccBtn.style.cssText = `
       position: absolute;
       width: 48px;

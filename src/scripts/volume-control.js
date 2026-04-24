@@ -44,13 +44,29 @@ class VolumeControl {
       return;
     }
 
+    // Container para agrupar botão e slider
+    this.wrapper = document.createElement("div");
+    Object.assign(this.wrapper.style, {
+      display: "flex",
+      alignItems: "center",
+      gap: "10px",
+      background: "rgba(30, 30, 30, 0.7)",
+      padding: "5px 12px",
+      borderRadius: "25px",
+      position: this.options.position,
+      top: this.options.top,
+      left: this.options.left,
+      zIndex: "10",
+    });
+
     // Cria o botão
     this.button = document.createElement("button");
     this.button.className = this.options.className;
-    this.button.title = "Ligar/desligar música";
-
-    // Aplica estilos
-    this.applyStyles();
+    this.button.title = "Clique para ajustar volume, Duplo clique para Mute";
+    this.button.style.background = "transparent";
+    this.button.style.border = "none";
+    this.button.style.cursor = "pointer";
+    this.button.style.display = "flex";
 
     // Cria o ícone
     this.icon = document.createElement("span");
@@ -58,10 +74,21 @@ class VolumeControl {
     this.icon.style.fontSize = this.options.iconSize;
     this.icon.style.color = "#fff";
 
-    this.button.appendChild(this.icon);
-    container.appendChild(this.button);
-  }
+    // Cria o Slider (escondido inicialmente)
+    this.slider = document.createElement("input");
+    this.slider.type = "range";
+    this.slider.min = "0";
+    this.slider.max = "1";
+    this.slider.step = "0.05";
+    this.slider.style.cursor = "pointer";
+    this.slider.style.width = "100px";
+    this.slider.style.display = "none";
 
+    this.button.appendChild(this.icon);
+    this.wrapper.appendChild(this.button);
+    this.wrapper.appendChild(this.slider);
+    container.appendChild(this.wrapper);
+  }
   /**
    * Aplica estilos ao botão
    */
@@ -103,19 +130,42 @@ class VolumeControl {
    * Configura os event listeners
    */
   setupEventListeners() {
-    if (!this.button) return;
+    if (!this.button || !this.slider) return;
 
+    // Clique único: Mostrar/Esconder slider
     this.button.addEventListener("click", () => {
+      this.slider.style.display = (this.slider.style.display === "none") ? "block" : "none";
+    });
+
+    // Clique duplo: Mute/Unmute
+    this.button.addEventListener("dblclick", () => {
       if (window.audioManager) {
         window.audioManager.toggleMute();
         this.updateIcon();
+        this.updateSlider();
       }
     });
 
-    // Atualiza o ícone quando o AudioManager estiver disponível
+    // Mudança no Slider
+    this.slider.addEventListener("input", (e) => {
+      const vol = parseFloat(e.target.value);
+      if (window.audioManager) {
+        window.audioManager.setVolume(vol);
+        if (vol > 0 && window.audioManager.isMuted()) {
+          window.audioManager.toggleMute();
+          this.updateIcon();
+        } else if (vol === 0 && !window.audioManager.isMuted()) {
+          window.audioManager.toggleMute();
+          this.updateIcon();
+        }
+      }
+    });
+
+    // Inicializa valor do slider
     const checkAudioManager = () => {
       if (window.audioManager) {
         this.updateIcon();
+        this.updateSlider();
       } else {
         setTimeout(checkAudioManager, 100);
       }
@@ -131,6 +181,13 @@ class VolumeControl {
 
     const isMuted = window.audioManager.isMuted();
     this.icon.textContent = isMuted ? "volume_off" : "volume_up";
+  }
+  /**
+   * Atualiza o slider baseado no estado do áudio
+   */
+  updateSlider() {
+    if (!this.slider || !window.audioManager) return;
+    this.slider.value = window.audioManager.isMuted() ? 0 : window.audioManager.getVolume();
   }
 
   /**
@@ -153,3 +210,4 @@ function createVolumeControl(containerId, options = {}) {
 // Disponibiliza globalmente
 window.VolumeControl = VolumeControl;
 window.createVolumeControl = createVolumeControl;
+

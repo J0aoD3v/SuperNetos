@@ -30,7 +30,7 @@ class AudioManager {
       return;
     }
 
-    // Configura o áudio
+    this.defaultVolume = 0.15;
     this.audio.volume = this.defaultVolume;
     this.audio.loop = true;
 
@@ -176,4 +176,3 @@ window.audioManager = null;
 document.addEventListener("DOMContentLoaded", function () {
   window.audioManager = new AudioManager();
 });
-
