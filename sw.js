@@ -3,31 +3,32 @@
  * Permite que o app funcione offline e seja instalável
  */
 
-const CACHE_NAME = 'supernetos-v1.0.0';
+const CACHE_NAME = 'supernetos-v1.0.1';
+const basePath = '/SuperNetos'; // Ajuste do caminho base para o GitHub Pages
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/src/estilos/global.css',
-  '/src/estilos/pagina-inicial.css',
-  '/src/scripts/globals.js',
-  '/src/scripts/audio-manager.js',
-  '/src/scripts/volume-control.js',
-  '/src/paginas/selecao-personagem.html',
-  '/src/paginas/perguntas-dinamicas.html',
-  '/src/paginas/perguntas-dinamicas-servidor.html',
-  '/src/paginas/resultados.html',
-  '/src/paginas/figurinhas.html',
-  '/src/recursos/audio/Heroic.mp3',
-  '/src/recursos/imagens/interface/background.jpg',
-  '/src/recursos/imagens/interface/placa_supernetos.png',
-  '/src/recursos/imagens/interface/botao_iniciar.png',
-  '/src/recursos/imagens/interface/selection_background.jpg',
-  '/src/recursos/imagens/personagens/menino_normal.png',
-  '/src/recursos/imagens/personagens/menina_normal.png',
-  '/src/recursos/imagens/personagens/menino_feliz.png',
-  '/src/recursos/imagens/personagens/menina_feliz.png',
-  '/src/recursos/imagens/personagens/menino_triste.png',
-  '/src/recursos/imagens/personagens/menina_triste.png'
+  `${basePath}/`,
+  `${basePath}/index.html`,
+  `${basePath}/src/estilos/global.css`,
+  `${basePath}/src/estilos/pagina-inicial.css`,
+  `${basePath}/src/scripts/globals.js`,
+  `${basePath}/src/scripts/audio-manager.js`,
+  `${basePath}/src/scripts/volume-control.js`,
+  `${basePath}/src/paginas/selecao-personagem.html`,
+  `${basePath}/src/paginas/perguntas-dinamicas.html`,
+  `${basePath}/src/paginas/perguntas-dinamicas-servidor.html`,
+  `${basePath}/src/paginas/resultados.html`,
+  `${basePath}/src/paginas/figurinhas.html`,
+  `${basePath}/src/recursos/audio/Heroic.mp3`,
+  `${basePath}/src/recursos/imagens/interface/background.jpg`,
+  `${basePath}/src/recursos/imagens/interface/placa_supernetos.png`,
+  `${basePath}/src/recursos/imagens/interface/botao_iniciar.png`,
+  `${basePath}/src/recursos/imagens/interface/selection_background.jpg`,
+  `${basePath}/src/recursos/imagens/personagens/menino_normal.png`,
+  `${basePath}/src/recursos/imagens/personagens/menina_normal.png`,
+  `${basePath}/src/recursos/imagens/personagens/menino_feliz.png`,
+  `${basePath}/src/recursos/imagens/personagens/menina_feliz.png`,
+  `${basePath}/src/recursos/imagens/personagens/menino_triste.png`,
+  `${basePath}/src/recursos/imagens/personagens/menina_triste.png`
 ];
 
 // Instalação do Service Worker - cacheia os arquivos
@@ -116,9 +117,9 @@ self.addEventListener('fetch', (event) => {
           .catch((error) => {
             console.error('[Service Worker] Erro ao buscar da rede:', error);
             
-            // Se falhar, tenta retornar página offline (se disponível)
+                        // Se falhar, tenta retornar página offline (se disponível)
             if (event.request.mode === 'navigate') {
-              return caches.match('/index.html');
+              return caches.match(`${basePath}/index.html`);
             }
           });
       })
