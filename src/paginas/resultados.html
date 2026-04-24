@@ -319,48 +319,22 @@
         font-size: 0.9em;
       }
 
-      .restart-button {
-        padding: 1.5vh 3vw;
-        font-size: 1em;
-        border: none;
-        border-radius: 2vw;
-        background-color: #00c853;
-        color: white;
-        cursor: pointer;
-        min-height: 5vh;
-        font-weight: bold;
-        transition: background-color 0.3s;
-      }
-
-      .restart-button:hover {
-        background-color: #00a142;
-      }
-
-      .export-button {
-        padding: 1vh 2vw;
-        font-size: 0.8em;
-        border: none;
-        border-radius: 2vw;
-        background-color: #2196f3;
-        color: white;
-        cursor: pointer;
-        min-height: 4vh;
-        font-weight: bold;
-        transition: background-color 0.3s;
-      }
-
-      .export-button:hover {
-        background-color: #1976d2;
-      }
-
       .button-container {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
-        gap: 3vh;
+        gap: 20px;
         margin-top: 2vh;
         flex-shrink: 0;
         padding-bottom: 2vh;
+      }
+
+      @media (max-width: 600px) {
+        .button-container {
+          flex-direction: column;
+          gap: 10px;
+        }
       }
 
       /* Overlay invisível para fullscreen */
@@ -418,11 +392,13 @@
             Carregando resultados...
           </div>
           <div class="button-container">
-            <button class="restart-button" onclick="restartGame()">
+            <button class="btn btn--success restart-button" onclick="restartGame()">
+              <span class="material-symbols-rounded">refresh</span>
               JOGAR NOVAMENTE
             </button>
-            <button class="export-button" onclick="exportarResultados()">
-              📊 EXPORTAR CSV
+            <button class="btn btn--primary export-button" onclick="exportarResultados()">
+              <span class="material-symbols-rounded">description</span>
+              EXPORTAR CSV
             </button>
           </div>
         </div>

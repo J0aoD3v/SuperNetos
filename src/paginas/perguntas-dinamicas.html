@@ -426,49 +426,23 @@
         }
       }
 
-      /* Botões de resposta (Pode/Não Pode) - Estilos base */
-      .answer-button {
-        margin: 1vw;
-        padding: 1vw 1vw;
-        border-radius: 1vw;
-        border: none;
-        color: white;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.1s ease;
-      }
-
-      /* Media query para desktop - font-size 32px apenas em telas grandes */
-      @media (min-width: 769px) {
         .answer-button {
-          font-size: 32px;
+          margin: 1vw;
+          min-width: 80px;
+          min-height: 80px;
         }
-      }
 
-      .answer-button:hover {
-        transform: scale(1.1);
-      }
+        /* Media query para desktop - tamanho fixo em telas grandes */
+        @media (min-width: 769px) {
+          .answer-button {
+            width: 100px;
+            height: 100px;
+          }
+        }
 
-      .answer-button:active {
-        transform: scale(0.95);
-      }
-
-      /* Espaçador entre botões */
-      .button-separator {
-        width: 5vw;
-      }
-
-      /* Botão "Pode" (positivo) */
-      .positive-answer-button {
-        background-color: #00c853;
-      }
-
-      /* Botão "Não Pode" (negativo) */
-      .negative-answer-button {
-        background-color: #d50000;
-      }
+        .answer-button .material-symbols-rounded {
+          font-size: 48px;
+        }
 
       /* Ilustração da pergunta */
       .question-illustration {
@@ -807,7 +781,7 @@
 
           <div class="answer-buttons-section">
             <button
-              class="answer-button positive-answer-button"
+              class="btn btn--success answer-button"
               id="positive-answer-btn"
             >
               <span class="material-symbols-rounded">thumb_up</span>
@@ -815,7 +789,7 @@
             <p id="positive-answer-text" class="answer-option-text">SIM</p>
             <div class="button-separator"></div>
             <button
-              class="answer-button negative-answer-button"
+              class="btn btn--danger answer-button"
               id="negative-answer-btn"
             >
               <span class="material-symbols-rounded">thumb_down</span>
