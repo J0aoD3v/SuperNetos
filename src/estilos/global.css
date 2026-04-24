@@ -26,9 +26,12 @@
 
   /* Cores de interface */
   --text-light: #ffffff;
-  --text-dark: #333333;
-  --overlay-bg: rgba(0, 0, 0, 0.7);
-  --card-bg: rgba(255, 255, 255, 0.4);
+  --text-dark: #212121;
+  --overlay-bg: rgba(0, 0, 0, 0.8);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --card-text: #212121;
+  --bg-gradient: linear-gradient(135deg, #004e92 0%, #000428 100%);
+  --bg-gradient-soft: linear-gradient(135deg, #1e3a8a 0%, #1e1b4b 100%);
 
   /* Sombras */
   --shadow-light: 0 2px 12px 0 rgba(0, 0, 0, 0.15);
@@ -49,8 +52,14 @@
   --spacing-xl: 3rem;
 
   /* Fontes */
-  --font-family-primary: "Roboto", serif;
-  --font-family-secondary: "Italiana", serif;
+  --font-family-primary: "Roboto", sans-serif;
+  --font-family-secondary: "Roboto", sans-serif; /* Simplificado para leitura infantil */
+
+  /* Tamanhos de Fonte */
+  --font-size-base: 18px;
+  --font-size-lg: 1.4rem;
+  --font-size-xl: 1.8rem;
+  --font-size-xxl: 2.5rem;
 
   /* Transições */
   --transition-fast: 0.15s ease;

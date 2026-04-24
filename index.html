@@ -66,48 +66,14 @@
 
       <!-- Cabeçalho com navegação -->
       <div class="header">
-        <p class="logo"></p>
         <div class="header-right">
           <ul class="header-nav">
-            <li>
-              <a
-                class="active"
-                href="#inicio"
-                onclick="InterfaceUsuario.mostrarConteudo('inicio')"
-                >Início</a
-              >
-            </li>
-            <li>
-              <a
-                href="#historia"
-                onclick="InterfaceUsuario.mostrarConteudo('historia')"
-                >História</a
-              >
-            </li>
-            <li>
-              <a
-                href="#objetivo"
-                onclick="InterfaceUsuario.mostrarConteudo('objetivo')"
-                >Objetivo</a
-              >
-            </li>
-            <li>
-              <a
-                href="#regras"
-                onclick="InterfaceUsuario.mostrarConteudo('regras')"
-                >Regras</a
-              >
-            </li>
-            <li>
-              <a
-                href="#creditos"
-                onclick="InterfaceUsuario.mostrarConteudo('creditos')"
-                >Quem criou</a
-              >
-            </li>
-            <li>
-              <a href="src/paginas/figurinhas.html">🏅 Minhas Figurinhas</a>
-            </li>
+            <li><a class="active" href="#inicio" onclick="InterfaceUsuario.mostrarConteudo('inicio')">Início</a></li>
+            <li><a href="#historia" onclick="InterfaceUsuario.mostrarConteudo('historia')">História</a></li>
+            <li><a href="#objetivo" onclick="InterfaceUsuario.mostrarConteudo('objetivo')">Objetivo</a></li>
+            <li><a href="#regras" onclick="InterfaceUsuario.mostrarConteudo('regras')">Regras</a></li>
+            <li><a href="#creditos" onclick="InterfaceUsuario.mostrarConteudo('creditos')">Quem criou</a></li>
+            <li><a href="src/paginas/figurinhas.html">🏅 Figurinhas</a></li>
           </ul>
         </div>
       </div>
@@ -116,30 +82,23 @@
       <div id="content">
         <!-- Tela inicial do jogo -->
         <div id="inicio">
-          <!-- Container da logo com controle de volume -->
-          <div class="home-image-wrapper" id="home-volume-container">
+          <!-- Container da logo -->
+          <div class="home-image-wrapper">
             <img
               src="src/recursos/imagens/interface/placa_supernetos.png"
-              alt="Placa SuperNetos - Logo do jogo"
+              alt="Placa SuperNetos"
               class="home-placa-supernetos"
             />
-          </div>
-
-                    <!-- Botão para iniciar o jogo -->
-          <div class="start-section-wrapper" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
-            <p class="click-hint pulse-animation" style="color: white; font-size: 1.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); cursor: pointer;" onclick="Navegacao.irParaSelecaoPersonagem();">👇 TOQUE ABAIXO PARA COMEÇAR! 👇</p>
+            
             <a
               href="#"
               onclick="Navegacao.irParaSelecaoPersonagem(); return false;"
               class="start-button-link pulse-animation"
-              title="Clique para iniciar o jogo"
             >
-              <img
-                src="src/recursos/imagens/interface/botao_iniciar.png"
-                alt="Botão Iniciar Jogo"
-                style="max-width: 250px;"
-              />
+              <img src="src/recursos/imagens/interface/botao_iniciar.png" alt="Iniciar" />
             </a>
+            
+            <p class="click-hint">Toque para começar</p>
           </div>
         </div>
         <!-- Seção: História do jogo -->

@@ -70,284 +70,37 @@
         width: 100%;
         height: 100%;
         box-sizing: border-box;
-        background-image: url("../recursos/imagens/interface/background.jpg");
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        background: var(--bg-gradient);
       }
 
-      @media (min-aspect-ratio: 16/9) {
-        #box {
-          width: auto;
-          height: 100vh;
-        }
-
-        #overlay {
-          display: none;
-        }
-      }
-
-      @media (max-aspect-ratio: 16/9) {
-        #box {
-          width: 100vw;
-          height: auto;
-        }
-      }
-
-      .overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgb(49, 49, 49);
-        color: white;
-        text-align: center;
-        font-size: 1.5em;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-      }
-
-      @media (max-aspect-ratio: 0.999/1) {
-        .overlay {
-          display: flex;
-        }
-
-        #box {
-          display: none;
-        }
-      }
-
-      /* Responsividade para dispositivos móveis pequenos */
-      @media (max-width: 768px) and (min-aspect-ratio: 1/1) {
-        #background-question-container {
-          width: 90vw;
-          height: auto;
-          min-height: 80vh;
-          padding: 2vh;
-        }
-
-        #main-question-container {
-          width: calc(90vw - 2vh);
-          height: auto;
-          min-height: 80vh;
-          padding: 3vh 2vw;
-        }
-
-        #main-content {
-          gap: 1.5vh;
-          justify-content: space-evenly;
-        }
-
-        .question-title-section {
-          font-size: 0.7em;
-          flex-wrap: wrap;
-          margin-bottom: 1vh;
-        }
-
-        #question-text {
-          font-size: 1.5em;
-          margin-top: 0.3em;
-          margin-bottom: 0.5em;
-          padding: 0 2vw;
-          line-height: 1.2;
-        }
-
-        .question-audio-button {
-          font-size: 2.8em;
-        }
-
-        .answer-buttons-section {
-          flex-wrap: wrap;
-          gap: 1vh;
-          margin: 2vh 0;
-        }
-
-        .answer-option-text {
-          font-size: 1.5em;
-          margin: 0.3em 0;
-        }
-
-        .answer-button {
-          margin: 0.5vw;
-          padding: 2.5vw 4vw;
-          font-size: 26px;
-        }
-
-        .button-separator {
-          width: 3vw;
-        }
-
-        .question-illustration {
-          width: 70vw;
-          height: auto;
-          min-height: 25vh;
-          max-height: 35vh;
-          border-width: 0.4vw;
-          border-radius: 3vw;
-          margin-bottom: 1vh;
-        }
-
-        .ai-generated-label {
-          font-size: 0.7em;
-          padding: 0.5vh 1vw;
-          margin-bottom: 0.5vh;
-        }
-
-        .character-sidebar {
-          width: 18vw;
-          height: 36vw;
-          min-width: 110px;
-          min-height: 130px;
-          right: 1.5vw;
-          top: 72%;
-        }
-
-        .question-counter {
-          top: 1.5vw;
-          right: 1.5vw;
-          padding: 1.8vw 2.8vw;
-          border-radius: 1.5vw;
-          font-size: 1em;
-        }
-
-        .volume-control {
-          top: 1.5vw;
-          left: 1.5vw;
-          width: 12vw;
-          height: 12vw;
-          min-width: 48px;
-          min-height: 48px;
-          font-size: 1.3em;
-        }
-      }
-
-      @media (max-width: 480px) and (min-aspect-ratio: 1/1) {
-        #background-question-container {
-          width: 95vw;
-          height: auto;
-          min-height: 85vh;
-          padding: 1.5vh;
-        }
-
-        #main-question-container {
-          width: calc(95vw - 1.5vh);
-          height: auto;
-          min-height: 85vh;
-          padding: 2.5vh 2vw;
-        }
-
-        #main-content {
-          gap: 1vh;
-          justify-content: space-evenly;
-        }
-
-        .question-title-section {
-          font-size: 0.6em;
-          margin-bottom: 0.5vh;
-        }
-
-        #question-text {
-          font-size: 1.1em;
-          padding: 0 3vw;
-          line-height: 1.2;
-        }
-
-        .question-audio-button {
-          font-size: 2.3em;
-        }
-
-        .answer-option-text {
-          font-size: 1.3em;
-        }
-
-        .answer-button {
-          padding: 3vw 5vw;
-          font-size: 22px;
-        }
-
-        .button-separator {
-          width: 2vw;
-        }
-
-        .question-illustration {
-          width: 75vw;
-          height: auto;
-          min-height: 22vh;
-          max-height: 30vh;
-          border-width: 0.3vw;
-        }
-
-        .ai-generated-label {
-          font-size: 0.65em;
-        }
-
-        .character-sidebar {
-          width: 22vw;
-          height: 42vw;
-          min-width: 90px;
-          min-height: 110px;
-        }
-
-        .question-counter {
-          font-size: 0.95em;
-          padding: 2vw 3.5vw;
-        }
-
-        .volume-control {
-          width: 13vw;
-          height: 13vw;
-          min-width: 42px;
-          min-height: 42px;
-        }
-      }
-
-      /* Retângulo de fundo secundário */
-      #background-question-container {
-        position: absolute;
-        width: 65vw;
-        height: 45vw;
-        border-radius: 4vw;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 1;
-        transition: background-color 0.3s ease;
-      }
-
-      /* Retângulo de fundo principal */
+      /* Retângulo de fundo principal simplificado */
       #main-question-container {
         position: absolute;
-        width: calc(65vw - 3vh);
-        height: 45vw;
-        border-radius: 4vw;
+        width: 70vw;
+        height: 80vh;
+        max-height: 45vw;
+        border-radius: var(--border-radius-large);
         top: 50%;
-        left: 50%;
+        left: 45%;
         transform: translate(-50%, -50%);
         z-index: 2;
-        background: linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 0.5) 0%,
-          rgba(255, 255, 255, 0) 20%
-        );
-        box-shadow: 0px 1vw 2vw rgba(0, 0, 0, 0.25);
+        background: var(--card-bg);
+        box-shadow: var(--shadow-medium);
         transition: background-color 0.3s ease;
+        padding: var(--spacing-lg);
       }
 
       /* Conteúdo principal da pergunta */
       #main-content {
         width: 100%;
         height: 100%;
-        border-radius: 4vw;
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         text-align: center;
         font-weight: bold;
-        color: rgba(0, 0, 0, 0.5);
+        color: var(--card-text);
       }
 
       /* Seção do título com ícone de som - Estilos base */
@@ -355,53 +108,23 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        text-shadow: 0 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
-      }
-
-      /* Media query para desktop - font-size 0.8em apenas em telas grandes */
-      @media (min-width: 769px) {
-        .question-title-section {
-          font-size: 0.8em;
-        }
+        width: 100%;
       }
 
       /* Texto da pergunta - Estilos base */
       #question-text {
         transition: all 0.3s ease;
-        font-weight: bold;
-        margin-bottom: 0;
-        margin-top: 0.4em;
+        font-weight: 900;
+        margin: 0;
+        line-height: 1.2;
+        color: var(--text-dark);
       }
 
       /* Media query para desktop - font-size 2.5em apenas em telas grandes */
       @media (min-width: 769px) {
         #question-text {
-          font-size: 2.5em;
+          font-size: 2.5rem;
         }
-      }
-
-      /* Botão de reprodução de áudio da pergunta - Estilos base */
-      .question-audio-button {
-        border: none;
-        background: none;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        color: white;
-      }
-
-      /* Media query para desktop - font-size 3.5em apenas em telas grandes */
-      @media (min-width: 769px) {
-        .question-audio-button {
-          font-size: 3.5em;
-        }
-      }
-
-      .question-audio-button:hover {
-        transform: scale(1.1);
-      }
-
-      .question-audio-button:active {
-        transform: scale(0.95);
       }
 
       /* Seção dos botões de resposta */
@@ -409,89 +132,80 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        text-shadow: 0 0.1vw 0.2vw rgba(0, 0, 0, 0.5);
+        gap: var(--spacing-md);
+        margin: var(--spacing-sm) 0;
       }
 
       /* Textos das opções de resposta - Estilos base */
       .answer-option-text {
-        margin-top: 0;
-        margin-bottom: 0.2em;
-        font-weight: bold;
+        margin: 0;
+        font-weight: 900;
+        color: var(--text-dark);
       }
 
       /* Media query para desktop - font-size 1.8em apenas em telas grandes */
       @media (min-width: 769px) {
         .answer-option-text {
-          font-size: 1.8em;
+          font-size: 1.8rem;
         }
       }
 
         .answer-button {
-          margin: 1vw;
-          min-width: 80px;
-          min-height: 80px;
+          min-width: 100px;
+          min-height: 100px;
         }
 
         /* Media query para desktop - tamanho fixo em telas grandes */
         @media (min-width: 769px) {
           .answer-button {
-            width: 100px;
-            height: 100px;
+            width: 140px;
+            height: 140px;
           }
         }
 
         .answer-button .material-symbols-rounded {
-          font-size: 48px;
+          font-size: 64px;
         }
 
       /* Ilustração da pergunta */
       .question-illustration {
         position: relative;
-        margin-bottom: 1vh;
-        aspect-ratio: 386/207;
-        width: auto;
-        height: 60%;
-        border-radius: 5vw;
-        border-color: rgb(217, 255, 255);
-        border-width: 0.4vw;
-        border-style: solid;
-        background-color: lightgray;
+        width: 100%;
+        flex-grow: 1;
+        max-height: 45%;
+        border-radius: var(--border-radius-medium);
+        border: 4px solid #fff;
+        background-color: #eee;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        transition: background-image 0.3s ease;
+        box-shadow: var(--shadow-light);
       }
 
       /* Label indicando que é IA */
       .ai-generated-label {
-        font-size: 0.8em;
-        color: #292929;
-        background-color: rgba(255, 255, 255, 0.9);
-        padding: 0.5vh 1vw;
-        border-radius: 1vw;
-        margin-bottom: 2vh;
+        font-size: 0.7rem;
+        color: #666;
+        margin-top: var(--spacing-xs);
         font-style: italic;
-        text-align: center;
       }
 
             /* Personagem no lado direito */
       .character-sidebar {
         position: absolute;
         right: 2vw;
-        top: 75%;
+        top: 50%;
         transform: translateY(-50%);
-        width: 15vw;
-        height: 35vw;
-        min-width: 150px;
-        min-height: 180px;
+        width: 20vw;
+        height: 40vw;
+        max-width: 300px;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
         z-index: 5;
-        border-radius: 2vw;
-        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        filter: drop-shadow(var(--shadow-medium));
         transition: transform 0.3s ease;
-        cursor: pointer; /* Adicionado cursor de clique */
+        cursor: pointer;
       }
 
       .character-sidebar:hover {
@@ -806,8 +520,6 @@
 
       <!-- Personagem no lado direito -->
       <div class="character-sidebar" id="character-sidebar"></div>
-
-      <div id="background-question-container"></div>
     </div>
 
     <!-- Sistema de balão de fala -->
@@ -866,6 +578,7 @@
 
       // URL do JSON local com suas perguntas
       const LOCAL_JSON_URL = "../recursos/perguntas/perguntas.json";
+      const CACHE_KEY_PERGUNTAS = "supernetos_perguntas_cache";
 
       // ========== SISTEMA DE TEXT-TO-SPEECH (TTS) ==========
       let vozesDisponiveis = [];
@@ -947,10 +660,69 @@
         falarTexto(textoFeedback, { pitch, rate });
       }
 
-            // Carregar configurações das perguntas do JSON local
+      // Função para inicializar as perguntas (Estratégia Robusta)
+      async function inicializarPerguntas() {
+        // 1. Tentar carregar do localStorage (cache local) primeiro para velocidade e contornar CORS
+        const cachedData = localStorage.getItem(CACHE_KEY_PERGUNTAS);
+        if (cachedData) {
+          try {
+            const data = JSON.parse(cachedData);
+            processarDadosPerguntas(data);
+            console.log("✅ Perguntas carregadas do cache local (localStorage)");
+            
+            // Tentar atualizar o cache em background se possível
+            atualizarCachePerguntasSilenciosamente();
+            return;
+          } catch (e) {
+            console.warn("Erro ao processar cache de perguntas:", e);
+          }
+        }
+
+        // 2. Se não houver cache, tentar fetch normal
+        try {
+          await carregarPerguntas();
+        } catch (error) {
+          console.warn("Falha no carregamento automático:", error.message);
+          // O carregarPerguntas já chama o seletor manual no catch interno
+        }
+      }
+
+      async function atualizarCachePerguntasSilenciosamente() {
+        try {
+          const response = await fetch(LOCAL_JSON_URL);
+          if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem(CACHE_KEY_PERGUNTAS, JSON.stringify(data));
+            console.log("🔄 Cache de perguntas atualizado silenciosamente");
+          }
+        } catch (e) {
+          // Falha silenciosa, não atrapalha o usuário
+        }
+      }
+
+      function processarDadosPerguntas(data) {
+        const perguntasData = data.record || data;
+
+        if (perguntasData.perguntas && Array.isArray(perguntasData.perguntas)) {
+          perguntasConfig = perguntasData.perguntas;
+          document.getElementById("total-questions").textContent =
+            perguntasConfig.length;
+
+          // Esconder overlay de início e mostrar primeira pergunta
+          document.getElementById("start-screen-overlay").style.display = "none";
+          mostrarPergunta(0);
+          
+          // Salvar no localStorage para uso futuro (se ainda não estiver lá)
+          localStorage.setItem(CACHE_KEY_PERGUNTAS, JSON.stringify(data));
+        } else {
+          throw new Error("Formato JSON inválido");
+        }
+      }
+
+      // Carregar configurações das perguntas do JSON local
       async function carregarPerguntas() {
         try {
-          console.log("Tentando carregar arquivo local...");
+          console.log("Tentando carregar arquivo JSON via fetch...");
 
           const response = await fetch(LOCAL_JSON_URL);
           if (!response.ok) {
@@ -958,33 +730,16 @@
           }
 
           const data = await response.json();
-
-          // Retorna os dados dentro de 'record' (estrutura do jsonbin anterior) ou diretamente
-          const perguntasData = data.record || data;
-
-          if (
-            perguntasData.perguntas &&
-            Array.isArray(perguntasData.perguntas)
-          ) {
-            perguntasConfig = perguntasData.perguntas;
-            document.getElementById("total-questions").textContent =
-              perguntasConfig.length;
-
-            console.log(
-              `✅ ${perguntasConfig.length} perguntas carregadas do JSON local!`
-            );
-
-            // Esconder overlay de início e mostrar primeira pergunta
-            document.getElementById("start-screen-overlay").style.display = "none";
-            mostrarPergunta(0);
-          } else {
-            throw new Error("Formato JSON inválido no arquivo");
-          }
-        } catch (error) {
-          console.warn("Erro ao carregar perguntas:", error.message);
+          processarDadosPerguntas(data);
+          console.log("✅ Perguntas carregadas via fetch!");
           
-          // Se falhar, tentar usar o seletor de arquivo
-          carregarArquivoLocal();
+        } catch (error) {
+          console.warn("Erro ao carregar perguntas via fetch:", error.message);
+          
+          // Se falhar e não tivermos cache, abrir seletor manual (último recurso)
+          if (perguntasConfig.length === 0) {
+            carregarArquivoLocal();
+          }
         }
       }
 
@@ -1184,8 +939,8 @@
         
         setTimeout(() => {
           podeFechar = true;
-          overlay.onclick = fecharBalao; // Habilita o fechamento só depois de meio segundo
-        }, 800);
+          overlay.onclick = fecharBalao; // Habilita o fechamento só depois de 400ms
+        }, 400);
 
         // 🎤 FALAR FEEDBACK com emoção
         const isPositivo = emocao === "feliz";
@@ -1470,7 +1225,7 @@
 
         // Configurar clique no overlay de início para carregar JSON
         startScreenOverlay.addEventListener("click", function () {
-          carregarPerguntas();
+          inicializarPerguntas();
         });
 
         // Configurar áudio

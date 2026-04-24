@@ -60,54 +60,7 @@
 
 /* === PÁGINA INICIAL === */
 #box.game-container {
-  background: url("../recursos/imagens/interface/start_background.jpeg")
-    no-repeat center/cover;
-}
-
-#content {
-  flex-grow: 1;
-  overflow-y: hidden;
-  box-sizing: border-box;
-  color: var(--text-light);
-  position: relative;
-}
-
-/* === LAYOUT DA PÁGINA INICIAL === */
-#inicio {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  text-align: center;
-  position: relative;
-}
-
-/* === LOGOS DAS INSTITUIÇÕES === */
-.institution-logos {
-  position: absolute;
-  top: 2rem;
-  right: 2rem;
-  display: flex;
-  flex-direction: column; /* coloca uma abaixo da outra */
-  gap: 0.5rem; /* espaço vertical entre as logos */
-  z-index: 100;
-}
-
-.institution-logo {
-  width: 12em; /* define tamanho pequeno */
-  border-radius: 8px;
-  border: 0px solid transparent;
-  height: auto;
-  object-fit: contain;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.institution-logo:hover {
-  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+  background: var(--bg-gradient);
 }
 
 /* === CONTAINER DA LOGO === */
@@ -117,18 +70,15 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  position: relative;
-  margin: 0;
-  margin-bottom: 2vh;
+  flex-grow: 1;
 }
 
 .home-placa-supernetos {
   display: block;
-  max-width: 35vw;
+  max-width: 40vw;
   width: 100%;
   height: auto;
-  margin: 0 auto;
-  margin-top: 0;
+  filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
 }
 
 /* === DICA DE CLIQUE === */
@@ -187,32 +137,31 @@
 
 /* === SEÇÕES DE CONTEÚDO (CARDS) === */
 .card {
-  background: rgba(221, 181, 255, 0.4);
-  color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  padding: 2rem;
-  margin: 2rem;
-  border-radius: 15px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  background: var(--card-bg);
+  color: var(--card-text);
+  padding: var(--spacing-xl);
+  margin: var(--spacing-xl) auto;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   max-width: 800px;
-  margin: 2rem auto;
   max-height: calc(100vh - 200px);
   overflow-y: auto;
   box-sizing: border-box;
 }
 
 .card h2 {
-  color: #ffffff;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
   text-align: center;
+  font-family: var(--font-family-secondary);
+  font-size: 2.5rem;
 }
 
 .card p {
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: var(--spacing-sm);
+  font-size: 1.1rem;
 }
 
 .card ol,
