@@ -5,20 +5,19 @@
 
 /* === CABEÇALHO === */
 .header {
+  height: 10%;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
-}
-
-.header .logo {
-  display: none;
+  z-index: 10;
 }
 
 .header-right {
   width: 100%;
+  height: 100%;
 }
 
 .header-right ul {
@@ -26,7 +25,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 0;
+  height: 100%;
   justify-content: stretch;
   width: 100%;
 }
@@ -41,26 +40,28 @@
 .header-right ul li a {
   color: white;
   text-decoration: none;
-  font-weight: 500;
-  padding: 2.5vh 0;
-  border-radius: 0;
+  font-weight: 700;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   transition: all 0.3s ease;
   white-space: nowrap;
-  font-size: clamp(10px, 1.4vw, 16px);
-  flex: 1;
+  font-size: clamp(12px, 1.5vw, 1.8rem); /* Tamanho aumentado aqui */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.header-right ul li a:hover,
-.header-right ul li a.active {
-  background: rgba(255, 255, 255, 0.2);
-}
-
 /* === PÁGINA INICIAL === */
-#box.game-container {
-  background: var(--bg-gradient);
+#inicio {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Alinha ao topo */
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 0; /* Remove padding que afasta do header */
+  box-sizing: border-box;
 }
 
 /* === CONTAINER DA LOGO === */
@@ -68,34 +69,48 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Alinha conteúdo ao topo do wrapper */
   width: 100%;
-  flex-grow: 1;
+  height: 90%;
+  padding-top: 0;
 }
 
 .home-placa-supernetos {
   display: block;
-  max-width: 40vw;
-  width: 100%;
+  max-width: 65%;
+  max-height: 55%; /* Aumentado levemente */
+  width: auto;
   height: auto;
-  filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
-}
-
-/* === DICA DE CLIQUE === */
-.click-hint {
-  margin: 0;
-  padding: 0;
+  filter: drop-shadow(0 0 30px rgba(0,0,0,0.6));
+  margin-top: -10px; /* Ajuste fino para encostar no header se necessário */
 }
 
 /* === BOTÃO INICIAR === */
 .start-button-link {
   display: inline-block;
   transition: transform 0.3s ease;
-  width: 25%;
-  min-width: 200px;
-  max-width: 300px;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  width: 30%;
+  max-width: 350px;
+  height: auto;
+  margin-top: 1.5rem; /* Margem adicionada aqui */
+}
+
+.start-button-link img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* === DICA DE CLIQUE === */
+.click-hint {
+  margin: 0;
+  margin-top: 1rem; /* Margem adicionada aqui */
+  color: var(--text-light);
+  font-size: clamp(1rem, 2vw, 2rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: var(--shadow-text);
 }
 
 .start-button-link:hover {

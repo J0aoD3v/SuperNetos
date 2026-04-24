@@ -50,28 +50,26 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        aspect-ratio: 16/9;
+        width: 100vw;
+        height: 56.25vw;
+        max-height: 100vh;
+        max-width: 177.78vh;
         background: var(--bg-gradient);
         box-sizing: border-box;
-        height: 100%;
-        width: 100%;
         display: flex;
         flex-direction: column;
         overflow: hidden;
       }
       @media (min-aspect-ratio: 16/9) {
         #box {
-          width: auto;
+          width: 177.78vh;
           height: 100vh;
-        }
-        .orientation-overlay {
-          display: none;
         }
       }
       @media (max-aspect-ratio: 16/9) {
         #box {
           width: 100vw;
-          height: auto;
+          height: 56.25vw;
         }
       }
       .orientation-overlay {
@@ -105,7 +103,7 @@
         align-items: center;
         width: 100%;
         height: 100%;
-        padding: 2vh 5vw;
+        padding: 2%;
         box-sizing: border-box;
         z-index: 2;
       }
@@ -113,41 +111,46 @@
         color: white;
         text-align: center;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-        margin-top: 0;
-        margin-bottom: 2vh;
-        font-size: 5vh;
+        margin: 0;
+        font-size: clamp(1.5rem, 4vw, 3rem);
         z-index: 10;
+        height: 15%;
+        display: flex;
+        align-items: center;
       }
       .character-options {
         display: flex;
         justify-content: space-around;
         width: 100%;
-        align-items: flex-end;
-        flex-grow: 1;
-        max-height: 70vh;
+        align-items: center;
+        height: 85%;
       }
       .character-option {
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         cursor: pointer;
         transition: transform 0.2s;
-        width: 40%;
+        width: 45%;
+        height: 100%;
       }
       .character-option:hover {
         transform: scale(1.05);
       }
       .character {
         max-width: 100%;
-        max-height: 50vh;
+        max-height: 70%;
         width: auto;
         height: auto;
-        margin-bottom: 1vh;
         filter: drop-shadow(0 0 12px #fff7);
+        object-fit: contain;
       }
       .character-btn {
-        font-size: 3vh !important;
-        border-radius: 20px;
+        font-size: clamp(0.8rem, 2vw, 1.5rem) !important;
+        margin-top: 2%;
+        padding: 2% 5% !important;
+      }
         padding: 1vh 2vw !important;
         white-space: nowrap;
       }

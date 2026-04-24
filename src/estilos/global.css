@@ -83,7 +83,7 @@ body {
   background-color: var(--background-dark);
   height: 100%;
   font-family: var(--font-family-primary);
-  overflow-x: hidden;
+  overflow: hidden; /* Evita scroll na página principal */
 }
 
 /* Ícones Material */
@@ -104,24 +104,37 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Layout base responsivo */
+/* Layout base responsivo com proporção 16:9 obrigatória */
 .game-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  aspect-ratio: 16/9;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 56.25vw; /* 100 * 9 / 16 */
+  max-height: 100vh;
+  max-width: 177.78vh; /* 100 * 16 / 9 */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: var(--bg-gradient); /* Restaurado o fundo gradiente */
+  box-shadow: 0 0 100px rgba(0,0,0,0.5);
+}
+
+#content {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-aspect-ratio: 16/9) {
   .game-container {
-    width: auto;
+    width: 177.78vh;
     height: 100vh;
   }
 }
@@ -129,7 +142,7 @@ body {
 @media (max-aspect-ratio: 16/9) {
   .game-container {
     width: 100vw;
-    height: auto;
+    height: 56.25vw;
   }
 }
 

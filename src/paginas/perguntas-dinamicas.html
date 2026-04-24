@@ -66,28 +66,44 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        aspect-ratio: 16/9;
-        width: 100%;
-        height: 100%;
+        width: 100vw;
+        height: 56.25vw;
+        max-height: 100vh;
+        max-width: 177.78vh;
         box-sizing: border-box;
         background: var(--bg-gradient);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      @media (min-aspect-ratio: 16/9) {
+        #box {
+          width: 177.78vh;
+          height: 100vh;
+        }
+      }
+      @media (max-aspect-ratio: 16/9) {
+        #box {
+          width: 100vw;
+          height: 56.25vw;
+        }
       }
 
       /* Retângulo de fundo principal simplificado */
       #main-question-container {
         position: absolute;
-        width: 70vw;
-        height: 80vh;
-        max-height: 45vw;
+        width: 70%;
+        height: 85%;
         border-radius: var(--border-radius-large);
         top: 50%;
-        left: 45%;
+        left: 42%;
         transform: translate(-50%, -50%);
         z-index: 2;
         background: var(--card-bg);
         box-shadow: var(--shadow-medium);
         transition: background-color 0.3s ease;
-        padding: var(--spacing-lg);
+        padding: 3%;
+        box-sizing: border-box;
       }
 
       /* Conteúdo principal da pergunta */

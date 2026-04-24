@@ -47,11 +47,12 @@
       }
       html,
       body {
-        height: 100%;
+        min-height: 100%;
         font-family: "Roboto", serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: var(--bg-gradient);
         color: white;
         overflow-x: hidden;
+        overflow-y: auto; /* Garante rolagem vertical */
       }
       .container {
         min-height: 100vh;
