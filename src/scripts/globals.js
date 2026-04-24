@@ -4,6 +4,26 @@
  */
 
 /**
+ * Gerenciamento de persistência e cache
+ * Limpa o cache ao detectar recarregamento da página (F5)
+ */
+(function() {
+  // Se a página foi recarregada (type 1) ou acessada normalmente (type 0)
+  // mas queremos garantir limpeza total em qualquer refresh:
+  const perfEntries = performance.getEntriesByType("navigation");
+  if (perfEntries.length > 0 && perfEntries[0].type === "reload") {
+    console.log("🔄 Recarregamento detectado. Limpando cache e progresso...");
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Opcional: Limpar cookies se existirem
+    document.cookie.split(";").forEach(function(c) {
+      document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+    });
+  }
+})();
+
+/**
  * Constantes globais do projeto
  */
 const SUPERNETOS = {
