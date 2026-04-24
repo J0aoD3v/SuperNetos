@@ -6,11 +6,19 @@
 /* === CABEÇALHO === */
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 1rem 2rem;
+  padding: 0;
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
+}
+
+.header .logo {
+  display: none;
+}
+
+.header-right {
+  width: 100%;
 }
 
 .header-right ul {
@@ -18,22 +26,36 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 1.5rem;
+  gap: 0;
+  justify-content: stretch;
+  width: 100%;
+}
+
+.header-right ul li {
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  display: flex;
 }
 
 .header-right ul li a {
   color: white;
   text-decoration: none;
   font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+  padding: 2.5vh 0;
+  border-radius: 0;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  font-size: clamp(10px, 1.4vw, 16px);
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header-right ul li a:hover,
 .header-right ul li a.active {
   background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
 }
 
 /* === PÁGINA INICIAL === */
@@ -53,11 +75,11 @@
 /* === LAYOUT DA PÁGINA INICIAL === */
 #inicio {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: column;
   height: 100%;
-  padding: 2rem;
+  padding: 0;
   margin: 0;
   box-sizing: border-box;
   text-align: center;
@@ -96,6 +118,7 @@
   justify-content: center;
   width: 100%;
   position: relative;
+  margin: 0;
   margin-bottom: 2vh;
 }
 
@@ -105,6 +128,13 @@
   width: 100%;
   height: auto;
   margin: 0 auto;
+  margin-top: 0;
+}
+
+/* === DICA DE CLIQUE === */
+.click-hint {
+  margin: 0;
+  padding: 0;
 }
 
 /* === BOTÃO INICIAR === */

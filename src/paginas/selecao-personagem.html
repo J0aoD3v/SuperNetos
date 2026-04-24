@@ -100,29 +100,59 @@
         }
       }
       .characters {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
         display: flex;
-        justify-content: space-between;
+        flex-direction: column;
+        justify-content: center;
         align-items: center;
-        z-index: 2;
-        padding: 5vw 8vw;
+        width: 100%;
         height: 100%;
+        padding: 2vh 5vw;
         box-sizing: border-box;
-        pointer-events: auto;
+        z-index: 2;
       }
-      .character {
+      .selection-title {
+        color: white;
+        text-align: center;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        margin-top: 0;
+        margin-bottom: 2vh;
+        font-size: 5vh;
+        z-index: 10;
+      }
+      .character-options {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        align-items: flex-end;
+        flex-grow: 1;
+        max-height: 70vh;
+      }
+      .character-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         cursor: pointer;
         transition: transform 0.2s;
-        max-width: 28vw;
-        max-height: 80vh;
+        width: 40%;
+      }
+      .character-option:hover {
+        transform: scale(1.05);
+      }
+      .character {
+        max-width: 100%;
+        max-height: 50vh;
+        width: auto;
+        height: auto;
+        margin-bottom: 1vh;
         filter: drop-shadow(0 0 12px #fff7);
       }
+      .character-btn {
+        font-size: 3vh !important;
+        border-radius: 20px;
+        padding: 1vh 2vw !important;
+        white-space: nowrap;
+      }
       .character:hover {
-        transform: scale(1.08);
         filter: drop-shadow(0 0 24px #fffa);
       }
       .overlay {
@@ -307,33 +337,37 @@
     </div>
 
     <div id="box">
-            <div class="characters" style="flex-direction: column; justify-content: center; position: relative;">
+      <div class="characters">
         <!-- Título orientativo -->
-        <h1 class="pulse-animation" style="color: white; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin-bottom: 2vh; z-index: 10;">ESCOLHA SEU PERSONAGEM:</h1>
-        
-        <div style="display: flex; justify-content: space-around; width: 100%; align-items: center;">
-          <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer;" onclick="selecionarPersonagem('menino')">
+        <h1 class="selection-title pulse-animation">
+          ESCOLHA SEU PERSONAGEM:
+        </h1>
+
+        <div class="character-options">
+          <div class="character-option" onclick="selecionarPersonagem('menino')">
             <img
               id="boy"
               class="character"
               src="../recursos/imagens/personagens/menino_normal.png"
               alt="Menino"
               title="Escolher Menino"
-              style="margin-bottom: 10px;"
             />
-            <span class="btn btn--primary pulse-animation" style="font-size: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-medium);">👈 ESCOLHER MENINO</span>
+            <span class="btn btn--primary character-btn pulse-animation"
+              >👈 ESCOLHER MENINO</span
+            >
           </div>
 
-          <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer;" onclick="selecionarPersonagem('menina')">
+          <div class="character-option" onclick="selecionarPersonagem('menina')">
             <img
               id="girl"
               class="character"
               src="../recursos/imagens/personagens/menina_normal.png"
               alt="Menina"
               title="Escolher Menina"
-              style="margin-bottom: 10px;"
             />
-            <span class="btn btn--secondary pulse-animation" style="font-size: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-medium);">ESCOLHER MENINA 👉</span>
+            <span class="btn btn--secondary character-btn pulse-animation"
+              >ESCOLHER MENINA 👉</span
+            >
           </div>
         </div>
       </div>
