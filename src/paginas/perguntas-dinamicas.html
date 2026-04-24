@@ -735,17 +735,31 @@
         }
       }
 
-      /* Overlay invisível para carregar JSON */
-      .invisible-loader {
+      /* Overlay de início */
+      #start-screen-overlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background: transparent;
-        z-index: 3000;
-        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0.85);
+        color: white;
         display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        cursor: pointer;
+        text-align: center;
+        backdrop-filter: blur(5px);
+      }
+
+      #start-screen-overlay p {
+        font-size: 3em;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        margin: 0;
       }
 
       /* Overlay invisível para fullscreen */
@@ -787,7 +801,7 @@
       <div id="main-question-container">
                 <div id="main-content">
           <div class="question-title-section">
-            <p id="question-text">Carregando...</p>
+            <p id="question-text"></p>
           </div>
 
           <div class="answer-buttons-section">
@@ -834,8 +848,10 @@
       </div>
     </div>
 
-    <!-- Overlay invisível para carregar JSON -->
-    <div class="invisible-loader" id="invisible-loader"></div>
+    <!-- Overlay de início -->
+    <div id="start-screen-overlay">
+      <p>Toque para começar</p>
+    </div>
 
     <!-- Overlay invisível para fullscreen -->
     <div class="fullscreen-overlay" id="fullscreen-overlay"></div>
@@ -983,8 +999,8 @@
               `✅ ${perguntasConfig.length} perguntas carregadas do JSON local!`
             );
 
-            // Esconder overlay invisível e mostrar primeira pergunta
-            document.getElementById("invisible-loader").style.display = "none";
+            // Esconder overlay de início e mostrar primeira pergunta
+            document.getElementById("start-screen-overlay").style.display = "none";
             mostrarPergunta(0);
           } else {
             throw new Error("Formato JSON inválido no arquivo");
@@ -1034,8 +1050,8 @@
                 document.getElementById("total-questions").textContent =
                   perguntasConfig.length;
 
-                // Esconder overlay invisível e mostrar primeira pergunta
-                document.getElementById("invisible-loader").style.display =
+                // Esconder overlay de início e mostrar primeira pergunta
+                document.getElementById("start-screen-overlay").style.display =
                   "none";
                 mostrarPergunta(0);
               } else {
@@ -1465,10 +1481,9 @@
         // Configurar personagem na sidebar
         atualizarPersonagemSidebar("normal");
 
-        // Mostrar texto "Carregando..." e overlay invisível
-        document.getElementById("question-text").textContent = "Carregando...";
-        const invisibleLoader = document.getElementById("invisible-loader");
-        invisibleLoader.style.display = "block";
+        // Mostrar overlay de início
+        const startScreenOverlay = document.getElementById("start-screen-overlay");
+        startScreenOverlay.style.display = "flex";
 
         // Configurar input file
         const fileInput = document.getElementById("json-file-input");
@@ -1478,8 +1493,8 @@
           }
         });
 
-        // Configurar clique no overlay invisível para carregar JSON
-        invisibleLoader.addEventListener("click", function () {
+        // Configurar clique no overlay de início para carregar JSON
+        startScreenOverlay.addEventListener("click", function () {
           carregarPerguntas();
         });
 
