@@ -307,21 +307,35 @@
     </div>
 
     <div id="box">
-      <div class="characters">
-        <img
-          id="boy"
-          class="character"
-          src="../recursos/imagens/personagens/menino_normal.png"
-          alt="Menino"
-          title="Escolher Menino"
-        />
-        <img
-          id="girl"
-          class="character"
-          src="../recursos/imagens/personagens/menina_normal.png"
-          alt="Menina"
-          title="Escolher Menina"
-        />
+            <div class="characters" style="flex-direction: column; justify-content: center; position: relative;">
+        <!-- Título orientativo -->
+        <h1 class="pulse-animation" style="color: white; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); margin-bottom: 2vh; z-index: 10;">ESCOLHA SEU PERSONAGEM:</h1>
+        
+        <div style="display: flex; justify-content: space-around; width: 100%; align-items: center;">
+          <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer;" onclick="selecionarPersonagem('menino')">
+            <img
+              id="boy"
+              class="character"
+              src="../recursos/imagens/personagens/menino_normal.png"
+              alt="Menino"
+              title="Escolher Menino"
+              style="margin-bottom: 10px;"
+            />
+            <span class="btn btn--primary pulse-animation" style="font-size: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-medium);">👈 ESCOLHER MENINO</span>
+          </div>
+
+          <div style="display: flex; flex-direction: column; align-items: center; cursor: pointer;" onclick="selecionarPersonagem('menina')">
+            <img
+              id="girl"
+              class="character"
+              src="../recursos/imagens/personagens/menina_normal.png"
+              alt="Menina"
+              title="Escolher Menina"
+              style="margin-bottom: 10px;"
+            />
+            <span class="btn btn--secondary pulse-animation" style="font-size: 1.5rem; border-radius: 20px; box-shadow: var(--shadow-medium);">ESCOLHER MENINA 👉</span>
+          </div>
+        </div>
       </div>
       <div class="overlay" id="overlay">
         <div class="overlay-flex" id="overlayContent">

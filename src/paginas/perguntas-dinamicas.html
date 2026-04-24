@@ -1184,8 +1184,17 @@
           speechText.classList.add("error");
         }
 
-        // Mostrar overlay
+                // Mostrar overlay
         overlay.style.display = "flex";
+
+        // Impedir cliques muito rápidos adicionando um pequeno delay (500ms) antes de permitir fechar o balão
+        overlay.onclick = null;
+        let podeFechar = false;
+        
+        setTimeout(() => {
+          podeFechar = true;
+          overlay.onclick = fecharBalao; // Habilita o fechamento só depois de meio segundo
+        }, 800);
 
         // 🎤 FALAR FEEDBACK com emoção
         const isPositivo = emocao === "feliz";
@@ -1195,6 +1204,7 @@
 
         // Função para fechar o balão
         function fecharBalao() {
+          if(!podeFechar) return; // Evita bug de fechamento prematuro
           overlay.style.display = "none";
           overlay.onclick = null; // Remover listener de clique
           document.removeEventListener("keydown", handleKeyDown); // Remover listener de tecla
@@ -1212,9 +1222,6 @@
             fecharBalao();
           }
         }
-
-        // Configurar clique para fechar
-        overlay.onclick = fecharBalao;
 
         // Configurar Enter para fechar
         document.addEventListener("keydown", handleKeyDown);
