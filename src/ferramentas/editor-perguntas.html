@@ -444,9 +444,10 @@
       // Carregar perguntas do JSON padrão
       async function carregarPerguntas() {
         try {
-          const response = await fetch("../dados/perguntas-config.json");
+                    const response = await fetch("../recursos/perguntas/perguntas.json");
           const data = await response.json();
-          perguntas = data.perguntas;
+          const perguntasData = data.record || data;
+          perguntas = perguntasData.perguntas;
           renderizarPerguntas();
           mostrarResultado("✅ Perguntas carregadas com sucesso!", "sucesso");
         } catch (error) {
@@ -737,7 +738,7 @@
         // Gerar nome do arquivo com timestamp
         const agora = new Date();
         const timestamp = agora.toISOString().slice(0, 19).replace(/:/g, "-");
-        a.download = `perguntas-config-${timestamp}.json`;
+        a.download = `perguntas-${timestamp}.json`;
 
         document.body.appendChild(a);
         a.click();

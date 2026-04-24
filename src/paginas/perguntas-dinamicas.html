@@ -881,9 +881,8 @@
         "Sensacional! Sua dedicação é inspiradora! 🌈",
       ];
 
-      // URL do JSONBin com suas perguntas
-      const JSONBIN_URL =
-        "https://api.jsonbin.io/v3/b/68dedd45ae596e708f04019b";
+      // URL do JSON local com suas perguntas
+      const LOCAL_JSON_URL = "../recursos/perguntas/perguntas.json";
 
       // ========== SISTEMA DE TEXT-TO-SPEECH (TTS) ==========
       let vozesDisponiveis = [];
@@ -965,20 +964,19 @@
         falarTexto(textoFeedback, { pitch, rate });
       }
 
-      // Carregar configurações das perguntas do JSONBin ou arquivo local
+            // Carregar configurações das perguntas do JSON local
       async function carregarPerguntas() {
         try {
-          console.log("Tentando carregar do JSONBin...");
+          console.log("Tentando carregar arquivo local...");
 
-          // Tentar carregar do JSONBin primeiro
-          const response = await fetch(JSONBIN_URL);
+          const response = await fetch(LOCAL_JSON_URL);
           if (!response.ok) {
-            throw new Error(`JSONBin error! status: ${response.status}`);
+            throw new Error(`Erro ao carregar arquivo: ${response.status}`);
           }
 
           const data = await response.json();
 
-          // JSONBin retorna os dados dentro de 'record'
+          // Retorna os dados dentro de 'record' (estrutura do jsonbin anterior) ou diretamente
           const perguntasData = data.record || data;
 
           if (
@@ -990,20 +988,19 @@
               perguntasConfig.length;
 
             console.log(
-              `✅ ${perguntasConfig.length} perguntas carregadas do JSONBin!`
+              `✅ ${perguntasConfig.length} perguntas carregadas do JSON local!`
             );
 
             // Esconder overlay invisível e mostrar primeira pergunta
             document.getElementById("invisible-loader").style.display = "none";
             mostrarPergunta(0);
           } else {
-            throw new Error("Formato JSON inválido no JSONBin");
+            throw new Error("Formato JSON inválido no arquivo");
           }
         } catch (error) {
-          console.warn("Erro ao carregar do JSONBin:", error.message);
-          console.log("Tentando carregar arquivo local...");
-
-          // Se falhar, usar o seletor de arquivo como fallback
+          console.warn("Erro ao carregar perguntas:", error.message);
+          
+          // Se falhar, tentar usar o seletor de arquivo
           carregarArquivoLocal();
         }
       }

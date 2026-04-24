@@ -127,7 +127,7 @@ falarFeedback(texto, false) {
 
 ✅ **Funciona perfeitamente com perguntas do JSON!**
 
-O sistema TTS lê o texto que já está carregado do arquivo JSON (local ou JSONBin), então:
+O sistema TTS lê o texto que já está carregado do arquivo JSON local, então:
 
 - Não precisa de arquivos de áudio extras
 - Funciona com qualquer texto do JSON

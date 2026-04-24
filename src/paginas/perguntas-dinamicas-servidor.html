@@ -440,19 +440,20 @@
           : "rgba(0, 0, 0, 0.8)";
       }
 
-      // Carregar configurações das perguntas
+            // Carregar configurações das perguntas
       async function carregarPerguntas() {
         try {
           updateLoadingStatus("🔄 Carregando configurações...");
 
-          const response = await fetch("../dados/perguntas-config.json");
+          const response = await fetch("../recursos/perguntas/perguntas.json");
 
           if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
 
           const data = await response.json();
-          perguntasConfig = data.perguntas;
+          const perguntasData = data.record || data;
+          perguntasConfig = perguntasData.perguntas;
 
           updateLoadingStatus(
             `✅ ${perguntasConfig.length} perguntas carregadas!`
