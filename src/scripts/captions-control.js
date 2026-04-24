@@ -4,7 +4,7 @@
  * Trabalha com o ControlsManager para funcionalidade global
  */
 class CaptionsManager {
-  constructor(audioElementId = "bg-music", srtFile = "/src/recursos/audio/Heroic_por.srt") {
+  constructor(audioElementId = "bg-music", srtFile = "src/recursos/audio/Heroic_por.srt") {
     this.audioElementId = audioElementId;
     this.srtFile = srtFile;
     this.captions = [];

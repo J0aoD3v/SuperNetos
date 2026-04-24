@@ -96,11 +96,18 @@ class ControlsManager {
       volumeBtn.style.background = "rgba(30, 30, 30, 0.7)";
     });
 
-    // Click para mutar/desmutar
+        // Click para mutar/desmutar
     volumeBtn.addEventListener("click", () => {
       const audio = document.getElementById("bg-music");
       if (audio) {
-        audio.muted = !audio.muted;
+        if (audio.muted) {
+          audio.muted = false;
+          audio.currentTime = 0; // Reinicia a música ao ligar
+          audio.play().catch(e => console.log("Erro ao reproduzir:", e));
+        } else {
+          audio.muted = true;
+          audio.pause();
+        }
         this.updateVolumeIcon();
         // Salvar estado
         localStorage.setItem("bgMusicMuted", audio.muted ? "1" : "0");

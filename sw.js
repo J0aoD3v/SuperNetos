@@ -80,8 +80,14 @@ self.addEventListener('fetch', (event) => {
           return response;
         }
 
-        // Se não estiver no cache, busca da rede
+                // Se não estiver no cache, busca da rede
         console.log('[Service Worker] Buscando da rede:', event.request.url);
+
+        // Evitar cachear arquivos de áudio/legenda para sempre ter a versão mais recente
+        if (event.request.url.includes('.mp3') || event.request.url.includes('.srt')) {
+          return fetch(event.request);
+        }
+
         return fetch(event.request)
           .then((response) => {
             // Verifica se é uma resposta válida
