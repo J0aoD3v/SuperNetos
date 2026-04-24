@@ -41,10 +41,13 @@ class CaptionsManager {
       container.id = "captions-display";
       container.className = "captions-display";
       
-      // Restaurar estado do localStorage
-      const captionsEnabled = localStorage.getItem("captionsEnabled") === "1";
-      container.style.display = captionsEnabled ? "flex" : "none";
+      // Remove a restauração do localStorage para não forçar estado salvo
+      // const captionsEnabled = localStorage.getItem("captionsEnabled") === "1";
+      // container.style.display = captionsEnabled ? "flex" : "none";
       
+      // Define padrão como "none" se quiser, mas sem ler do localStorage
+      container.style.display = "none";
+
       document.body.appendChild(container);
       console.log(`✅ CaptionsManager: Container CRIADO - ID: ${container.id}, Display: ${container.style.display}, Body children: ${document.body.children.length}`);
     } else {
@@ -201,3 +204,4 @@ const captionsManager = new CaptionsManager();
 // Disponibilizar globalmente
 window.CaptionsManager = CaptionsManager;
 window.captionsManager = captionsManager;
+

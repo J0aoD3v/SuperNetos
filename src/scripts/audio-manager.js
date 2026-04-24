@@ -34,8 +34,8 @@ class AudioManager {
     this.audio.volume = this.defaultVolume;
     this.audio.loop = true;
 
-    // Restaura o estado salvo
-    this.restoreState();
+    // Remove a restauração do estado salvo para evitar persistência indesejada
+    // this.restoreState();
 
     // Configura eventos
     this.setupEventListeners();
@@ -46,14 +46,15 @@ class AudioManager {
    */
   setupEventListeners() {
     // Salva o estado antes de sair da página
-    window.addEventListener("beforeunload", () => this.saveState());
+    // window.addEventListener("beforeunload", () => this.saveState());
 
     // Permite reprodução após interação do usuário
     const enableAudioAfterInteraction = () => {
-      if (!this.isMuted()) {
+      // Sempre começa tocando após a interação, sem forçar mudo
         this.musicStarted = true;
-        this.updatePlayState();
-      }
+    this.audio.muted = false;
+    this.updatePlayState();
+
       document.body.removeEventListener("click", enableAudioAfterInteraction);
     };
 
@@ -64,45 +65,13 @@ class AudioManager {
    * Salva o estado atual do áudio no localStorage
    */
   saveState() {
-    if (!this.audio) return;
-
-    localStorage.setItem(this.storageKeys.time, this.audio.currentTime);
-    localStorage.setItem(this.storageKeys.muted, this.audio.muted ? "1" : "0");
-    localStorage.setItem(
-      this.storageKeys.started,
-      this.musicStarted ? "1" : "0"
-    );
+    return; // Desativado para parar de guardar globalmente
   }
-
-  /**
+/**
    * Restaura o estado do áudio do localStorage
-   */
+ */
   restoreState() {
-    if (!this.audio) return;
-
-    // Restaura estado muted
-    const wasMuted = localStorage.getItem(this.storageKeys.muted) === "1";
-    this.audio.muted = wasMuted;
-
-    // Restaura se a música foi iniciada
-    this.musicStarted = localStorage.getItem(this.storageKeys.started) === "1";
-
-    // Restaura tempo de reprodução
-    const savedTime = parseFloat(
-      localStorage.getItem(this.storageKeys.time) || "0"
-    );
-    this.audio.currentTime = isNaN(savedTime) ? 0 : savedTime;
-
-    // Inicia reprodução se necessário
-    if (!wasMuted && this.musicStarted) {
-      setTimeout(() => {
-        this.audio.play().catch(() => {
-          console.log(
-            "AudioManager: Reprodução automática bloqueada pelo navegador"
-          );
-        });
-      }, 200);
-    }
+    return; // Desativado para parar de guardar globalmente
   }
 
   /**
@@ -114,11 +83,11 @@ class AudioManager {
     const currentlyMuted = this.audio.muted;
     this.audio.muted = !currentlyMuted;
 
-    localStorage.setItem(this.storageKeys.muted, this.audio.muted ? "1" : "0");
+    // localStorage.setItem(this.storageKeys.muted, this.audio.muted ? "1" : "0");
 
     if (!this.audio.muted) {
       this.musicStarted = true;
-      localStorage.setItem(this.storageKeys.started, "1");
+      // localStorage.setItem(this.storageKeys.started, "1");
     }
 
     this.updatePlayState();
@@ -141,7 +110,7 @@ class AudioManager {
     if (!this.audio.muted && this.musicStarted) {
       this.audio.play().catch(() => {
         console.log("AudioManager: Não foi possível reproduzir o áudio");
-      });
+});
     } else {
       this.audio.pause();
     }
@@ -182,8 +151,8 @@ class AudioManager {
 
     this.musicStarted = true;
     this.audio.muted = false;
-    localStorage.setItem(this.storageKeys.muted, "0");
-    localStorage.setItem(this.storageKeys.started, "1");
+    // localStorage.setItem(this.storageKeys.muted, "0");
+    // localStorage.setItem(this.storageKeys.started, "1");
 
     this.updatePlayState();
   }
@@ -207,3 +176,4 @@ window.audioManager = null;
 document.addEventListener("DOMContentLoaded", function () {
   window.audioManager = new AudioManager();
 });
+
