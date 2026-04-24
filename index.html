@@ -28,6 +28,17 @@
     <script src="src/scripts/globals.js"></script>
     <script src="src/scripts/audio-manager.js"></script>
     <script src="src/scripts/captions-control.js"></script>
+    <script>
+        // ========== REGISTRAR SERVICE WORKER (PWA) ==========
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+              .then((registration) => {
+                console.log('✅ Service Worker registrado com sucesso:', registration.scope);
+              });
+          });
+        }
+    </script>
     <script src="src/scripts/controls-manager.js"></script>
 
     <!-- Elemento de áudio para música de fundo -->
