@@ -109,8 +109,9 @@ class ControlsManager {
           audio.pause();
         }
         this.updateVolumeIcon();
-        // Salvar estado
-        localStorage.setItem("bgMusicMuted", audio.muted ? "1" : "0");
+        // Não salva no localStorage
+        // localStorage.setItem("bgMusicMuted", audio.muted ? "1" : "0");
+
         // Sincronizar CC: desativar se música for mutada
         this.syncCaptionsWithAudio(audio.muted);
       }
@@ -151,11 +152,11 @@ class ControlsManager {
     ccBtn.title = "Ligar/desligar legendas (CC)";
     ccBtn.setAttribute("aria-label", "Controlar legendas com closed captions");
     
-    // Restaurar estado do localStorage
-    const captionsEnabled = localStorage.getItem("captionsEnabled") === "1";
+    // Ignorar estado do localStorage, começa sempre desativado
+    const captionsEnabled = false;
     ccBtn.dataset.active = captionsEnabled ? "true" : "false";
     
-    console.log(`🎬 ControlsManager: Criando botão CC - Estado salvo: ${captionsEnabled ? "ativado" : "desativado"}`);
+    console.log(`🎬 ControlsManager: Criando botão CC - Estado fixo: desativado`);
     
     // Aplicar estilos inline
     ccBtn.style.cssText = `
@@ -249,8 +250,8 @@ class ControlsManager {
       } else {
         console.error("❌ Container captions-display não encontrado!");
       }
-      // Salvar estado
-      localStorage.setItem("captionsEnabled", "1");
+      // Não salvar estado
+      // localStorage.setItem("captionsEnabled", "1");
     } else {
       // Desativar legendas
       console.log("🔇 CC: Legendas DESATIVADAS");
@@ -259,8 +260,8 @@ class ControlsManager {
       if (captionsDisplay) {
         captionsDisplay.style.display = "none";
       }
-      // Salvar estado
-      localStorage.setItem("captionsEnabled", "0");
+      // Não salvar estado
+      // localStorage.setItem("captionsEnabled", "0");
     }
   }
 
@@ -286,21 +287,15 @@ class ControlsManager {
       icon.textContent = "closed_caption_disabled";
       ccBtn.style.background = "rgba(30, 30, 30, 0.7)";
       captionsDisplay.style.display = "none";
-      localStorage.setItem("captionsEnabled", "0");
+      // Não salvar estado
+      // localStorage.setItem("captionsEnabled", "0");
     } else {
-      // Se CC estava ativado, reativar quando música volta
-      const wasCaptionsEnabled = localStorage.getItem("captionsEnabled") === "1";
-      if (wasCaptionsEnabled) {
-        console.log("✅ ControlsManager: Reativando CC (música ligou)");
-        ccBtn.dataset.active = "true";
-        icon.textContent = "closed_caption";
-        ccBtn.style.background = "rgba(76, 175, 80, 0.7)";
-        captionsDisplay.style.display = "flex";
+      // Comportamento fixo: quando desmutar, se estava tentando ativar, reativa.
+      // Como não salvamos mais, o padrão é não ativar CC automaticamente.
+      console.log("✅ ControlsManager: Música ligada");
       }
     }
   }
-}
-
 // Instância global única
 const controlsManager = new ControlsManager();
 
@@ -316,3 +311,4 @@ console.log("✅ ControlsManager carregado e instanciado");
 console.log("📍 Página atual:", window.location.pathname);
 console.log("🔊 Estado da música (localStorage):", localStorage.getItem("bgMusicMuted") === "1" ? "MUTADA" : "LIGADA");
 console.log("📝 Estado CC (localStorage):", localStorage.getItem("captionsEnabled") === "1" ? "ATIVADO" : "DESATIVADO");
+
