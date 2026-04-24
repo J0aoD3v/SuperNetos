@@ -408,6 +408,71 @@ body {
   display: block !important;
 }
 
+/* Controle de Legendas (Closed Captions) */
+.captions-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.captions-control:active {
+  transform: scale(0.95);
+}
+
+/* Container de exibição de legendas */
+.captions-display {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 80vw;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: var(--text-light);
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 2px solid var(--accent-color);
+  font-size: 16px;
+  font-family: var(--font-family-primary);
+  text-align: center;
+  line-height: 1.4;
+  word-wrap: break-word;
+  white-space: normal;
+  z-index: 20;
+  animation: slideUp 0.3s ease-in-out;
+  box-shadow: var(--shadow-medium);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Responsividade para legendas em telas menores */
+@media (max-width: 768px) {
+  .captions-display {
+    max-width: 90vw;
+    font-size: 14px;
+    bottom: 15px;
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .captions-display {
+    max-width: 95vw;
+    font-size: 12px;
+    bottom: 10px;
+    padding: 8px 12px;
+  }
+}
+
 /* Responsividade */
 @media (max-width: 600px) {
   .header {

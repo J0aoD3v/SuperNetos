@@ -89,12 +89,20 @@ self.addEventListener('fetch', (event) => {
               return response;
             }
 
+            // Filtrar requisições com esquemas não suportados para cache
+            if (!event.request.url.startsWith('http://') && !event.request.url.startsWith('https://')) {
+              return response;
+            }
+
             // Clona a resposta para cachear
             const responseToCache = response.clone();
 
             caches.open(CACHE_NAME)
               .then((cache) => {
                 cache.put(event.request, responseToCache);
+              })
+              .catch((error) => {
+                console.warn('[Service Worker] Erro ao cachear requisição:', event.request.url, error);
               });
 
             return response;

@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Selecionar Personagem</title>
+    <!-- Estilos globais do projeto -->
+    <link rel="stylesheet" href="../estilos/global.css" />
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
       * {
@@ -296,23 +298,15 @@
   </head>
   <body>
     <audio id="bg-music" src="../recursos/audio/Heroic.mp3" loop></audio>
+
     <div class="orientation-overlay">
       <span class="material-symbols-rounded" style="font-size: 64px"
         >screen_rotation</span
       >
       <p>Vire a tela na horizontal</p>
     </div>
+
     <div id="box">
-      <!-- Botão de volume (opcional) -->
-      <button
-        class="volume-control-sel"
-        id="volumeBtnSel"
-        title="Ligar/desligar música"
-      >
-        <span class="material-symbols-rounded" id="vol-icon-sel"
-          >volume_off</span
-        >
-      </button>
       <div class="characters">
         <img
           id="boy"
@@ -344,88 +338,14 @@
     <!-- Overlay invisível para fullscreen -->
     <div class="fullscreen-overlay" id="fullscreen-overlay"></div>
 
+    <script src="../scripts/globals.js"></script>
+    <script src="../scripts/audio-manager.js"></script>
+    <script src="../scripts/captions-control.js"></script>
+    <script src="../scripts/controls-manager.js"></script>
+
     <script>
-      // Música de fundo: restaurar estado ao entrar
-      function setVolumeIconSel(isMuted) {
-        document.getElementById("vol-icon-sel").textContent = isMuted
-          ? "volume_off"
-          : "volume_up";
-      }
-
-      function syncBGMusicWithStateSel() {
-        const audio = document.getElementById("bg-music");
-        const muted = localStorage.getItem("bgMusicMuted") === "1";
-        setVolumeIconSel(muted);
-        audio.volume = 0.3;
-        audio.muted = muted;
-        if (!muted && window.__musicStarted) {
-          audio.play().catch(() => {});
-        } else {
-          audio.pause();
-        }
-      }
-
-      function saveAudioState() {
-        const audio = document.getElementById("bg-music");
-        if (audio) {
-          localStorage.setItem("bgMusicTime", audio.currentTime);
-          localStorage.setItem("bgMusicMuted", audio.muted ? "1" : "0");
-          localStorage.setItem(
-            "bgMusicStarted",
-            window.__musicStarted ? "1" : "0"
-          );
-        }
-      }
-
-      function restoreAudioState() {
-        const audio = document.getElementById("bg-music");
-        if (audio) {
-          audio.volume = 0.3;
-          audio.muted = localStorage.getItem("bgMusicMuted") === "1";
-          setVolumeIconSel(audio.muted);
-          const started = localStorage.getItem("bgMusicStarted") === "1";
-          const time = parseFloat(localStorage.getItem("bgMusicTime") || "0");
-          audio.currentTime = isNaN(time) ? 0 : time;
-          if (!audio.muted && started) {
-            setTimeout(() => {
-              audio.play().catch(() => {});
-            }, 200);
-            window.__musicStarted = true;
-          }
-        }
-      }
-
-      function removeAllMusicListeners(handler) {
-        document.body.removeEventListener("click", handler);
-      }
-
-      document.addEventListener("DOMContentLoaded", function () {
-        restoreAudioState();
-
-        document
-          .getElementById("volumeBtnSel")
-          .addEventListener("click", function () {
-            const currentlyMuted = localStorage.getItem("bgMusicMuted") === "1";
-            localStorage.setItem("bgMusicMuted", currentlyMuted ? "0" : "1");
-            syncBGMusicWithStateSel();
-            if (!currentlyMuted) {
-              window.__musicStarted = true;
-              syncBGMusicWithStateSel();
-            }
-          });
-
-        function tryPlayMusicAfterInteraction() {
-          if (localStorage.getItem("bgMusicMuted") === "0") {
-            window.__musicStarted = true;
-            syncBGMusicWithStateSel();
-          }
-          removeAllMusicListeners(tryPlayMusicAfterInteraction);
-        }
-        document.body.addEventListener("click", tryPlayMusicAfterInteraction);
-      });
-
-      window.addEventListener("beforeunload", saveAudioState);
-
+      // Código antigo de gestão de áudio removido - AudioManager cuida de tudo automaticamente
+      
       // Seleção de personagem
       const frases = {
         menino: "Legal! Estou pronto para a aventura! 👦🚀",
@@ -437,8 +357,6 @@
       const overlayContent = document.getElementById("overlayContent");
       const happyCharacter = document.getElementById("happyCharacter");
       const speech = document.getElementById("speech");
-      const nextBtn = document.getElementById("nextBtn");
-      const nameInput = document.getElementById("nameInput");
 
       function selecionarPersonagem(tipo) {
         // Salvar escolha do personagem (compatibilidade com ambas as chaves)
@@ -458,41 +376,38 @@
           speech.textContent = frases.menina;
         }
 
-        saveAudioState();
+        // AudioManager persiste estado automaticamente
         window.location.href = "perguntas-dinamicas.html";
       }
 
       boy.onclick = () => selecionarPersonagem("menino");
       girl.onclick = () => selecionarPersonagem("menina");
 
-      nextBtn.onclick = function () {
-        // Função removida, não há mais botão de avançar
-      };
+      // nextBtn removido - elemento não existe mais na página
 
-      // Permitir pressionar Enter no campo de nome
-      nameInput.addEventListener("keypress", function (event) {
-        // Removido: não há mais campo de nome
-      });
+      // nameInput listener removido - campo não existe mais
 
-      // Fechar overlay ao clicar fora do conteúdo
-      overlay.onclick = function (event) {
-        // Removido: overlay não será exibido
-      };
+      // Fechar overlay ao clicar fora do conteúdo  
+      if (overlay) {
+        overlay.onclick = function (event) {
+          // Removido: overlay não será exibido
+        };
 
-      overlay.addEventListener(
-        "wheel",
-        function (e) {
-          e.preventDefault();
-        },
-        { passive: false }
-      );
-      overlay.addEventListener(
-        "touchmove",
-        function (e) {
-          e.preventDefault();
-        },
-        { passive: false }
-      );
+        overlay.addEventListener(
+          "wheel",
+          function (e) {
+            e.preventDefault();
+          },
+          { passive: false }
+        );
+        overlay.addEventListener(
+          "touchmove",
+          function (e) {
+            e.preventDefault();
+          },
+          { passive: false }
+        );
+      }
 
       // Configurar overlay invisível para fullscreen
       document.addEventListener("DOMContentLoaded", function () {

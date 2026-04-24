@@ -10,6 +10,9 @@
     />
     <title>SuperNetos - Perguntas Dinâmicas</title>
 
+    <!-- Estilos globais do projeto -->
+    <link rel="stylesheet" href="../estilos/global.css" />
+
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
@@ -762,6 +765,11 @@
   <body>
     <audio id="bg-music" src="../recursos/audio/Heroic.mp3" loop></audio>
 
+    <script src="../scripts/globals.js"></script>
+    <script src="../scripts/audio-manager.js"></script>
+    <script src="../scripts/captions-control.js"></script>
+    <script src="../scripts/controls-manager.js"></script>
+
     <div class="overlay">
       <span class="material-symbols-rounded" id="screen_rotation_icon"
         >screen_rotation</span
@@ -774,14 +782,6 @@
         <span id="current-question">1</span> /
         <span id="total-questions">5</span>
       </div>
-
-      <button
-        class="volume-control"
-        id="volumeBtn"
-        title="Controlar música de fundo"
-      >
-        <span class="material-symbols-rounded" id="vol-icon">volume_off</span>
-      </button>
 
       <div id="main-question-container">
         <div id="main-content">
@@ -1395,17 +1395,19 @@
         });
       }
 
-      // Funções de áudio (mantidas do original)
+      // Codigo antigo removido - ControlsManager cuida dos ícones agora
+      /*
       function setVolumeIcon(isMuted) {
         document.getElementById("vol-icon").textContent = isMuted
           ? "volume_off"
           : "volume_up";
       }
+      */
 
       function syncBGMusicWithState() {
         const audio = document.getElementById("bg-music");
         const muted = localStorage.getItem("bgMusicMuted") === "1";
-        setVolumeIcon(muted);
+        // setVolumeIcon(muted); - ControlsManager cuida disso
         audio.volume = 0.3;
         audio.muted = muted;
         if (!muted && window.__musicStarted) {
@@ -1489,20 +1491,7 @@
         const audio = document.getElementById("bg-music");
         audio.volume = 0.3;
         audio.muted = localStorage.getItem("bgMusicMuted") === "1";
-        setVolumeIcon(audio.muted);
-
-        // Botão de controle de volume
-        document
-          .getElementById("volumeBtn")
-          .addEventListener("click", function () {
-            const currentlyMuted = localStorage.getItem("bgMusicMuted") === "1";
-            localStorage.setItem("bgMusicMuted", currentlyMuted ? "0" : "1");
-            syncBGMusicWithState();
-            if (!currentlyMuted) {
-              window.__musicStarted = true;
-              syncBGMusicWithState();
-            }
-          });
+        // setVolumeIcon era chamada aqui, mas ControlsManager agora cuida disso
 
         // Botão de fala da pergunta - Repetir pergunta atual
         document

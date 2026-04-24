@@ -10,6 +10,9 @@
     />
     <title>SuperNetos - Perguntas Dinâmicas (Servidor)</title>
 
+    <!-- Estilos globais do projeto -->
+    <link rel="stylesheet" href="../estilos/global.css" />
+
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Italiana&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
@@ -316,11 +319,6 @@
               <span class="material-symbols-rounded">volume_up</span>
             </button>
             <p id="txt">Carregando...</p>
-            <button class="volume_off" id="volumeBtn">
-              <span class="material-symbols-rounded" id="vol-icon"
-                >volume_off</span
-              >
-            </button>
           </div>
 
           <div class="buttons">
@@ -361,6 +359,11 @@
         </button>
       </div>
     </div>
+
+    <script src="../scripts/globals.js"></script>
+    <script src="../scripts/audio-manager.js"></script>
+    <script src="../scripts/captions-control.js"></script>
+    <script src="../scripts/controls-manager.js"></script>
 
     <script>
       let perguntasConfig = [];
